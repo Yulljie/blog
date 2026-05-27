@@ -1,0 +1,29 @@
+site_name: 游离域/Yulliil Zone
+site_url: https://blog.yulliil.moe
+theme:
+  name: material
+  palette:
+    primary: pink
+    accent: pink
+    palette:
+      # Palette toggle for light mode
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
+        toggle:
+          icon: material/weather-night
+          name: Switch to dark mode
+
+      # Palette toggle for dark mode
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+        toggle:
+          icon: material/weather-sunny
+          name: Switch to light mode
+    language: zh
+    features:
+      - search.suggest
+      - search.highlight
+
+plugins:
+  - search:
+      separator: '[\s\u200b\-]'
