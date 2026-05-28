@@ -41,11 +41,14 @@ nav:
 
 markdown_extensions:
   - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
 
 extra:
   alternate:
     - name: 中文
-      link: /zh/ 
+      link: /zh/
       lang: zh
     - name: English
       link: /en/
