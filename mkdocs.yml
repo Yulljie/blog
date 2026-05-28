@@ -21,6 +21,8 @@ theme:
   features:
     - search.suggest
     - search.highlight
+    - navigation.tabs
+    - navigation.top
 
 plugins:
   - search:
@@ -28,12 +30,15 @@ plugins:
   - blog:
       enabled: true
       blog_dir: ./
+  - tags
 
 nav:
-  - 首页:
-      - index.md
-  - 关于:
-      - about.md
+  - 游离域:
+    - index.md
+  - posts/about.md
+
+markdown_extensions:
+  - footnotes
 
 extra:
   alternate:
