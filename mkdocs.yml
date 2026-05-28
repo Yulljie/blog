@@ -30,6 +30,8 @@ plugins:
   - blog:
       enabled: true
       blog_dir: ./
+      post_readtime: true
+      post_readtime_words_per_minute: 300
   - tags
 
 nav:
