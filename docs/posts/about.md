@@ -38,6 +38,7 @@ readtime: 2
 在 Vercel 上部署的 PixivNow 实例：[https://pixiv.yulliil.moe](https://pixiv.yulliil.moe)，有小幅改动。另外 Vercel 免费额度有限，为了正常使用，请不要爬取呜呜呜。
 
 <figure markdown="span">
-![Screenshot of PixivNow 3.5.0 README head](../assets/complain.jpg){ width=200 loading=lazy}
+![Screenshot of PixivNow 3.5.0 README head](../assets/complain_dark.jpg#only-dark){ width=400 loading=lazy }
+![Screenshot of PixivNow 3.5.0 README head](../assets/complain_light.jpg#only-light){ width=400 loading=lazy }
 <figcaption>PixivNow 项目过去某版本的 README 开头</figcaption>
 </figure>
