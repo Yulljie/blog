@@ -34,6 +34,7 @@ plugins:
       post_readtime: true
       post_readtime_words_per_minute: 300
   - tags
+  - meta
 
 nav:
   - 游离域:
