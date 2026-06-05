@@ -1,5 +1,7 @@
 ---
-date: 2026-05-28
+date: 
+  created: 2026-05-28
+  updated: 2026-06-06
 draft: false
 pin: false
 readtime: 2
@@ -13,7 +15,7 @@ readtime: 2
 
 <!-- more -->
 
-也可以叫我**犹离**唔，另有一个名字 Yulljie<del>（经常会被看成 Yulijie 的说）</del>，在本站只使用 Yulliil~
+也可以叫我**犹离**唔，另有一个名字 Yulljie<del>（经常会被看成 Yulijie 的说）</del>，在本站使用 Yulliil~但是由于博客的评论仓库是在 GitHub 上，因此评论会显示 Yulljie<del>（坏</del>。
 
 在本站的头像截取自**《溶けきれない背景》**[^1]的专辑封面，是 [si](https://x.com/wooupp) 大大画的，<del>因为非常喜欢就擅自拿来作头像了，</del>另外音乐也非常好听！！
 
@@ -25,9 +27,17 @@ readtime: 2
 
 本站是 Yulliil 的个人博客，但是鉴于 Yulliil 的水平极为一般，所以大概不会有什么干货？<del>Yulliil 大笨蛋喵！</del>
 
+首页的“今日はうまく笑えたかな？”取自《フローリア》[^2]，网易云翻译“今天顺利的笑出来了吗”。
+
 本站使用 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) 生成，虽然这个不适合拿来做博客，但是 Yulliil 只用过这一个，懒得去学 Hexo 和 Hugo 等更适合的博客框架了（笑），Material for Mkdocs 提供的博客插件暂时够用，不过说不定未来会考虑迁移？
 
-本站托管于 GitHub，使用 GitHub Pages 和 GitHub Actions 部署，仓库[见此](https://github.com/Yulljie/yulljie.github.io)。
+本站托管于 GitHub，使用 GitHub Pages 和 GitHub Actions 部署，仓库[见此](https://github.com/Yulljie/yulljie.github.io)，评论系统使用 [giscus](https://giscus.app)。
+
+[^2]: ヒバナ。[网易云音乐](https://music.163.com/#/song?id=2040876720)，[Spotify](https://open.spotify.com/track/7KE9gM1sgRQKcCvOjSncmB?si=49ZURtkzRK)
+
+### RSS
+
+订阅链接 [http://blog.yulliil.moe/rss.xml](http://blog.yulliil.moe/rss.xml)，部分阅读器可能不支持部分特性，如随深色/浅色模式切换的图片（悲）。
 
 ## 其他服务
 

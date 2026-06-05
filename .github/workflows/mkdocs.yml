@@ -24,5 +24,5 @@ jobs:
           path: ~/.cache 
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material jieba mkdocs-material-extensions
+      - run: pip install mkdocs-material jieba mkdocs-material-extensions mkdocs-rss-plugin
       - run: mkdocs gh-deploy --force
