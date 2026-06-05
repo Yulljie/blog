@@ -52,6 +52,7 @@ plugins:
         rss_updated: rss-updated.xml
 nav:
   - 首页: index.md
+  - 怪东西: posts/odd.md
   - 关于: posts/about.md
 
 markdown_extensions:
