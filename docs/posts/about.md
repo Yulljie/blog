@@ -5,6 +5,7 @@ date: 2026-05-28
 draft: false
 pin: false
 readtime: 2
+comments: true
 ---
 
 # 关于

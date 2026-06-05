@@ -14,6 +14,7 @@ date: 2026-06-05
 draft: false
 pin: false
 readtime: 0
+comments: true
 ---
 
 # Artix Linux 上使用 WPS
