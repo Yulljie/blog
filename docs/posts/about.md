@@ -1,6 +1,4 @@
 ---
-authors:
-  - Yulliil
 date: 2026-05-28
 draft: false
 pin: false

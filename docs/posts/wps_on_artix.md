@@ -1,6 +1,4 @@
 ---
-authors:
-  - Yulliil
 categories:
   - Linux 使用
 tags:
