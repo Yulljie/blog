@@ -26,7 +26,7 @@ theme:
     - navigation.tabs
     - navigation.top
     - navigation.indexes
-
+    - navigation.footer
 plugins:
   - search:
       separator: '[\s\u200b\-]'
@@ -42,7 +42,6 @@ plugins:
       date_from_meta:
         as_creation: date.created
         as_update: date.updated
-      default_timezone: "Asia/Shanghai"
       abstract_delimiter: ""
       abstract_chars_count: -1
       use_material_blog: true
@@ -64,8 +63,12 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
+  - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
   - pymdownx.superfences
 
 extra:
