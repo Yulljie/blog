@@ -35,6 +35,10 @@ readtime: 2
 
 [^2]: ヒバナ。[网易云音乐](https://music.163.com/#/song?id=2040876720)，[Spotify](https://open.spotify.com/track/7KE9gM1sgRQKcCvOjSncmB?si=49ZURtkzRK)
 
+### 许可声明
+
+除特别注明外，本站原创内容均以 CC BY-NC-SA 4.0 进行许可。
+
 ### RSS
 
 订阅链接 [http://blog.yulliil.moe/rss.xml](http://blog.yulliil.moe/rss.xml)，部分阅读器可能不支持部分特性，如随深色/浅色模式切换的图片（悲）。
