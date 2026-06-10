@@ -14,7 +14,9 @@ categories:
 <!-- more -->
 
 ## Unit2
+
 ### 一、 Short reading task（短篇阅读任务单词）
+
 #### 1. AWL (Academic Word List - 学术词汇)
  
 * **apparently**
@@ -88,6 +90,7 @@ categories:
     /səˈspend/
 
     *v.* 暂停，中止；悬挂
+
 #### 2. OFF LIST (常用大纲外词汇)
  
 * **aviation**
@@ -169,6 +172,7 @@ categories:
     /reɪdʒ/
 
     *n.* 狂怒，盛怒；*v.* 发怒，狂暴地肆虐
+
 #### 3. HIGHLIGHTED (重点高亮词汇)
  
 * **alcohol**
@@ -278,7 +282,9 @@ categories:
     /ziːl/
 
     *n.* 热心，热情
+
 ### 二、 Extended reading task（拓展阅读任务单词）
+
 #### 1. AWL (Academic Word List - 学术词汇)
  
 * **accessibility**
@@ -360,6 +366,7 @@ categories:
     /səˈsteɪnəbl/
 
     *adj.* 可持续的，能长期维持的
+
 #### 2. OFF LIST (常用大纲外词汇)
  
 * **align**
@@ -463,6 +470,7 @@ categories:
     /ˌɜːbənaɪˈzeɪʃn/
 
     *n.* 城市化
+
 #### 3. HIGHLIGHTED (重点高亮词汇)
  
 * **combustion**
@@ -508,7 +516,9 @@ categories:
     *n.* 促进因素，刺激（物）
 
 ## Unit4
+
 ### Short reading task（短篇阅读任务词汇）
+
 #### 1. AWL (Academic Word List - 学术词汇)
  
 * **code**
@@ -552,6 +562,7 @@ categories:
     /ˈvɜːtʃuəl/
 
     *adj.* 实质上的，几乎…的；（计算机）虚拟的
+
 #### 2. OFF LIST (常用大纲外词汇)
  
 * **amid**
@@ -631,6 +642,7 @@ categories:
     /ˈvendə(r)/
 
     *n.* 小贩，商贩；（某种产品的）销货商
+
 #### 3. HIGHLIGHTED (重点高亮词汇)
  
 * **QR code**
@@ -650,7 +662,9 @@ categories:
     /ˌəʊ tuː ˈəʊ/
 
     *n.* 线上下线融合模式 (Online to Offline)
+
 ### Extended reading task（拓展阅读任务词汇）
+
 #### 1. AWL (Academic Word List - 学术词汇)
  
 * **accompany**
@@ -736,6 +750,7 @@ categories:
     /ˈʌltɪmət/
 
     *adj.* 最终的，终极的；最好的
+
 #### 2. OFF LIST (常用大纲外词汇)
  
 * **bounce**
@@ -839,6 +854,7 @@ categories:
     /ˌwɜːθˈwaɪl/
 
     *adj.* 值得（做）的，有价值的
+
 #### 3. HIGHLIGHTED (重点高亮词汇/短语/进阶词)
  
 * **backer**
@@ -928,7 +944,9 @@ categories:
     *n.* （弹道、流星、发展等的）轨道，弹道，轨迹
 
 ## Unit6
+
 ### Short reading task（短篇阅读任务词汇）
+
 #### 1. AWL (Academic Word List - 学术词汇)
  
 * **authority**
@@ -996,6 +1014,7 @@ categories:
     /ˈrɪdʒɪd/
 
     *adj.* 严格的，死板的；刚硬的，不易弯曲的
+
 #### 2. OFF LIST (常用大纲外词汇)
  
 * **adherence**
@@ -1075,6 +1094,7 @@ categories:
     /wiːld/
 
     *v.* 挥舞（武器等）；行使，施加（权力、影响等）
+
 #### 3. HIGHLIGHTED (重点高亮词汇)
  
 * **bureaucracy**
@@ -1100,7 +1120,9 @@ categories:
     /ˌstændədaɪˈzeɪʃn/
 
     *n.* 标准化，规格化
+
 ### Extended reading task（拓展阅读任务词汇）
+
 #### 1. AWL (Academic Word List - 学术词汇)
  
 * **accommodate**
@@ -1166,6 +1188,7 @@ categories:
     /ˈvɪʒuəl/
 
     *adj.* 视觉的，视力的；*n.* 视觉资料
+
 #### 2. OFF LIST (常用大纲外词汇)
  
 * **anthropologist**
@@ -1257,6 +1280,7 @@ categories:
     /ˈsʌtlti/
 
     *n.* 微妙，敏锐；微妙之处
+
 #### 3. HIGHLIGHTED (重点高亮词汇)
  
 * **continually**
