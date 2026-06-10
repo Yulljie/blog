@@ -16,7 +16,7 @@ readtime: 0
 
 # Artix Linux 上使用 WPS
 
-从 Arch Linux 迁移到 Artix Linux 后，某次编辑文档时我发现从 AUR 安装的 WPS365 无法运行了，终端运行也不输出任何有效信息，只能<del>算一卦</del>猜测原因所在。而这两个发行版最大的区别就是 init 系统，很容易想到 WPS 可能依赖 systemd<!-- more -->，于是去 bing 了一下，发现还真有相关讨论：
+从 Arch Linux 迁移到 Artix Linux 后，某次编辑文档时我发现从 AUR 安装的 WPS365 无法运行了，终端运行也不输出任何有效信息，只能~~算一卦~~猜测原因所在。而这两个发行版最大的区别就是 init 系统，很容易想到 WPS 可能依赖 systemd<!-- more -->，于是去 bing 了一下，发现还真有相关讨论：
 
 [https://bbs.wps.cn/topic/8060](https://bbs.wps.cn/topic/8060)
 
@@ -66,9 +66,9 @@ Updating 10/10… ████████████████████ 1
 
 由于是从 Flatpak 换成其他方案，我最开始想到的也是容器，有 distrobox 可用。不过我个人还是偏好不要容器，于是去问了万能的 Gemini（AI Mode）有没有其他方案。
 
-Gemini 提到了常规的容器方法，还另外提到了 elogind 继承了 systemd 的大部分接口，可以尝试把 `libelogind.so` 链接到 `libsystemd.so.0`。<del>欸，我之前怎么就没想到呢？</del>
+Gemini 提到了常规的容器方法，还另外提到了 elogind 继承了 systemd 的大部分接口，可以尝试把 `libelogind.so` 链接到 `libsystemd.so.0`。~~欸，我之前怎么就没想到呢？~~
 
-AI 说的[不能全信](https://wiki.archlinuxcn.org/wiki/建议阅读/给新用户的关于如何不去弄坏 Arch Linux 系统的建议#谨慎对待 LLM 给出的内容)，但是用来提供思路还是很好的。我先尝试了链接到 `libsystemd.so`，未果；再尝试了 `libsystemd.so.0`，这次 WPS 成功跑起来了！<del>哈 Gemi 赛高！</del>
+AI 说的[不能全信](https://wiki.archlinuxcn.org/wiki/建议阅读/给新用户的关于如何不去弄坏 Arch Linux 系统的建议#谨慎对待 LLM 给出的内容)，但是用来提供思路还是很好的。我先尝试了链接到 `libsystemd.so`，未果；再尝试了 `libsystemd.so.0`，这次 WPS 成功跑起来了！~~哈 Gemi 赛高！~~
 
 ```console
 # ln -s /usr/lib/libelogind.so /usr/lib/libsystemd.so.0

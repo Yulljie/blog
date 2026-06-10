@@ -15,17 +15,17 @@ readtime: 2
 
 <!-- more -->
 
-也可以叫我**犹离**唔，另有一个名字 Yulljie<del>（经常会被看成 Yulijie 的说）</del>，在本站使用 Yulliil~但是由于博客的评论仓库是在 GitHub 上，因此评论会显示 Yulljie<del>（坏</del>。
+也可以叫我**犹离**唔，另有一个名字 Yulljie~~（经常会被看成 Yulijie 的说）~~，在本站使用 Yulliil~但是由于博客的评论仓库是在 GitHub 上，因此评论会显示 Yulljie~~（坏~~。
 
-在本站的头像截取自**《溶けきれない背景》**[^1]的专辑封面，是 [si](https://x.com/wooupp) 大大画的，<del>因为非常喜欢就擅自拿来作头像了，</del>另外音乐也非常好听！！
+在本站的头像截取自**《溶けきれない背景》**[^1]的专辑封面，是 [si](https://x.com/wooupp) 大大画的，~~因为非常喜欢就擅自拿来作头像了，~~另外音乐也非常好听！！
 
-个人电脑上目前运行着 [Artix Linux](https://https://artixlinux.org/)<del>（并非讨厌 systemd！）</del>，使用 [SwayFX](https://github.com/WillPower3309/swayfx) 作为窗口管理器，使用自己的一套简<del>陋</del>单配置，参见 [Codeberg](https://codeberg.org/Yulliil/My_Artix_Configuration)，此仓库更新频率较低，主要还是自己存着用。
+个人电脑上目前运行着 [Artix Linux](https://https://artixlinux.org/)~~（并非讨厌 systemd！）~~，使用 [SwayFX](https://github.com/WillPower3309/swayfx) 作为窗口管理器，使用自己的一套简~~陋~~单配置，参见 [Codeberg](https://codeberg.org/Yulliil/My_Artix_Configuration)，此仓库更新频率较低，主要还是自己存着用。
 
 [^1]:  kyiku,裏命。[网易云音乐](https://music.163.com/#/song?id=2732992340)，[Spotify](https://open.spotify.com/track/0MI4GKbn4lM3qosPVdFOXN)
 
 ## 关于本站
 
-本站是 Yulliil 的个人博客，但是鉴于 Yulliil 的水平极为一般，所以大概不会有什么干货？<del>Yulliil 大笨蛋喵！</del>
+本站是 Yulliil 的个人博客，但是鉴于 Yulliil 的水平极为一般，所以大概不会有什么干货？~~Yulliil 大笨蛋喵！~~
 
 首页的“今日はうまく笑えたかな？”取自《フローリア》[^2]，网易云翻译“今天顺利的笑出来了吗”。
 
