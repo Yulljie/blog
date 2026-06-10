@@ -4,6 +4,16 @@ date:
 draft: false
 pin: false
 # readtime: 2
+tags:
+  - Artix
+  - Linux
+  - elogind
+  - systemd
+  - Wiki
+  - 迁移
+  - 翻译
+categories:
+  - Artix Wiki
 ---
 
 # Artix 迁移指南
