@@ -16,7 +16,7 @@ readtime: 0
 
 # Artix Linux 上使用 WPS
 
-从 Arch Linux 迁移到 Artix Linux 后，某次编辑文档时我发现从 AUR 安装的 WPS365 无法运行了，终端运行也不输出任何有效信息，只能~~算一卦~~猜测原因所在。而这两个发行版最大的区别就是 init 系统，很容易想到 WPS 可能依赖 systemd<!-- more -->，于是去 bing 了一下，发现还真有相关讨论：
+从 Arch Linux 迁移到 Artix Linux 后，某次编辑文档时我发现从 AUR 安装的 WPS365 无法运行了，终端运行也不输出任何有效信息，只能<del>算一卦</del>猜测原因所在。而这两个发行版最大的区别就是 init 系统，很容易想到 WPS 可能依赖 systemd<!-- more -->，于是去 bing 了一下，发现还真有相关讨论：
 
 [https://bbs.wps.cn/topic/8060](https://bbs.wps.cn/topic/8060)
 
