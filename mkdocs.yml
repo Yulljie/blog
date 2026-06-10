@@ -3,6 +3,7 @@ site_description: 是 Yulliil 的博客呀
 site_url: https://blog.yulliil.moe
 theme:
   name: material
+  logo: assets/logo.svg
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
