@@ -33,7 +33,7 @@ curl https://gitea.artixlinux.org/packages/artix-mirrorlist/raw/branch/master/mi
 cp -vf /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.artix
 ```
 
-若启用了 `multilib`，还需要在 `/etc/pacman.conf` 取消注释以下行：
+若启用了 `multilib`，还需要在 `/etc/pacman.conf` 中取消注释以下行：
 
 ```
 [lib32]
@@ -49,9 +49,9 @@ Include = /etc/pacman.d/mirrorlist-arch
 
     pacman -Scc && pacman -Syy
 
-## 降低 pacman 安全级别
+## 降低 pacman 安全等级
 
-为安装 `artix-keyring`，您需要在 `/etc/pacman.conf` 中暂时降低 pacman 的安全级别。
+为安装 `artix-keyring`，您需要在 `/etc/pacman.conf` 中暂时降低 pacman 的安全等级。
 
 ```
 #SigLevel = Required DatabaseOptional
@@ -75,7 +75,7 @@ pacman-key --lsign-key 95AEC5D0C1E294FC9F82B253573A673A53C01BC2
 
     此处密钥请以原文 [Install the Artix PGP keyring](https://wiki.artixlinux.org/Main/Migration#Install_the_Artix_PGP_keyring) 段落声明为准！
 
-## 恢复 pacman 安全级别
+## 恢复 pacman 安全等级
 
 现在立刻恢复，不然您之后很可能会忘了：
 
@@ -130,10 +130,10 @@ pacman -Sw dinit elogind-dinit dinit-system
 ## 移除 systemd
 
 !!! danger "危险"
-    
+
     译者注：
 
-    操作物理机执行本段提供的命令时系统很可能会崩溃，并且可能导致本地软件包数据库（`/var/lib/pacman/local`）损坏[^1]。强烈建议做好备份再进行下一步操作，或者进入 artixiso 后在 `artix-chroot` 中继续迁移。如果不幸真的坏了，请参考 Arch Wiki [pacman/Restore local database](https://wiki.archlinux.org/title/Pacman/Restore_local_database) 恢复软件包数据库。
+    操作物理机执行本段提供的命令时系统很可能会崩溃，并且可能导致本地软件包数据库（`/var/lib/pacman/local`）损坏[^1]。强烈建议做好备份再进行下一步操作，或者进入 [artixiso](https://artixlinux.org/download.php) 后在 `artix-chroot` 中继续迁移。如果不幸真的坏了，请参考 ArchWiki [pacman/Restore local database](https://wiki.archlinux.org/title/Pacman/Restore_local_database) 或 Arch Linux 中文维基 [Pacman/恢复本地数据库](https://wiki.archlinuxcn.org/wiki/Pacman/恢复本地数据库)（中文维基内容可能略有滞后）恢复软件包数据库。
 
 现在所有的软件包都已缓存，现在可以将 systemd 抛之脑后了（以下在 pacman 的所有问题中回答 `yes`）。
 
@@ -142,7 +142,7 @@ pacman -Rdd --noconfirm systemd systemd-libs systemd-sysvcompat pacman-mirrorlis
 rm -fv /etc/resolv.conf
 ```
 
-恢复在上一步中被删除的 Artix 的镜像列表：
+还原在上一步被删除的 Artix 的镜像源列表：
 
 ```
 cp -vf /etc/pacman.d/mirrorlist.artix /etc/pacman.d/mirrorlist
@@ -231,7 +231,7 @@ pacman -S --needed acpid-init alsa-utils-init cronie-init cups-init fuse-init ha
 for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd syslog-ng; do rc-update add $daemon default; done
 ```
 
-除非您知晓其风险，否则几乎肯定需要立刻启用 *udev*；*dbus* 和 *elogind* 不再明确需要，因为这二者是按需启动的（仅限 OpenRC）。
+除非您知晓其风险，否则通常必须立刻启用 *udev*；*dbus* 和 *elogind* 不再明确需要，因为这二者是按需启动的（仅限 OpenRC）。
 
 #### Runit
 
@@ -281,6 +281,8 @@ nameserver 1.1.1.1
 
 !!! note "注意"
 
+    译者注：
+
     如同[前文](#_4)，将软件包名中的 `init` 替换为 init 系统的名称（`openrc`、`runit`、`s6` 或 `dinit`）。
 
 #### OpenRC
@@ -313,7 +315,7 @@ dinitctl enable dmeventd
 
 ## 移除 systemd 产生的垃圾
 
-可选移除 systemd 创建的一些账户，现在已经用不到这些账户了：
+可选移除 systemd 的一些残留账户，因为现已不再需要：
 
 ```
 for user in journal journal-gateway timesync network bus-proxy journal-remote journal-upload resolve coredump; do
