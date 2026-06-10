@@ -10,7 +10,7 @@ pin: false
 
 !!! note "翻译状态"
 
-    本文是 Artix Wiki 文章 [Migration](https://wiki.artixlinux.org/Main/Migration) 的翻译。暂未翻译完成。
+    本文是 Artix Wiki 文章 [Migration](https://wiki.artixlinux.org/Main/Migration) 的翻译。
 
 !!! note "注意"
 
@@ -277,7 +277,11 @@ nameserver 1.1.1.1
 
 ## LVM 配置
 
-If you have an LVM setup, you must install the *lvm2-init* and device-mapper-init packages, otherwise the logical volumes will be inactive after reboot. Both of these packages are part of the init-system group, so you probably have it installed already. Enable the services at boot:
+如果您使用 LVM，则必须安装 `lvm2-init` 和 `device-mapper-init` 软件包，否则逻辑卷在重启后会失效。这些软件包已经包含于各自的 init-system 软件包组，因此您大概已经安装了，只需启用服务即可：
+
+!!! note "注意"
+
+    如同[前文](#_4)，将软件包名中的 `init` 替换为 init 系统的名称（`openrc`、`runit`、`s6` 或 `dinit`）。
 
 #### OpenRC
 
@@ -307,9 +311,9 @@ dinitctl enable lvm2
 dinitctl enable dmeventd
 ```
 
-## Remove more systemd cruft
+## 移除 systemd 产生的垃圾
 
-You can optionally remove some systemd junk accounts too:
+可选移除 systemd 创建的一些账户，现在已经用不到这些账户了：
 
 ```
 for user in journal journal-gateway timesync network bus-proxy journal-remote journal-upload resolve coredump; do
@@ -318,35 +322,43 @@ done
 rm -vfr /{etc,var/lib}/systemd
 ```
 
-Make sure you remove any `init=/usr/lib/systemd/systemd` or similar directives from your bootloader config, as the linux kernel by default launches `/sbin/init`. Also, remove any `x-systemd` directives from `/etc/fstab`.
+确保在您的引导加载程序配置中移除了所有 `init=/usr/lib/systemd/systemd` 或类似的条目，linux 内核默认启动 `/sbin/init`。此外，移除 `/etc/fstab` 中的所有 `x-systemd` 条目。
 
-## Update the bootloader and the kernel initramfs
+## 更新引导加载程序和 initramfs
 
-New *mkinitcpio* and *grub* were installed, so you better reconfigure them. Copy the new `/etc/mkinitcpio.pacnew` over to `/etc/mkinitcpio`, `/etc/default/grub.pacnew` to `/etc/default/grub`, recreate the kernel's initramfs with mkinitcpio and reinstall grub. If you had committed any changes to the original files (i.e. resume hook in `/etc/mkinitcpio.conf` or a custom kernel cmdline parameter in grub), you should merge them now.
+您安装了新的 `mkinitcpio` 和 `grub`，推荐重新配置。将新的 `/etc/mkinitcpio.pacnew` 复制到 `/etc/mkinitcpio`，将 `/etc/default/grub.pacnew` 复制到 `/etc/default/grub`，使用 `mkinitcpio` 生成新的 initramfs，重装 grub，若您修改过相关文件（如在 `/etc/mkinitcpio.conf` 添加 `resume` 钩子，或者给 grub 配置添加自定义的内核参数），应当重新配置。
 
-### Recreate your initramfs and grub configuration file
+### 重新生成 initramfs 和 grub 配置文件
 
 ```
-mkinitcpio -p linux (the default Artix kernel) or mkinitcpio -P (all installed kernels)
+# 仅为 Artix 默认内核生成 initramfs
+mkinitcpio -p linux
+# 为所有已安装内核生成 initramfs
+mkinitcpio -P
+
+# 更新 GRUB 配置文件
 update-grub
 ```
 
-### Reinstall GRUB
+### 重装 GRUB
 
-* For UEFI:
+* UEFI：
 ```
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub (default for most setups)
-grub-install --target=x86_64-efi --efi-directory=esp_mount --bootloader-id=grub (some users reported success with this one)
-```
-
-* For BIOS:
-```
-grub-install /dev/sdX (replace sdX with sda, sdb, or whatever your disk is)
+# 大部分默认用这个
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+# 部分用户报告这个也可以
+grub-install --target=x86_64-efi --efi-directory=esp_mount --bootloader-id=grub
 ```
 
-## Reboot
+* BIOS：
+```
+# 将 sdX 换成 sda、sdb 或其他磁盘
+grub-install /dev/sdX
+```
 
-You won't be able to reboot normally, as the bloated PID1 binary is missing now. Do it with the kernel **SysRq trigger**.
+## 重启
+
+由于原先那个臃肿的 PID1 的二进制文件已被删除，因此您现在无法正常重启。请直接使用内核的 **SysRq 触发器**：
 
 ```
 sync
@@ -357,4 +369,4 @@ echo u >| /proc/sysrq-trigger
 echo b >| /proc/sysrq-trigger
 ```
 
-Some additional configuration may still be needed, especially with regards to desktop functionality. The [configuration section at systemd-free.org](https://systemd-free.artixlinux.org/config.php) will give you some ideas although elogind is used instead of consolekit now.
+可能还需要一些额外的配置步骤，特别是在桌面功能方面。即便现在使用的是 `elogind` 而非 `consolekit`，[systemd-free.org 的配置章节](https://systemd-free.artixlinux.org/config.php)也依旧能够提供一些思路。
