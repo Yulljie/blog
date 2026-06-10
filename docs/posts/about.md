@@ -15,9 +15,9 @@ readtime: 2
 
 <!-- more -->
 
-也可以叫我**犹离**唔，另有一个名字 Yulljie~~（经常会被看成 Yulijie 的说）~~，在本站使用 Yulliil~但是由于博客的评论仓库是在 GitHub 上，因此评论会显示 Yulljie~~（坏~~。
+也可以叫我**犹离**唔，另有一个名字 Yulljie ~~（经常会被看成 Yulijie 的说）~~，在本站使用 Yulliil~但是由于博客的评论仓库是在 GitHub 上，因此评论会显示 Yulljie ~~（坏~~。
 
-在本站的头像截取自**《溶けきれない背景》**[^1]的专辑封面，是 [si](https://x.com/wooupp) 大大画的，~~因为非常喜欢就擅自拿来作头像了，~~另外音乐也非常好听！！
+在本站的头像截取自**《溶けきれない背景》**[^1]的专辑封面，是 [si](https://x.com/wooupp) 大大画的， ~~因为非常喜欢就擅自拿来作头像了，~~ 另外音乐也非常好听！！
 
 个人电脑上目前运行着 [Artix Linux](https://https://artixlinux.org/)~~（并非讨厌 systemd！）~~，使用 [SwayFX](https://github.com/WillPower3309/swayfx) 作为窗口管理器，使用自己的一套简~~陋~~单配置，参见 [Codeberg](https://codeberg.org/Yulliil/My_Artix_Configuration)，此仓库更新频率较低，主要还是自己存着用。
 
