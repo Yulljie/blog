@@ -4,6 +4,7 @@ site_url: https://blog.yulliil.moe
 theme:
   name: material
   logo: assets/logo.svg
+  favicon: assets/favicon.png
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
@@ -78,11 +79,11 @@ markdown_extensions:
   - toc:
       permalink: true
 
-extra:
-  alternate:
-    - name: 中文
-      link: /zh/
-      lang: zh
-    - name: English
-      link: /en/
-      lang: en
+# extra:
+#   alternate:
+#     - name: 中文
+#       link: /zh/
+#       lang: zh
+#     - name: English
+#       link: /en/
+#       lang: en
