@@ -41,7 +41,7 @@ readtime: 2
 
 ### RSS
 
-订阅链接 [http://blog.yulliil.moe/rss.xml](http://blog.yulliil.moe/rss.xml)，部分阅读器可能不支持部分特性，如随深色/浅色模式切换的图片（悲）。
+订阅链接 [https://blog.yulliil.moe/rss.xml](http://blog.yulliil.moe/rss.xml)，部分阅读器可能不支持部分特性，如随深色/浅色模式切换的图片（悲）。
 
 ## 其他服务
 
