@@ -264,7 +264,7 @@ for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd sysl
 
 ## 配置网络
 
-编辑您的网络配置文件 `/etc/conf.d/net`。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了[^2]。根据您是否在使用持久化设备命名，您必须将 `/etc/init.d/net.lo` 符号链接到 `net.enp0s3` 或 `net.eth0`。接口名称仅用作示例，请无比确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 `GRUB_CMDLINE_LINUX`）来禁用持久化设备命名以使用 `net.eth0`。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。
+编辑您的网络配置文件 `/etc/conf.d/net`。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了[^2]。根据您是否在使用持久化设备命名，您必须将 `/etc/init.d/net.lo` 符号链接到 `net.enp0s3` 或 `net.eth0`。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 `GRUB_CMDLINE_LINUX`）来禁用持久化设备命名以使用 `net.eth0`。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。
 
 ```
 vi /etc/conf.d/net
