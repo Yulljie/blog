@@ -20,7 +20,7 @@ categories:
 
 !!! note "翻译状态"
 
-    本文是 Artix Wiki 文章 [Migration](https://wiki.artixlinux.org/Main/Migration) 的翻译。
+    本文翻译自 Artix Wiki 文章 [Migration](https://wiki.artixlinux.org/Main/Migration)，额外添加了部分注释，所有的脚注和文内“译者注”均为额外添加。
 
 !!! note "注意"
 
@@ -382,3 +382,10 @@ echo b >| /proc/sysrq-trigger
 ```
 
 可能还需要一些额外的配置步骤，特别是在桌面功能方面。即便现在使用的是 `elogind` 而非 `consolekit`，[systemd-free.org 的配置章节](https://systemd-free.artixlinux.org/config.php)也依旧能够提供一些思路。
+
+!!! tip "提示"
+
+    译者注：
+
+    前文步骤中创建的备份文件，即 `/etc/pacman.conf.arch`、`/etc/pacman.d/mirrorlist-arch` 和 `/etc/pacman.d/mirrorlist.artix`，以及[从 Artix 的仓库安装软件包](#artix_2)步骤中产生的部分 `.pacnew` 文件（如 `/etc/pacman.conf.pacnew`），在确认不再需要后，也可以给删了。
+
