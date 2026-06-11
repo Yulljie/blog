@@ -27,11 +27,12 @@ comments: true
 
 首页的“今日はうまく笑えたかな？”取自《フローリア》[^2]，网易云翻译“今天顺利的笑出来了吗”。
 
-本站使用 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) 生成，虽然这个不适合拿来做博客，但是 Yulliil 只用过这一个，懒得去学 Hexo 和 Hugo 等更适合的博客框架了（笑），Material for Mkdocs 提供的博客插件暂时够用，不过说不定未来会考虑迁移？
+本站使用 [Materialx for MkDocs](https://jaywhj.github.io/mkdocs-materialx/index.html) 生成[^3]，虽然这个不适合拿来做博客，但是 Yulliil 只用过这一个，懒得去学 Hexo 和 Hugo 等更适合的博客框架了（笑），Materialx for Mkdocs 提供的博客插件暂时够用，不过说不定未来会考虑迁移？
 
 本站托管于 GitHub，使用 GitHub Pages 和 GitHub Actions 部署，仓库[见此](https://github.com/Yulljie/yulljie.github.io)，评论系统使用 [giscus](https://giscus.app)，logo 使用 [Inkscape](https://inkscape.org/) 制作。
 
 [^2]: ヒバナ。[网易云音乐](https://music.163.com/#/song?id=2040876720)，[Spotify](https://open.spotify.com/track/7KE9gM1sgRQKcCvOjSncmB?si=49ZURtkzRK)
+[^3]: 2026-06-11 之前使用的是 [Material for Mkdocs](https://squidfunk.github.io/mkdocs-material/)。
 
 ### 许可声明
 

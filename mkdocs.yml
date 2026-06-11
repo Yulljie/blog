@@ -2,7 +2,7 @@ site_name: 游离域/Yulliil Zone
 site_description: 是 Yulliil 的博客呀
 site_url: https://blog.yulliil.moe
 theme:
-  name: material
+  name: materialx
   logo: assets/logo.svg
   favicon: assets/favicon.png
   palette:

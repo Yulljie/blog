@@ -1,6 +1,6 @@
 # Blog
 
-my blog, deployed on branch gh-pages by Material for Mkdocs, comments in Discussions by giscus. Thanks for these excellent authors!
+my blog, deployed on branch gh-pages by Materialx for Mkdocs, comments in Discussions by giscus. Thanks for these excellent authors!
 
 ## License
 
