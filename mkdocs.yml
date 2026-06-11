@@ -32,6 +32,10 @@ theme:
 plugins:
   - search:
       separator: '[\s\u200b\-]'
+      lang:
+        - zh
+        - en
+        - ja
   - blog:
       enabled: true
       blog_dir: .
