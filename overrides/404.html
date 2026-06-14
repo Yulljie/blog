@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+
+{% block content %}
+<article class="md-content__inner md-typeset">
+  
+  <h1>404 - Not Found</h1>
+  
+  <p id="random"></p>
+  <p>你可以<a href="{{  config.site_url | default(base_url) }}">返回首页</a>。</p>
+
+  <script>
+    (function() {
+      const quotes = [
+        "啊咧？啊咧咧——？！页面跑丢了！！！",
+        "Yulliil 不知道喵 www",
+        "锟斤拷锟斤拷锟斤拷锟斤拷",
+	"前面的区域，以后再来探索吧",
+	"啊咧？你的页面变成滚木了？？！",
+	"だめだね、だめよだめなのよ——",
+	"Never gonna give you up, never gonna let you down.",
+	"Ciallo～(∠・ω< )⌒★"
+      ];
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      document.getElementById("random").textContent = quotes[randomIndex];
+    })();
+  </script>
+
+</article>
+{% endblock %}
+
