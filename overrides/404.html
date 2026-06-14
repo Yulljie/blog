@@ -1,11 +1,10 @@
-{% extends "main.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<article class="md-content__inner md-typeset">
   
   <h1>404 - Not Found</h1>
   
-  <p id="random"></p>
+  <blockquote><p id="random"></p></blockquote>
   <p>你可以<a href="{{  config.site_url | default(base_url) }}">返回首页</a>。</p>
 
   <script>
