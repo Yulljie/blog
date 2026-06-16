@@ -1,6 +1,6 @@
 # 假期干啥😈
 
-## 番剧🎞 Anime
+## 二次元🥰 ACG
 
 * 终将成为你
 
@@ -8,7 +8,7 @@
 
 * 超时空辉夜姬
 
-    （好吧这其实是电影，不过差别不大啦）
+<del>woc 百合头子！</del>
 
 ## 学习📖 Learn
 
@@ -17,7 +17,7 @@
 ## 开发⌨️ Dev
 
 * 自己的小工具🛠
-    * liblrc
+    * [liblrc](https://github.com/Yulljie/liblrc)
         
         C++ 的歌词解析库
 
