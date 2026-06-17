@@ -91,13 +91,13 @@ $ time make -j$(nproc)
 
 使用 dkms 安装 Nvidia 驱动。So f\*\*k you Nvidia.
 
-     # dkms install nvidia/595.71.05 -k 7.1.0
+    # dkms install nvidia/595.71.05 -k 7.1.0
 
 此处按实际情况替换驱动版本。
 
 ### 复制内核
 
-    将内核复制到 `/boot` 并重命名，本文编译的是 Linux7.1，因此重命名为 `vmlinuz-linux71`：
+将内核复制到 `/boot` 并重命名，本文编译的是 Linux7.1，因此重命名为 `vmlinuz-linux71`：
 
     # cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-linux71
 
