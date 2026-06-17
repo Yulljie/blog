@@ -89,7 +89,7 @@ $ time make -j$(nproc)
 
 #### NVIDIA
 
-使用 dkms 安装 Nvidia 驱动。So f\*\* you Nvidia.
+使用 dkms 安装 Nvidia 驱动。So f\*\*k you Nvidia.
 
      # dkms install nvidia/595.71.05 -k 7.1.0
 
