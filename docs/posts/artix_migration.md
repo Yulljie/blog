@@ -387,5 +387,5 @@ echo b >| /proc/sysrq-trigger
 
     译者注：
 
-    前文步骤中创建的备份文件，即 `/etc/pacman.conf.arch`、`/etc/pacman.d/mirrorlist-arch` 和 `/etc/pacman.d/mirrorlist.artix`，以及[从 Artix 的仓库安装软件包](#artix_2)步骤中产生的部分 `.pacnew` 文件（如 `/etc/pacman.conf.pacnew`），在确认不再需要后，也可以给删了。
+    前文步骤中创建的备份文件，即 `/etc/pacman.conf.arch` 和 `/etc/pacman.d/mirrorlist.artix`，以及[从 Artix 的仓库安装软件包](#artix_2)步骤中产生的部分 `.pacnew` 文件（如 `/etc/pacman.conf.pacnew`），在确认不再需要后，也可以给删了。
 
