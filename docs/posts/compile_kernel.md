@@ -22,7 +22,7 @@ draft: false
 
 从 [kernel.org](https://kernel.org) 下载并解压内核源码包，或者克隆 GitHub 上的内核源码仓库。
 
-Linux Torvalds 的主线内核：
+Linus Torvalds 的主线内核：
 
     $ git clone https://github.com/torvalds/linux.git
 
