@@ -10,6 +10,7 @@ tags:
   - 编译
 date:
   created: 2026-06-17
+  updated: 2026-06-18
 draft: false
 ---
 
@@ -89,11 +90,15 @@ $ time make -j$(nproc)
 
 #### NVIDIA
 
-使用 dkms 安装 Nvidia 驱动。So f\*\*k you Nvidia.
+使用 dkms 安装 Nvidia 驱动。So Nvidia f\*\*k you.
 
     # dkms install nvidia/595.71.05 -k 7.1.0
 
 此处按实际情况替换驱动版本。
+
+!!! tip "提示"
+
+    pacman 可以自动处理自定义内核的模块更新（dkms）。
 
 ### 复制内核
 
@@ -106,6 +111,10 @@ $ time make -j$(nproc)
     # mkinitcpio -k 7.1.0 -g /boot/initramfs-linux71.img
 
 `-k` 选项指定的版本名称需要和 `/usr/lib/modules/` 下的目录名称一致。
+
+!!! note "注意"
+
+    以上命令是手动生成 initramfs，当 pacman 更新了某些模块时，不会自动更新该内核的 initramfs。如果需要自动更新，可以参考 [ArchWiki](https://wiki.archlinux.org/title/Kernel/Traditional_compilation#Automated_preset_method) 创建 `.preset` 文件。
 
 !!! tip "提示"
 
