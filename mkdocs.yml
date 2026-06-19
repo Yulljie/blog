@@ -61,9 +61,11 @@ plugins:
       feeds_filenames:
         rss_created: rss.xml
         rss_updated: rss-updated.xml
+
 nav:
   - 首页: index.md
   - 怪东西: posts/odd.md
+  - AI 生成: aigen/
   - 友链: links.md
   - 关于: about.md
   - 标签: tags.md
