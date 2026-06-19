@@ -5,6 +5,7 @@ authors:
   - Yulliil
 categories:
   - Linux 使用
+draft: false
 ---
 
 # Debloat 你的系统
