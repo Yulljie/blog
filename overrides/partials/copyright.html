@@ -1,0 +1,20 @@
+<!-- Copyright and theme information -->
+<div class="md-copyright">
+  {% if config.copyright %}
+    <div class="md-copyright__highlight">
+      {{ config.copyright }}
+    </div>
+  {% endif %}
+  <div>
+	  <a href="https://icp.gov.moe/?keyword=20261451" target="_blank">萌ICP备20261451号</a>
+  </div>
+  {% if not config.extra.generator == false %}
+    Made with
+    <a
+      href="https://jaywhj.github.io/mkdocs-materialx/"
+      target="_blank" rel="noopener"
+    >
+      MaterialX
+    </a>
+  {% endif %}
+</div>
