@@ -36,9 +36,9 @@
 
 * 去 cgroup 化
     
-    Why?
+    !!! tip "Whyyyyyyyyyyyyyyyyy?"
 
-    现代 Linux 内核的 cgroup v2 的设计为 systemd 高度妥协，而我目前在使用的 s6 有着一套完善的进程追踪系统且不依赖 cgroup，然后我还在用 elogind，就很......这很 bloat[^1]，对吧🤣，所以我打算给 cgroup 晾着了。假期还可以研究能不能调整内核给 cgroup 砍了。
+        现代 Linux 内核的 cgroup v2 的设计为 systemd 高度妥协，而我目前在使用的 s6 有着一套完善的进程追踪系统且不依赖 cgroup，然后我还在用 elogind，就很......这很 bloat[^1]，对吧🤣，所以我打算给 cgroup 晾着了。假期还可以进一步研究能不能调整内核给 cgroup 扬了。
 
     * 替代 elogind
 
