@@ -52,7 +52,7 @@
         
         这个貌似可以安全去除依赖，换成 basu 等库。
 
-    ！！！ warning "And what, Yulliil, must we give in return?"
+    !!! warning "And what, Yulliil, must we give in return?"
 
         * 无法使用大部分容器工具（依赖 cgroup）
 
