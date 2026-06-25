@@ -52,6 +52,16 @@
         
         这个貌似可以安全去除依赖，换成 basu 等库。
 
+    ！！！ warning "And what, Yulliil, must we give in return?"
+
+        * 无法使用大部分容器工具（依赖 cgroup）
+
+            LXC、Docker、Padman 等。
+
+        * 现代 Linux 桌面彻底拜拜（依赖 systemd/elogind）
+
+            GNOME、KDE。<del>无所谓我已经有了稳定的 SwayFX + Waybar 配置不想再动了🤣🥰</del>
+
 * 维护 pacman 仓库及自动化
 
     原因见上。如此，还需要学习更多的东西（服务器维护，Arch 打包）等。
