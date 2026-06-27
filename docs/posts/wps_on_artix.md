@@ -8,7 +8,9 @@ tags:
   - systemd
   - elogind
   - Linux
-date: 2026-06-05
+date:
+  created: 2026-06-05
+  updated: 2026-06-27
 draft: false
 pin: false
 readtime: 0
@@ -58,7 +60,7 @@ Looking for updates…
 Updating 10/10… ████████████████████ 100%  2.7 MB/s  00:0009
 ```
 
-可以看到 Flatpak 甚至拉下来了一套 NVIDIA 驱动。这个做法要求系统驱动程序更新后一同更新 Flatpak 里的驱动，否则就用不了了。。。单在处理 NVIDIA 驱动这一点上，有群友提到 [Snap 做的比 Flatpak 好](https://yoimiyalove.top/2026/05/13/snap/)，但是 Snap 本身问题也比较多，而且除了 Ubuntu，还有哪个发行版会跑去用 Snap 呀......
+可以看到 Flatpak 甚至拉下来了一套 NVIDIA 驱动。这个做法要求系统驱动程序更新后一同更新 Flatpak 里的驱动，否则就用不了了。。。单在处理 NVIDIA 驱动这一点上，有群友提到 [Snap 做的比 Flatpak 好](https://yoimiyalove.top/posts/Linux/snap.html#nvidia-闭源驱动的处理差异)，但是 Snap 本身问题也比较多，而且除了 Ubuntu，还有哪个发行版会跑去用 Snap 呀......
 
 ## 软链接
 
