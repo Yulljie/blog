@@ -113,12 +113,14 @@ comments: true
 
 添加本站友链时，请参考以下信息：
 
-```json
+```jsonc
 {
   "title": "游离域",
   "url": "https://yulliil.moe/blog/",
   "author": "Yulliil",
   "logo": "https://yulliil.moe/blog/assets/logo.svg",
+  // 考虑到本站 logo 的显示效果可能不佳，您可能会使用 avatar。
+  "avatar": "https://yulliil.moe/blog/assets/yulliil.jpg",
   "desc": "今日はうまく笑えたかな？"
 }
 ```
