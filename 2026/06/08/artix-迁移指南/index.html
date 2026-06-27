@@ -1365,7 +1365,7 @@
 </span></code></pre></div>
 <p>现在您可以开始安装 Artix 组件和各服务脚本了。</p>
 <h2 id="artix_1">下载 Artix 软件包<a class="headerlink" href="#artix_1" title="Permanent link">&para;</a></h2>
-<p>您应当从 pacman 缓存安装软件包（不强制，但是如果中途断网，很可能会导致 init 系统缺失）。必须依次重新安装 <code>base</code> 和 <code>base-devel</code> 软件包组，使用 <code>[system]</code> 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（<code>openrc</code>、<code>runit</code>、<code>s6</code> 或 <code>dinit</code>）和对应的服务脚本。</p>
+<p>您应当先将软件包下载到 pacman 缓存，然后从缓存安装软件包（不强制，但是如果中途断网，很可能会导致 init 系统缺失）。必须依次重新安装 <code>base</code> 和 <code>base-devel</code> 软件包组，使用 <code>[system]</code> 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（<code>openrc</code>、<code>runit</code>、<code>s6</code> 或 <code>dinit</code>）和对应的服务脚本。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pacman -Sw base base-devel grub linux linux-headers mkinitcpio \
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  rsync lsb-release esysusers etmpfiles artix-branding-base
 </span></code></pre></div>
@@ -1394,7 +1394,7 @@
 <p>还原在上一步被删除的 Artix 的镜像源列表：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>cp -vf /etc/pacman.d/mirrorlist.artix /etc/pacman.d/mirrorlist
 </span></code></pre></div>
-<p>完成后这一步后<strong>必须</strong>完成下一步，否则会缺失 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。</p>
+<p>完成这一步后<strong>必须</strong>完成下一步，否则会缺失 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。</p>
 <h2 id="init">安装您选择的 init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
 <p>安装之前使用 <code>pacman -Sw</code> 缓存的软件包：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>pacman -S base base-devel grub linux linux-headers mkinitcpio \
@@ -1462,28 +1462,30 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd syslog-ng; do rc-update add $daemon default; done
 </span></code></pre></div>
 <p>除非您知晓其风险，否则通常必须立刻启用 <em>udev</em>；<em>dbus</em> 和 <em>elogind</em> 不再明确需要，因为这二者是按需启动的（仅限 OpenRC）。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>rc-update add udev sysinit
+</span></code></pre></div>
 <h4 id="runit">Runit<a class="headerlink" href="#runit" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>for daemon in acpid alsasound cronie cupsd dbus elogind xdm fuse haveged hdparm smb sshd syslog-ng; do ln -s /etc/runit/sv/$daemon /etc/runit/runsvdir/default; done
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>for daemon in acpid alsasound cronie cupsd dbus elogind xdm fuse haveged hdparm smb sshd syslog-ng; do ln -s /etc/runit/sv/$daemon /etc/runit/runsvdir/default; done
 </span></code></pre></div>
 <h4 id="s6">s6<a class="headerlink" href="#s6" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>touch /etc/s6/adminsv/default/contents.d/{acpid,cronie,cupsd,elogind,xdm,fuse,haveged,hdparm,smbd,sshd,syslog-ng}
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>s6-db-reload
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>touch /etc/s6/adminsv/default/contents.d/{acpid,cronie,cupsd,elogind,xdm,fuse,haveged,hdparm,smbd,sshd,syslog-ng}
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>s6-db-reload
 </span></code></pre></div>
 <h4 id="dinit">dinit<a class="headerlink" href="#dinit" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd syslog-ng; do dinitctl enable $daemon; done
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd syslog-ng; do dinitctl enable $daemon; done
 </span></code></pre></div>
 <h2 id="_6">配置网络<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>编辑您的网络配置文件 <code>/etc/conf.d/net</code>。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>。根据您是否在使用持久化设备命名，您必须将 <code>/etc/init.d/net.lo</code> 符号链接到 <code>net.enp0s3</code> 或 <code>net.eth0</code>。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 <code>GRUB_CMDLINE_LINUX</code>）来禁用持久化设备命名以使用 <code>net.eth0</code>。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>vi /etc/conf.d/net
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>echo &#39;GRUB_CMDLINE_LINUX=&quot;net.ifnames=0&quot;&#39; &gt;&gt;/etc/default/grub       # disable persistent device naming
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>rc-update add net.eth0 boot
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>pacman -S --needed netifrc
+<p>编辑您的网络配置文件 <code>/etc/conf.d/net</code>。这非常重要，尤其是当您在迁移一个远程主机时，很可能就失联了<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>。根据您是否在使用持久化设备命名，您必须将 <code>/etc/init.d/net.lo</code> 符号链接到 <code>net.enp0s3</code> 或 <code>net.eth0</code>。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 <code>GRUB_CMDLINE_LINUX</code>）来禁用持久化设备命名以使用 <code>net.eth0</code>。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>vi /etc/conf.d/net
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>echo &#39;GRUB_CMDLINE_LINUX=&quot;net.ifnames=0&quot;&#39; &gt;&gt;/etc/default/grub       # disable persistent device naming
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>rc-update add net.eth0 boot
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>pacman -S --needed netifrc
 </span></code></pre></div>
 <p>创建一个基本的 <code>/etc/resolv.conf</code>，以 Cloudflare 的 DNS 为例：</p>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>nano /etc/resolv.conf
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>nano /etc/resolv.conf
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>nameserver 1.1.1.1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>nameserver 1.1.1.1
 </span></code></pre></div></p>
 <h2 id="lvm">LVM 配置<a class="headerlink" href="#lvm" title="Permanent link">&para;</a></h2>
 <p>如果您使用 LVM，则必须安装 <code>lvm2-init</code> 和 <code>device-mapper-init</code> 软件包，否则逻辑卷在重启后会失效。这些软件包已经包含于各自的 init-system 软件包组，因此您大概已经安装了，只需启用服务即可：</p>
@@ -1493,65 +1495,66 @@
 <p>如同<a href="#_4">前文</a>，将软件包名中的 <code>init</code> 替换为 init 系统的名称（<code>openrc</code>、<code>runit</code>、<code>s6</code> 或 <code>dinit</code>）。</p>
 </div>
 <h4 id="openrc_1">OpenRC<a class="headerlink" href="#openrc_1" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>rc-update add lvm boot
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>rc-update add device-mapper boot
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>rc-update add lvm boot
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>rc-update add device-mapper boot
 </span></code></pre></div>
 <h4 id="runit_1">Runit<a class="headerlink" href="#runit_1" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>ln -s /etc/runit/sv/lvm2 /etc/runit/runsvdir/default
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>ln -s /etc/runit/sv/device-mapper /etc/runit/runsvdir/default
+<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>ln -s /etc/runit/sv/lvm2 /etc/runit/runsvdir/default
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>ln -s /etc/runit/sv/device-mapper /etc/runit/runsvdir/default
 </span></code></pre></div>
 <h4 id="s6_1">s6<a class="headerlink" href="#s6_1" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>touch /etc/s6/adminsv/default/contents.d/device-mapper
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>s6-db-reload
+<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>touch /etc/s6/adminsv/default/contents.d/device-mapper
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>s6-db-reload
 </span></code></pre></div>
+<p>（lvm2-s6 在安装过程中已经被启用）</p>
 <h4 id="dinit_1">dinit<a class="headerlink" href="#dinit_1" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>dinitctl enable lvm2
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>dinitctl enable dmeventd
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>dinitctl enable lvm2
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>dinitctl enable dmeventd
 </span></code></pre></div>
 <h2 id="systemd_1">移除 systemd 产生的垃圾<a class="headerlink" href="#systemd_1" title="Permanent link">&para;</a></h2>
 <p>可选移除 systemd 的一些残留账户，因为现已不再需要：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>for user in journal journal-gateway timesync network bus-proxy journal-remote journal-upload resolve coredump; do
-</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>  userdel systemd-$user
-</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>done
-</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>rm -vfr /{etc,var/lib}/systemd
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>for user in journal journal-gateway timesync network bus-proxy journal-remote journal-upload resolve coredump; do
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>  userdel systemd-$user
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>done
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>rm -vfr /{etc,var/lib}/systemd
 </span></code></pre></div>
 <p>确保在您的引导加载程序配置中移除了所有 <code>init=/usr/lib/systemd/systemd</code> 或类似的条目，linux 内核默认启动 <code>/sbin/init</code>。此外，移除 <code>/etc/fstab</code> 中的所有 <code>x-systemd</code> 条目。</p>
 <h2 id="initramfs">更新引导加载程序和 initramfs<a class="headerlink" href="#initramfs" title="Permanent link">&para;</a></h2>
-<p>您安装了新的 <code>mkinitcpio</code> 和 <code>grub</code>，推荐重新配置。将新的 <code>/etc/mkinitcpio.pacnew</code> 复制到 <code>/etc/mkinitcpio</code>，将 <code>/etc/default/grub.pacnew</code> 复制到 <code>/etc/default/grub</code>，使用 <code>mkinitcpio</code> 生成新的 initramfs，重装 grub，若您修改过相关文件（如在 <code>/etc/mkinitcpio.conf</code> 添加 <code>resume</code> 钩子，或者给 grub 配置添加自定义的内核参数），应当重新配置。</p>
+<p>您安装了新的 <code>mkinitcpio</code> 和 <code>grub</code>，推荐重新配置。将新的 <code>/etc/mkinitcpio.pacnew</code> 复制到 <code>/etc/mkinitcpio</code>，将 <code>/etc/default/grub.pacnew</code> 复制到 <code>/etc/default/grub</code>，使用 <code>mkinitcpio</code> 生成新的 initramfs，重装 grub，若您修改过相关文件（如在 <code>/etc/mkinitcpio.conf</code> 添加 <code>resume</code> 钩子，或者给 grub 配置添加自定义的内核参数），应当将之前的修改合并到新的配置文件中。</p>
 <h3 id="initramfs-grub">重新生成 initramfs 和 grub 配置文件<a class="headerlink" href="#initramfs-grub" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a># 仅为 Artix 默认内核生成 initramfs
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>mkinitcpio -p linux
-</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a># 为所有已安装内核生成 initramfs
-</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>mkinitcpio -P
-</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>
-</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a># 更新 GRUB 配置文件
-</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>update-grub
+<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a># 仅为 Artix 默认内核生成 initramfs
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>mkinitcpio -p linux
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a># 为所有已安装内核生成 initramfs
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>mkinitcpio -P
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a># 更新 GRUB 配置文件
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>update-grub
 </span></code></pre></div>
 <h3 id="grub">重装 GRUB<a class="headerlink" href="#grub" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>UEFI：
-<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a># 大部分默认用这个
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a># 部分用户报告这个也可以
-</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>grub-install --target=x86_64-efi --efi-directory=esp_mount --bootloader-id=grub
+<div class="language-text highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a># 大部分默认用这个
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a># 部分用户报告这个也可以
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>grub-install --target=x86_64-efi --efi-directory=esp_mount --bootloader-id=grub
 </span></code></pre></div></p>
 </li>
 <li>
 <p>BIOS：
-<div class="language-text highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a># 将 sdX 换成 sda、sdb 或其他磁盘
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>grub-install /dev/sdX
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a># 将 sdX 换成 sda、sdb 或其他磁盘
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>grub-install /dev/sdX
 </span></code></pre></div></p>
 </li>
 </ul>
 <h2 id="_7">重启<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <p>由于原先那个臃肿的 PID1 的二进制文件已被删除，因此您现在无法正常重启。请直接使用内核的 <strong>SysRq 触发器</strong>：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>sync
-</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>umount -a
-</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>mount -f / -o remount,ro
-</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>echo s &gt;| /proc/sysrq-trigger
-</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>echo u &gt;| /proc/sysrq-trigger
-</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>echo b &gt;| /proc/sysrq-trigger
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>sync
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>umount -a
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>mount -f / -o remount,ro
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>echo s &gt;| /proc/sysrq-trigger
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>echo u &gt;| /proc/sysrq-trigger
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>echo b &gt;| /proc/sysrq-trigger
 </span></code></pre></div>
 <p>可能还需要一些额外的配置步骤，特别是在桌面功能方面。即便现在使用的是 <code>elogind</code> 而非 <code>consolekit</code>，<a href="https://systemd-free.artixlinux.org/config.php">systemd-free.org 的配置章节</a>也依旧能够提供一些思路。</p>
 <div class="admonition tip">
