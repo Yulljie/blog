@@ -1258,6 +1258,13 @@
                       </div>
                     </li>
                     
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
+                          <time datetime="2026-06-28 00:00:00+00:00" class="md-ellipsis">2026年6月28日</time>
+                        </div>
+                      </li>
+                    
                     
                       <li class="md-nav__item">
                         <div class="md-nav__link">
@@ -1276,7 +1283,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              阅读时长 5 分钟
+                              阅读时长 6 分钟
                             
                           </span>
                         </div>
@@ -1337,7 +1344,7 @@
 </span></code></pre></div>
 <p>先前的选项应当为 <code>Required DatabaseOptional</code>。</p>
 <h2 id="artix-pgp">安装 Artix PGP 密钥环。<a class="headerlink" href="#artix-pgp" title="Permanent link">&para;</a></h2>
-<p>要安装 <code>artix-keyring</code>，您需要手动签名主密钥。</p>
+<p>要安装 <code>artix-keyring</code>，您还得手动签名主密钥。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pacman -S artix-keyring
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>pacman-key --populate artix
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>pacman-key --lsign-key 95AEC5D0C1E294FC9F82B253573A673A53C01BC2
@@ -1358,7 +1365,7 @@
 </span></code></pre></div>
 <p>现在您可以开始安装 Artix 组件和各服务脚本了。</p>
 <h2 id="artix_1">下载 Artix 软件包<a class="headerlink" href="#artix_1" title="Permanent link">&para;</a></h2>
-<p>您应当从 pacman 缓存安装软件包（不强制，但是如果中途丢失网络连接，很可能会导致无 init 系统）。必须依次重新安装 <code>base</code> 和 <code>base-devel</code> 软件包组，使用 <code>[system]</code> 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（<code>openrc</code>、<code>runit</code>、<code>s6</code> 或 <code>dinit</code>）和对应的服务脚本。</p>
+<p>您应当从 pacman 缓存安装软件包（不强制，但是如果中途断网，很可能会导致 init 系统缺失）。必须依次重新安装 <code>base</code> 和 <code>base-devel</code> 软件包组，使用 <code>[system]</code> 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（<code>openrc</code>、<code>runit</code>、<code>s6</code> 或 <code>dinit</code>）和对应的服务脚本。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pacman -Sw base base-devel grub linux linux-headers mkinitcpio \
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  rsync lsb-release esysusers etmpfiles artix-branding-base
 </span></code></pre></div>
@@ -1380,16 +1387,16 @@
 <p>译者注：</p>
 <p>操作物理机执行本段提供的命令时系统很可能会崩溃，并且可能导致本地软件包数据库（<code>/var/lib/pacman/local</code>）损坏<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>。强烈建议做好备份再进行下一步操作，或者进入 <a href="https://artixlinux.org/download.php">artixiso</a> 后在 <code>artix-chroot</code> 中继续迁移。如果不幸真的坏了，请参考 ArchWiki <a href="https://wiki.archlinux.org/title/Pacman/Restore_local_database">pacman/Restore local database</a> 或 Arch Linux 中文维基 <a href="https://wiki.archlinuxcn.org/wiki/Pacman/恢复本地数据库">Pacman/恢复本地数据库</a>（中文维基内容可能略有滞后）恢复软件包数据库。</p>
 </div>
-<p>现在所有的软件包都已缓存，现在可以将 systemd 抛之脑后了（以下在 pacman 的所有问题中回答 <code>yes</code>）。</p>
+<p>现在所有的软件包都已缓存，可以将 systemd 抛之脑后了（以下在 pacman 的所有问题中回答 <code>yes</code>）。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pacman -Rdd --noconfirm systemd systemd-libs systemd-sysvcompat pacman-mirrorlist dbus
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>rm -fv /etc/resolv.conf
 </span></code></pre></div>
 <p>还原在上一步被删除的 Artix 的镜像源列表：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>cp -vf /etc/pacman.d/mirrorlist.artix /etc/pacman.d/mirrorlist
 </span></code></pre></div>
-<p>完成后这一步后<strong>必须</strong>完成下一步，否则会没有 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。</p>
+<p>完成后这一步后<strong>必须</strong>完成下一步，否则会缺失 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。</p>
 <h2 id="init">安装您选择的 init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
-<p>现在您可以安装之前使用 <code>pacman -Sw</code> 下载的软件包了。非常简单：</p>
+<p>安装之前使用 <code>pacman -Sw</code> 缓存的软件包：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>pacman -S base base-devel grub linux linux-headers mkinitcpio \
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  rsync lsb-release esysusers etmpfiles artix-branding-base
 </span></code></pre></div>
@@ -1429,7 +1436,28 @@
 <p>安装您正在运行的服务对应的脚本，示例如下（将 <code>init</code> 换成 <code>openrc</code>、<code>runit</code>、<code>s6</code> 或 <code>dinit</code>）：</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>pacman -S --needed acpid-init alsa-utils-init cronie-init cups-init fuse-init haveged-init hdparm-init openssh-init samba-init syslog-ng-init
 </span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">提示</p>
+<p>译者注：</p>
+<p>这里提到的有些服务确实不是必要的：</p>
+<ul>
+<li>
+<p>前文安装了 elogind，可以取代 acpid。</p>
+</li>
+<li>
+<p>现代 Linux 系统通常采用 pipewire 作为音频系统， alsa-utils 也是非必要。</p>
+</li>
+<li>
+<p>从 Linux 5.4 开始，内核已经包含 haveged 的相关算法；而从 5.6 开始，<code>/dev/random</code> 在熵不足时不再阻塞。因此 haveged 也不需要<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>。</p>
+</li>
+</ul>
+</div>
 <h2 id="_5">启用服务<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">注意</p>
+<p>译者注：</p>
+<p>Artix 上部分 init 的服务启动方式与本段所述不同<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>，实际情况请参阅 Artix Wiki 上这些 init 的独立页面。</p>
+</div>
 <h4 id="openrc">OpenRC<a class="headerlink" href="#openrc" title="Permanent link">&para;</a></h4>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd syslog-ng; do rc-update add $daemon default; done
 </span></code></pre></div>
@@ -1445,7 +1473,7 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd syslog-ng; do dinitctl enable $daemon; done
 </span></code></pre></div>
 <h2 id="_6">配置网络<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>编辑您的网络配置文件 <code>/etc/conf.d/net</code>。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>。根据您是否在使用持久化设备命名，您必须将 <code>/etc/init.d/net.lo</code> 符号链接到 <code>net.enp0s3</code> 或 <code>net.eth0</code>。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 <code>GRUB_CMDLINE_LINUX</code>）来禁用持久化设备命名以使用 <code>net.eth0</code>。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。</p>
+<p>编辑您的网络配置文件 <code>/etc/conf.d/net</code>。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>。根据您是否在使用持久化设备命名，您必须将 <code>/etc/init.d/net.lo</code> 符号链接到 <code>net.enp0s3</code> 或 <code>net.eth0</code>。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 <code>GRUB_CMDLINE_LINUX</code>）来禁用持久化设备命名以使用 <code>net.eth0</code>。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>vi /etc/conf.d/net
 </span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>echo &#39;GRUB_CMDLINE_LINUX=&quot;net.ifnames=0&quot;&#39; &gt;&gt;/etc/default/grub       # disable persistent device naming
 </span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
@@ -1538,7 +1566,13 @@
 <p>笨蛋站长是在图形化环境里（swayfx 里开终端）迁移的喵，卸到一半 swayfx 崩了，也切不了其他 tty，幸运的是数据库没坏。不过只好在 artixiso 里继续迁移了（也有可能只是图形环境崩了，至少也要在 tty 里进行迁移呀）。&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
-<p>原文写的很有意思：This is especially important if you're converting a remote box, or you may very well be locked out of it.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>而且这玩意最近还被爆出有<a href="https://www.cve.org/CVERecord?id=CVE-2026-41054">权限提升漏洞（CVE-2026-41054）</a>。这已经是今年第 N 个同类型 CVE 了，奖池还在叠加🤣账户密码恢复技巧++&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>因为维护 Artix Wiki 的人太少了，而且还不开放注册（得发邮件要账号），导致有些过时内容不能很快得到更新。通常，这类命令的专属页面会更新一些。<del>没错说的就是你 s6😡。</del>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>原文写的很有意思：This is especially important if you're converting a remote box, or you may very well be locked out of it.&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

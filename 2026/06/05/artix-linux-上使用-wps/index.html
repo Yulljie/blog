@@ -968,7 +968,7 @@
                       <li class="md-nav__item">
                         <div class="md-nav__link">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
-                          <time datetime="2026-06-27 00:00:00+00:00" class="md-ellipsis">2026年6月27日</time>
+                          <time datetime="2026-06-28 00:00:00+00:00" class="md-ellipsis">2026年6月28日</time>
                         </div>
                       </li>
                     
@@ -1045,7 +1045,7 @@
 </span></code></pre></div>
 <p>可以看到 Flatpak 甚至拉下来了一套 NVIDIA 驱动。这个做法要求系统驱动程序更新后一同更新 Flatpak 里的驱动，否则就用不了了。。。单在处理 NVIDIA 驱动这一点上，有群友提到 <a href="https://yoimiyalove.top/posts/Linux/snap.html#nvidia-闭源驱动的处理差异">Snap 做的比 Flatpak 好</a>，但是 Snap 本身问题也比较多，而且除了 Ubuntu，还有哪个发行版会跑去用 Snap 呀......</p>
 <h2 id="_1">软链接<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>实际上我最开始使用 Flatpak 的时候并没有注意到拉下来了独立的 NVIDIA 驱动，直到群友提到 Flatpak 的问题，我才发现这几大坨，这下不得不扔掉 Flatpak 了。</p>
+<p>实际上我最开始使用 Flatpak 的时候并没有注意到拉下来了独立的 NVIDIA 驱动<del>（注意力惊人🤣）</del>，直到群友提到 Flatpak 的问题，我才发现这几大坨，这下不得不扔掉 Flatpak 了。</p>
 <p>由于是从 Flatpak 换成其他方案，我最开始想到的也是容器，有 distrobox 可用。不过我个人还是偏好不要容器，于是去问了万能的 Gemini（AI Mode）有没有其他方案。</p>
 <p>Gemini 提到了常规的容器方法，还另外提到了 elogind 继承了 systemd 的大部分接口，可以尝试把 <code>libelogind.so</code> 链接到 <code>libsystemd.so.0</code>。<del>欸，我之前怎么就没想到呢？</del></p>
 <p>AI 说的<a href="https://wiki.archlinuxcn.org/wiki/建议阅读/给新用户的关于如何不去弄坏 Arch Linux 系统的建议#谨慎对待 LLM 给出的内容">不能全信</a>，但是用来提供思路还是很好的。我先尝试了链接到 <code>libsystemd.so</code>，未果；再尝试了 <code>libsystemd.so.0</code>，这次 WPS 成功跑起来了！<del>哈 Gemi 赛高！</del></p>
