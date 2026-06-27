@@ -10,7 +10,7 @@ tags:
   - Linux
 date:
   created: 2026-06-05
-  updated: 2026-06-27
+  updated: 2026-06-28
 draft: false
 pin: false
 readtime: 0
@@ -64,7 +64,7 @@ Updating 10/10… ████████████████████ 1
 
 ## 软链接
 
-实际上我最开始使用 Flatpak 的时候并没有注意到拉下来了独立的 NVIDIA 驱动，直到群友提到 Flatpak 的问题，我才发现这几大坨，这下不得不扔掉 Flatpak 了。
+实际上我最开始使用 Flatpak 的时候并没有注意到拉下来了独立的 NVIDIA 驱动<del>（注意力惊人🤣）</del>，直到群友提到 Flatpak 的问题，我才发现这几大坨，这下不得不扔掉 Flatpak 了。
 
 由于是从 Flatpak 换成其他方案，我最开始想到的也是容器，有 distrobox 可用。不过我个人还是偏好不要容器，于是去问了万能的 Gemini（AI Mode）有没有其他方案。
 

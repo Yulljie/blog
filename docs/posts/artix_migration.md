@@ -1,6 +1,7 @@
 ---
 date: 
   created: 2026-06-08
+  updated: 2026-06-28
 draft: false
 pin: false
 # readtime: 2
@@ -72,7 +73,7 @@ SigLevel = Never
 
 ## 安装 Artix PGP 密钥环。
 
-要安装 `artix-keyring`，您需要手动签名主密钥。
+要安装 `artix-keyring`，您还得手动签名主密钥。
 
 ```
 pacman -S artix-keyring
@@ -106,7 +107,7 @@ systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep
 
 ## 下载 Artix 软件包
 
-您应当从 pacman 缓存安装软件包（不强制，但是如果中途丢失网络连接，很可能会导致无 init 系统）。必须依次重新安装 `base` 和 `base-devel` 软件包组，使用 `[system]` 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（`openrc`、`runit`、`s6` 或 `dinit`）和对应的服务脚本。
+您应当从 pacman 缓存安装软件包（不强制，但是如果中途断网，很可能会导致 init 系统缺失）。必须依次重新安装 `base` 和 `base-devel` 软件包组，使用 `[system]` 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（`openrc`、`runit`、`s6` 或 `dinit`）和对应的服务脚本。
 
 ```
 pacman -Sw base base-devel grub linux linux-headers mkinitcpio \
@@ -145,7 +146,7 @@ pacman -Sw dinit elogind-dinit dinit-system
 
     操作物理机执行本段提供的命令时系统很可能会崩溃，并且可能导致本地软件包数据库（`/var/lib/pacman/local`）损坏[^1]。强烈建议做好备份再进行下一步操作，或者进入 [artixiso](https://artixlinux.org/download.php) 后在 `artix-chroot` 中继续迁移。如果不幸真的坏了，请参考 ArchWiki [pacman/Restore local database](https://wiki.archlinux.org/title/Pacman/Restore_local_database) 或 Arch Linux 中文维基 [Pacman/恢复本地数据库](https://wiki.archlinuxcn.org/wiki/Pacman/恢复本地数据库)（中文维基内容可能略有滞后）恢复软件包数据库。
 
-现在所有的软件包都已缓存，现在可以将 systemd 抛之脑后了（以下在 pacman 的所有问题中回答 `yes`）。
+现在所有的软件包都已缓存，可以将 systemd 抛之脑后了（以下在 pacman 的所有问题中回答 `yes`）。
 
 ```
 pacman -Rdd --noconfirm systemd systemd-libs systemd-sysvcompat pacman-mirrorlist dbus
@@ -158,13 +159,13 @@ rm -fv /etc/resolv.conf
 cp -vf /etc/pacman.d/mirrorlist.artix /etc/pacman.d/mirrorlist
 ```
 
-完成后这一步后**必须**完成下一步，否则会没有 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。
+完成后这一步后**必须**完成下一步，否则会缺失 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。
 
 [^1]: 笨蛋站长是在图形化环境里（swayfx 里开终端）迁移的喵，卸到一半 swayfx 崩了，也切不了其他 tty，幸运的是数据库没坏。不过只好在 artixiso 里继续迁移了（也有可能只是图形环境崩了，至少也要在 tty 里进行迁移呀）。
 
 ## 安装您选择的 init
 
-现在您可以安装之前使用 `pacman -Sw` 下载的软件包了。非常简单：
+安装之前使用 `pacman -Sw` 缓存的软件包：
 
 ```
 pacman -S base base-devel grub linux linux-headers mkinitcpio \
@@ -233,7 +234,29 @@ pacman -Sl lib32 | grep installed | cut -d" " -f2 | pacman -S -
 pacman -S --needed acpid-init alsa-utils-init cronie-init cups-init fuse-init haveged-init hdparm-init openssh-init samba-init syslog-ng-init
 ```
 
+!!! tip "提示"
+
+    译者注：
+
+    这里提到的有些服务确实不是必要的：
+
+    * 前文安装了 elogind，可以取代 acpid。
+
+    * 现代 Linux 系统通常采用 pipewire 作为音频系统， alsa-utils 也是非必要。
+
+    * 从 Linux 5.4 开始，内核已经包含 haveged 的相关算法；而从 5.6 开始，`/dev/random` 在熵不足时不再阻塞。因此 haveged 也不需要[^2]。
+
+[^2]: 而且这玩意最近还被爆出有[权限提升漏洞（CVE-2026-41054）](https://www.cve.org/CVERecord?id=CVE-2026-41054)。这已经是今年第 N 个同类型 CVE 了，奖池还在叠加🤣账户密码恢复技巧++
+
 ## 启用服务
+
+!!! note "注意"
+
+    译者注：
+
+    Artix 上部分 init 的服务启动方式与本段所述不同[^3]，实际情况请参阅 Artix Wiki 上这些 init 的独立页面。
+
+[^3]: 因为维护 Artix Wiki 的人太少了，而且还不开放注册（得发邮件要账号），导致有些过时内容不能很快得到更新。通常，这类命令的专属页面会更新一些。<del>没错说的就是你 s6😡。</del>
 
 #### OpenRC
 
@@ -264,7 +287,7 @@ for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd sysl
 
 ## 配置网络
 
-编辑您的网络配置文件 `/etc/conf.d/net`。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了[^2]。根据您是否在使用持久化设备命名，您必须将 `/etc/init.d/net.lo` 符号链接到 `net.enp0s3` 或 `net.eth0`。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 `GRUB_CMDLINE_LINUX`）来禁用持久化设备命名以使用 `net.eth0`。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。
+编辑您的网络配置文件 `/etc/conf.d/net`。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了[^4]。根据您是否在使用持久化设备命名，您必须将 `/etc/init.d/net.lo` 符号链接到 `net.enp0s3` 或 `net.eth0`。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 `GRUB_CMDLINE_LINUX`）来禁用持久化设备命名以使用 `net.eth0`。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。
 
 ```
 vi /etc/conf.d/net
@@ -283,7 +306,7 @@ nano /etc/resolv.conf
 nameserver 1.1.1.1
 ```
 
-[^2]: 原文写的很有意思：This is especially important if you're converting a remote box, or you may very well be locked out of it. 
+[^4]: 原文写的很有意思：This is especially important if you're converting a remote box, or you may very well be locked out of it. 
 
 ## LVM 配置
 
