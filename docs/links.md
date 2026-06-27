@@ -113,7 +113,7 @@ comments: true
 
 添加本站友链时，请参考以下信息：
 
-```jsonc
+```json
 {
   "title": "游离域",
   "url": "https://yulliil.moe/blog/",
