@@ -107,7 +107,7 @@ systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep
 
 ## 下载 Artix 软件包
 
-您应当从 pacman 缓存安装软件包（不强制，但是如果中途断网，很可能会导致 init 系统缺失）。必须依次重新安装 `base` 和 `base-devel` 软件包组，使用 `[system]` 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（`openrc`、`runit`、`s6` 或 `dinit`）和对应的服务脚本。
+您应当先将软件包下载到 pacman 缓存，然后从缓存安装软件包（不强制，但是如果中途断网，很可能会导致 init 系统缺失）。必须依次重新安装 `base` 和 `base-devel` 软件包组，使用 `[system]` 仓库中的替换原有的。之后，选择一个 Artix 提供的 init（`openrc`、`runit`、`s6` 或 `dinit`）和对应的服务脚本。
 
 ```
 pacman -Sw base base-devel grub linux linux-headers mkinitcpio \
@@ -159,7 +159,7 @@ rm -fv /etc/resolv.conf
 cp -vf /etc/pacman.d/mirrorlist.artix /etc/pacman.d/mirrorlist
 ```
 
-完成后这一步后**必须**完成下一步，否则会缺失 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。
+完成这一步后**必须**完成下一步，否则会缺失 init 系统。如果您在远程迁移（如通过 ssh），请确保开启另一个 ssh 会话，以防第一个会话卡死（这确实发生过。systemd，坏！）。
 
 [^1]: 笨蛋站长是在图形化环境里（swayfx 里开终端）迁移的喵，卸到一半 swayfx 崩了，也切不了其他 tty，幸运的是数据库没坏。不过只好在 artixiso 里继续迁移了（也有可能只是图形环境崩了，至少也要在 tty 里进行迁移呀）。
 
@@ -266,6 +266,10 @@ for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd sysl
 
 除非您知晓其风险，否则通常必须立刻启用 *udev*；*dbus* 和 *elogind* 不再明确需要，因为这二者是按需启动的（仅限 OpenRC）。
 
+```
+rc-update add udev sysinit
+```
+
 #### Runit
 
 ```
@@ -287,7 +291,7 @@ for daemon in acpid alsasound cronie cupsd xdm fuse haveged hdparm smb sshd sysl
 
 ## 配置网络
 
-编辑您的网络配置文件 `/etc/conf.d/net`。这非常重要，尤其当是您在迁移一个远程主机时，很可能就失联了[^4]。根据您是否在使用持久化设备命名，您必须将 `/etc/init.d/net.lo` 符号链接到 `net.enp0s3` 或 `net.eth0`。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 `GRUB_CMDLINE_LINUX`）来禁用持久化设备命名以使用 `net.eth0`。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。
+编辑您的网络配置文件 `/etc/conf.d/net`。这非常重要，尤其是当您在迁移一个远程主机时，很可能就失联了[^4]。根据您是否在使用持久化设备命名，您必须将 `/etc/init.d/net.lo` 符号链接到 `net.enp0s3` 或 `net.eth0`。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 `GRUB_CMDLINE_LINUX`）来禁用持久化设备命名以使用 `net.eth0`。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。
 
 ```
 vi /etc/conf.d/net
@@ -339,6 +343,8 @@ touch /etc/s6/adminsv/default/contents.d/device-mapper
 s6-db-reload
 ```
 
+（lvm2-s6 在安装过程中已经被启用）
+
 #### dinit
 
 ```
@@ -361,7 +367,7 @@ rm -vfr /{etc,var/lib}/systemd
 
 ## 更新引导加载程序和 initramfs
 
-您安装了新的 `mkinitcpio` 和 `grub`，推荐重新配置。将新的 `/etc/mkinitcpio.pacnew` 复制到 `/etc/mkinitcpio`，将 `/etc/default/grub.pacnew` 复制到 `/etc/default/grub`，使用 `mkinitcpio` 生成新的 initramfs，重装 grub，若您修改过相关文件（如在 `/etc/mkinitcpio.conf` 添加 `resume` 钩子，或者给 grub 配置添加自定义的内核参数），应当重新配置。
+您安装了新的 `mkinitcpio` 和 `grub`，推荐重新配置。将新的 `/etc/mkinitcpio.pacnew` 复制到 `/etc/mkinitcpio`，将 `/etc/default/grub.pacnew` 复制到 `/etc/default/grub`，使用 `mkinitcpio` 生成新的 initramfs，重装 grub，若您修改过相关文件（如在 `/etc/mkinitcpio.conf` 添加 `resume` 钩子，或者给 grub 配置添加自定义的内核参数），应当将之前的修改合并到新的配置文件中。
 
 ### 重新生成 initramfs 和 grub 配置文件
 
