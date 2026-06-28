@@ -30,7 +30,7 @@ comments: true
     height: 90px;
     font-size: 1rem;
     padding: 10px 20px;
-    border-radius: 25px;
+    border-radius: 15px;
     transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
     display: flex;
     align-items: center;
@@ -38,7 +38,7 @@ comments: true
     justify-self: center;
 }
 .card:hover {
-    transform: translateY(0px) scale(1.05);
+/*    transform: translateY(0px) scale(1.05); */
     background-color: rgba(68, 138, 255, 0.1);
     color: #040000;
 }
