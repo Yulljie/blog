@@ -887,7 +887,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        获取源码
+        准备源码
       
     </span>
   </a>
@@ -1136,8 +1136,8 @@
 <p class="admonition-title">为什么是“较小化”？</p>
 <p>本文不会教你去手动调整 <code>make menuconfig</code>，网络上现有文档已经足够详细。本文只是介绍以比较便捷的方法编译一个较小的内核。</p>
 </div>
-<h2 id="_1">获取源码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>从 <a href="https://kernel.org">kernel.org</a> 下载并解压内核源码包，或者克隆 GitHub 上的内核源码仓库。</p>
+<h2 id="_1">准备源码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>从 <a href="https://kernel.org">kernel.org</a> 下载校验并解压内核源码包，或者克隆 GitHub 上的内核源码仓库。</p>
 <p>Linus Torvalds 的主线内核：</p>
 <div class="language-text highlight"><pre><span></span><code>$ git clone https://github.com/torvalds/linux.git
 </code></pre></div>
@@ -1148,16 +1148,21 @@
 <p class="admonition-title">提示</p>
 <p>克隆 git 仓库时可以指定 <code>--depth</code> 选项来缩减传输体积，参数取决于你想编译哪个版本的内核，缺点在于会丢掉更旧版本的源码<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>。</p>
 </div>
+<p>如果是在已有的源码目录内重新编译，先执行 <code>make mrproper</code> 清理源码树，再进行后续操作。</p>
 <p>准备好源码后，进入源码目录，继续接下来的流程。</p>
 <h2 id="_2">配置选项<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>可以直接使用 <code>make localmodconfig</code> 来扫描所有已加载的内核模块，剔除其余未加载的模块。然而这样做的问题在于会排除一些<strong>目前没有加载而将来可能会加载</strong>的内核模块，导致未来无法正确识别某些设备（比如执行的时候没插 U 盘，编译好的内核可能会无法识别 U 盘）。如果计划长期使用自行编译的内核，建议使用 <a href="https://wiki.archlinux.org/title/Modprobed-db">modprobed-db</a> 来记录一段时间内（比如一周，足以覆盖大部分需要用到的模块）系统加载过的内核模块。如果只是尝尝鲜，可以在接入常用设备后直接 <code>make localmodconfig</code>。</p>
-<p>由于咱已经有一个最小化内核，所以可以直接重启到这个内核然后复制配置（笑）：</p>
+<p>由于咱已经有一个最小化内核，因此可以直接重启到这个内核然后复制配置（笑）：</p>
 <div class="language-text highlight"><pre><span></span><code>$ zcat /proc/config.gz &gt; .config
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">注意</p>
 <p>如果你使用的是发行版提供的内核，这条命令会复制发行版的内核配置。Anyway，这条命令只是复制当前正在运行的内核的配置。</p>
 <p>此外部分配置选项会随内核更新而更改/移除，编译时会要求手动指定。如果不想一直按敲键盘，可以在复制配置后执行 <code>make olddefconfig</code> 使用默认值。</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">提示</p>
+<p>欲编译最小化内核，可以参考 Gentoo wiki 的 <a href="https://wiki.gentoo.org/wiki/Kernel/Gentoo_Kernel_Configuration_Guide">Kernel/Gentoo Kernel Configuration Guide</a>。</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
@@ -1189,13 +1194,12 @@
 </code></pre></div>
 <h4 id="nvidia">NVIDIA<a class="headerlink" href="#nvidia" title="Permanent link">&para;</a></h4>
 <p>如果你和咱一样在用 N 卡，那么还需要额外处理驱动😂So Nvidia f**k you 凸(^▽^)凸。</p>
-<p>使用 dkms 安装驱动：</p>
+<p>使用 dkms 安装驱动，将命令中的驱动版本 <code>595.71.05</code> 替换为你实际安装的，<code>-k</code> 选项指定的版本需要和 <code>/usr/lib/modules/</code> 下的目录名称一致：</p>
 <div class="language-text highlight"><pre><span></span><code># dkms install nvidia/595.71.05 -k 7.1.0
 </code></pre></div>
-<p>此处按实际情况替换驱动版本。</p>
 <div class="admonition tip">
 <p class="admonition-title">提示</p>
-<p>pacman 可以自动处理自定义内核的模块更新（dkms）<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>。</p>
+<p>pacman 可以自动处理自定义内核后续的模块更新（dkms）<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>。</p>
 </div>
 <h3 id="_8">复制内核<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>将内核复制到 <code>/boot</code> 并重命名，本文编译的是 Linux7.1，因此重命名为 <code>vmlinuz-linux71</code>：</p>
@@ -1240,7 +1244,7 @@
 <p>不过在 Linux 7.x 时代，作为桌面用户的你大概也用不到 4.x、5.x 的源码，对吧（笑）&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
-<p>编完内核第二天就收到了 Nvidia 610 更新😂&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>编完内核第二天就收到了 nvidia-open-dkms 610 更新😂&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
