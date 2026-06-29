@@ -23,13 +23,13 @@ comments: true
 
 ## 关于本站
 
-本站是 Yulliil 的个人博客，但是鉴于 Yulliil 的水平极为一般，所以大概不会有什么干货？<del>Yulliil 大笨蛋喵！</del>
+本站是 Yulliil 的个人博客，但是鉴于 Yulliil 瘾大技术菜，所以大概不会有什么干货？<del>Yulliil 大笨蛋喵！</del>
 
 首页上的引文们，如果你想查看来源，请看[引文](quote.md)页面哦。
 
 本站使用 [MaterialX for MkDocs](https://jaywhj.github.io/mkdocs-materialx/index.html) 生成[^2]，虽然 MkDocs 不适合拿来做博客，但是 Yulliil 只用过这一个，懒得去学 Hexo 和 Hugo 等更适合的博客框架了（笑），MaterialX for MkDocs 提供的博客插件暂时够用，不过说不定未来会考虑迁移？
 
-本站托管于 GitHub，使用 GitHub Pages 和 GitHub Actions 部署，仓库[见此](https://github.com/Yulljie/yulljie.github.io)，评论系统使用 [giscus](https://giscus.app)，logo 使用 [Inkscape](https://inkscape.org/) 制作。
+本站托管于 GitHub，使用 GitHub Pages 和 GitHub Actions 部署，仓库[见此](https://github.com/Yulljie/blog)，评论系统使用 [giscus](https://giscus.app)，logo 使用 [Inkscape](https://inkscape.org/) 制作。
 
 [^2]: 2026-06-11 之前使用的是 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)。
 
@@ -39,7 +39,7 @@ comments: true
 
 ### RSS
 
-订阅链接 [https://blog.yulliil.moe/rss.xml](http://blog.yulliil.moe/rss.xml)，部分阅读器可能不支持部分特性，如随深色/浅色模式切换的图片（悲）。
+订阅链接 [https://yulliil.moe/blog/rss.xml](http://yulliil.moe/blog/rss.xml)，部分阅读器可能不支持部分特性，如随深色/浅色模式切换的图片（悲）。
 
 ## 其他服务
 
