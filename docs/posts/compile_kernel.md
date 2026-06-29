@@ -10,14 +10,18 @@ tags:
   - 编译
 date:
   created: 2026-06-17
-  updated: 2026-06-18
+  updated: 2026-06-29
 draft: false
 ---
 
-# 编译最小化 Linux 内核
+# 编译较小化 Linux 内核
 
-之前尝试手动编译最小化 Linux 7.1-rc5 的时候没有记录，最近正好 Linux 主线发布了 7.1，来更新一下内核，顺便做个笔记。
+之前尝试手动编译 Linux 7.1-rc5 的时候没有记录，最近正好 Linux 主线发布了 7.1，来更新一下内核，顺便做个笔记。
 <!-- more -->
+
+!!! tip "为什么是“较小化”？"
+
+    本文不会教你去手动调整 `make menuconfig`，网络上现有文档已经足够详细。本文只是介绍以比较便捷的方法编译一个较小的内核。
 
 ## 获取源码
 
@@ -31,7 +35,13 @@ Greg Kroah-Hartman 的稳定分支：
 
     $ git clone https://github.com/gregkh/linux.git
 
+!!! tip "提示"
+
+    克隆 git 仓库时可以指定 `--depth` 选项来缩减传输体积，参数取决于你想编译哪个版本的内核，缺点在于会丢掉更旧版本的源码[^1]。
+
 准备好源码后，进入源码目录，继续接下来的流程。
+
+[^1]: 不过在 Linux 7.x 时代，作为桌面用户的你大概也用不到 4.x、5.x 的源码，对吧（笑）
 
 ## 配置选项
 
@@ -90,7 +100,9 @@ $ time make -j$(nproc)
 
 #### NVIDIA
 
-使用 dkms 安装 Nvidia 驱动。So Nvidia f\*\*k you.
+如果你和咱一样在用 N 卡，那么还需要额外处理驱动😂So Nvidia f\*\*k you 凸(\^▽\^)凸。
+
+使用 dkms 安装驱动：
 
     # dkms install nvidia/595.71.05 -k 7.1.0
 
@@ -98,7 +110,9 @@ $ time make -j$(nproc)
 
 !!! tip "提示"
 
-    pacman 可以自动处理自定义内核的模块更新（dkms）。
+    pacman 可以自动处理自定义内核的模块更新（dkms）[^2]。
+
+[^2]: 编完内核第二天就收到了 Nvidia 610 更新😂
 
 ### 复制内核
 
@@ -131,7 +145,7 @@ $ time make -j$(nproc)
     ...
     ```
     
-    可以看到 `initramfs-linux71.img` 的体积来到了 155M，这是因为安装的模块文件们包含了大量的调试符号，不需要的话可以去除，能够有效减小体积：
+    可以看到 `initramfs-linux71.img` 的体积来到了 155M，这是因为安装的模块文件们包含了大量的调试符号，不需要的话可以去除，能够有效缩减体积：
 
     ```console
     # 解压模块
@@ -144,7 +158,7 @@ $ time make -j$(nproc)
     
     完成后还需要重新生成 initramfs。实践中模块压缩方式可能与这里有所不同，按需修改第一条和第三条命令。
 
-## 重新生成 bootloader 配置
+## bootloader 配置
 
-根据你的系统配置重新生成 bootloader 配置。我的方案是 EFISTUB（用于主内核 `linux-zen`）+ UEFI Shell（用于测试和其他临时需求），只需要创建一个 `.nsh` 脚本，写入启动命令即可。
+将新内核加入你的 bootloader 菜单，Grub 可以重新生成配置，rEFInd 应当需要手动编写条目。我的方案是 EFISTUB（用于主内核）+ UEFI Shell（用于测试和其他临时需求），只需要创建一个 `.nsh` 脚本，写入启动命令即可。
 
