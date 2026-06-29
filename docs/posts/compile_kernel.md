@@ -23,9 +23,9 @@ draft: false
 
     本文不会教你去手动调整 `make menuconfig`，网络上现有文档已经足够详细。本文只是介绍以比较便捷的方法编译一个较小的内核。
 
-## 获取源码
+## 准备源码
 
-从 [kernel.org](https://kernel.org) 下载并解压内核源码包，或者克隆 GitHub 上的内核源码仓库。
+从 [kernel.org](https://kernel.org) 下载校验并解压内核源码包，或者克隆 GitHub 上的内核源码仓库。
 
 Linus Torvalds 的主线内核：
 
@@ -39,6 +39,8 @@ Greg Kroah-Hartman 的稳定分支：
 
     克隆 git 仓库时可以指定 `--depth` 选项来缩减传输体积，参数取决于你想编译哪个版本的内核，缺点在于会丢掉更旧版本的源码[^1]。
 
+如果是在已有的源码目录内重新编译，先执行 `make mrproper` 清理源码树，再进行后续操作。
+
 准备好源码后，进入源码目录，继续接下来的流程。
 
 [^1]: 不过在 Linux 7.x 时代，作为桌面用户的你大概也用不到 4.x、5.x 的源码，对吧（笑）
@@ -47,7 +49,7 @@ Greg Kroah-Hartman 的稳定分支：
 
 可以直接使用 `make localmodconfig` 来扫描所有已加载的内核模块，剔除其余未加载的模块。然而这样做的问题在于会排除一些**目前没有加载而将来可能会加载**的内核模块，导致未来无法正确识别某些设备（比如执行的时候没插 U 盘，编译好的内核可能会无法识别 U 盘）。如果计划长期使用自行编译的内核，建议使用 [modprobed-db](https://wiki.archlinux.org/title/Modprobed-db) 来记录一段时间内（比如一周，足以覆盖大部分需要用到的模块）系统加载过的内核模块。如果只是尝尝鲜，可以在接入常用设备后直接 `make localmodconfig`。
 
-由于咱已经有一个最小化内核，所以可以直接重启到这个内核然后复制配置（笑）：
+由于咱已经有一个最小化内核，因此可以直接重启到这个内核然后复制配置（笑）：
 
     $ zcat /proc/config.gz > .config
 
@@ -56,6 +58,10 @@ Greg Kroah-Hartman 的稳定分支：
     如果你使用的是发行版提供的内核，这条命令会复制发行版的内核配置。Anyway，这条命令只是复制当前正在运行的内核的配置。
 
     此外部分配置选项会随内核更新而更改/移除，编译时会要求手动指定。如果不想一直按敲键盘，可以在复制配置后执行 `make olddefconfig` 使用默认值。
+
+!!! tip "提示"
+
+    欲编译最小化内核，可以参考 Gentoo wiki 的 [Kernel/Gentoo Kernel Configuration Guide](https://wiki.gentoo.org/wiki/Kernel/Gentoo_Kernel_Configuration_Guide)。
 
 !!! warning "警告"
 
@@ -102,17 +108,15 @@ $ time make -j$(nproc)
 
 如果你和咱一样在用 N 卡，那么还需要额外处理驱动😂So Nvidia f\*\*k you 凸(\^▽\^)凸。
 
-使用 dkms 安装驱动：
+使用 dkms 安装驱动，将命令中的驱动版本 `595.71.05` 替换为你实际安装的，`-k` 选项指定的版本需要和 `/usr/lib/modules/` 下的目录名称一致：
 
     # dkms install nvidia/595.71.05 -k 7.1.0
 
-此处按实际情况替换驱动版本。
-
 !!! tip "提示"
 
-    pacman 可以自动处理自定义内核的模块更新（dkms）[^2]。
+    pacman 可以自动处理自定义内核后续的模块更新（dkms）[^2]。
 
-[^2]: 编完内核第二天就收到了 Nvidia 610 更新😂
+[^2]: 编完内核第二天就收到了 nvidia-open-dkms 610 更新😂
 
 ### 复制内核
 
