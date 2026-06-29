@@ -30,7 +30,7 @@ comments: true
     height: 90px;
     font-size: 1rem;
     padding: 10px 20px;
-    border-radius: 15px;
+    border-radius: 25px;
     transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
     display: flex;
     align-items: center;
@@ -124,3 +124,7 @@ comments: true
   "desc": "今日はうまく笑えたかな？"
 }
 ```
+
+## Credits
+
+友链模板修改自 [Wcowin](https://wcowin.work/blog/Mkdocs/linktech/)，❤️。
