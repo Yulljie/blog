@@ -3,11 +3,11 @@ date:
   created: 2026-07-01
   updated: 2026-07-04
 author: Yulliil
-tag:
+tags:
   - Linux
   - Arch
   - Artix
-category:
+categories:
   - Linux 使用
 draft: false
 ---
