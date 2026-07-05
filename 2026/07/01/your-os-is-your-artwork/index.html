@@ -905,6 +905,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#one-last-reinstall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One last reinstall（？？？
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#so" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        So...?
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -968,10 +990,20 @@
                       <li class="md-nav__item">
                         <div class="md-nav__link">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13h1.5v2.82l2.44 1.41-.75 1.3L15 16.69zm4-5H5v11h4.67c-.43-.91-.67-1.93-.67-3a7 7 0 0 1 7-7c1.07 0 2.09.24 3 .67zM5 21a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h1V1h2v2h8V1h2v2h1a2 2 0 0 1 2 2v6.1c1.24 1.26 2 2.99 2 4.9a7 7 0 0 1-7 7c-1.91 0-3.64-.76-4.9-2zm11-9.85A4.85 4.85 0 0 0 11.15 16c0 2.68 2.17 4.85 4.85 4.85A4.85 4.85 0 0 0 20.85 16c0-2.68-2.17-4.85-4.85-4.85"/></svg>
-                          <time datetime="2026-07-04 00:00:00+00:00" class="md-ellipsis">2026年7月4日</time>
+                          <time datetime="2026-07-05 00:00:00+00:00" class="md-ellipsis">2026年7月5日</time>
                         </div>
                       </li>
                     
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            分类于
+                            
+                              <a href="../../../../category/linux-%E4%BD%BF%E7%94%A8/">Linux 使用</a></span>
+                        </div>
+                      </li>
                     
                     
                       
@@ -980,7 +1012,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              阅读时长 2 分钟
+                              阅读时长 3 分钟
                             
                           </span>
                         </div>
@@ -1012,7 +1044,7 @@
 <p>Hyprland 是挺好，但是当时好像还没有进官方仓库，安装不了。我又不会用 AUR，于是克隆了 GitHub 上 Hyprland 的源码，手动处理好 submodules 后<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>，磕磕绊绊稀里糊涂编译了一个能用的 Hyprland<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>。</p>
 <h2 id="bloat">bloat（？）的系统<a class="headerlink" href="#bloat" title="Permanent link">&para;</a></h2>
 <p>Hyprland 固然不错，但是咱也并没有玩的很出色，一是没有抄别人 dotfiles 的意识，二是不能耐着性子读 Hyprland Wiki 以及 eww 等小工具的文档。结果就是咱配的 Hyprland 几乎和默认配置一样😂<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>。</p>
-<p>加上当时还折腾其他东西，久而久之咱的 DM 菜单变得又臭又长。据不完全回忆，那时的 DM 菜单至少包含以下条目：</p>
+<p>加之当时还折腾其他东西，久而久之咱的 DM 菜单变得又臭又长。据不完全回忆，那时的 DM 菜单至少包含以下条目：</p>
 <ul>
 <li>
 <p>Hyprland</p>
@@ -1024,15 +1056,53 @@
 </li>
 <li>
 <p>GNOME *</p>
-<p>包括 GNOME (Wayland)、GNOME、GNOME (X11)等条目，装个 GDM 就拉下来了<del>，强耦合，很神奇吧</del>。</p>
+<p>包括 GNOME (Wayland)、GNOME、GNOME (X11)等条目，装个 GDM 就拉下来了<del>，高耦合，很神奇吧</del>。</p>
 </li>
 <li>
 <p>Steam</p>
 <p>直接启动 Steam 的大屏幕模式（其实根本用不到😅），参考 <a href="https://wiki.archlinuxcn.org/wiki/Steam#无窗口管理器的大屏幕模式">Arch Linux 中文维基</a></p>
 </li>
 </ul>
-<p>除 WM/DE 外，DM 本身咱也装了好几个，至少有 GDM、SDDM 和 Greetd+wlgreet......嘛，总之就是有一堆东西也不知道是装了干嘛的就一直在那堆着</p>
-<p>（先写到这吧，以后有空再写😭）</p>
+<p>除 WM/DE 外，DM 本身咱也装了好几个，至少有 GDM、SDDM 和 Greetd+wlgreet......嘛，总之就是一堆东西也不知道装了干嘛就一直在那堆着......</p>
+<p>再之后，咱发现 SwayFX 确实挺合胃口（？），于是折腾 SwayFX 的配置，经过大概几个晚上的努力，终于是弄好了 SwayFX + Waybar<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup>，不过其他用不到的 wm/de/dm/menu/etc 还是在那堆着😂完全没删，想着有时候可能会用到<del>，骗你的其实再也用不到了</del>。</p>
+<p>这应该算是咱最初始的 artwork 了，是按照我的想法配出来的，不顺眼，但还算顺手。</p>
+<h2 id="one-last-reinstall">One last reinstall（？？？<a class="headerlink" href="#one-last-reinstall" title="Permanent link">&para;</a></h2>
+<p>移动硬盘里的 Arch 一直用到我高考结束买新电脑，因为这个系统在新电脑上运行的效果并不理想，而且没用的东西太多，与其手动迁移，不如装个新的。</p>
+<p>这个系统到如今才变成了真正意义上的我的 artwork。我学习了更多的东西来完善和维护系统。那么，我对她做过什么？</p>
+<ul>
+<li>
+<p>写了一个脚本，用于实现终端和 GTK 的动态配色</p>
+<p>好看喵~</p>
+</li>
+<li>
+<p>Arch -&gt; Artix</p>
+<p>见<a href="../../../06/08/artix-%E8%BF%81%E7%A7%BB%E6%8C%87%E5%8D%97/">Artix 迁移指南</a>，systemd -&gt; s6。btw 有些东西离开 systemd 后会出问题，需要手动调整<del>，人生苦短，干嘛不用 systemd（笑）</del>。</p>
+</li>
+<li>
+<p>写了另一个脚本，以 waybar 为前端 mpd 为后端来听歌</p>
+<p>我需要的本地音乐播放工具不需要复杂大而全的 ui，只需要 prev/play-pause/next + 随机播放。</p>
+</li>
+<li>
+<p>grub -&gt; efistub</p>
+<p>用不到那么多功能，而且拖慢启动时间。</p>
+</li>
+<li>
+<p>更美观的 wm 和 bar 样式</p>
+<p>虽然但是药丸样式的 bar 搭配方角窗口确实不太符合大多数人的审美（？</p>
+</li>
+<li>
+<p>自行编译的简化内核</p>
+<p>作为下游的 Artix 更新软件包比 Arch 更迟</p>
+</li>
+<li>
+<p>more</p>
+<p>特化配置太多记不清了😂以上是几个主要的</p>
+</li>
+</ul>
+<p>以及迁移到 Artix 后，由于混用 Arch 仓库，所以有些工具更容易挂😂<del>，这也是维护 artwork 不得不品的一环</del>。</p>
+<h2 id="so">So...?<a class="headerlink" href="#so" title="Permanent link">&para;</a></h2>
+<p>写了半天也不知道自己讲的和标题有什么关系。维护 artwork 就是个不断折腾的过程，出问题重装显然不是一个好的做法，尝试探索这个问题，对其机制有更深入的了解才能帮你创造更好的作品。</p>
+<p><del>不知所云的一篇 post，就当作是我的胡言乱语吧</del></p>
 <div class="footnote">
 <hr />
 <ol>
@@ -1049,7 +1119,10 @@
 <p>仅针对“能用”作最小配置，这又何尝不是一种 <a href="https://wiki.archlinux.org/title/Arch_Linux#Simplicity">The Arch Way</a>（大雾&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 <li id="fn:5">
-<p>家里那台的显卡是 NVIDIA GeForce GTX 960M，开个光影还是能明显地感受到性能差距&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+<p>家里那台的显卡是 NVIDIA GeForce GTX 960M，开个光影能明显地感受到性能差距&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>也是咱现在使用的配置的前身呐~&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -1062,6 +1135,31 @@
 
   
 
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+      
+        <a href="../../../../tags/#tag:arch" class="md-tag md-tag-icon">Arch</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../../../tags/#tag:artix" class="md-tag md-tag-icon">Artix</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../../../tags/#tag:linux" class="md-tag md-tag-icon">Linux</a>
+      
+    
+  </nav>
 
 
 
