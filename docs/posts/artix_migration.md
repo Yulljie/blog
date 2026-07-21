@@ -278,6 +278,14 @@ for daemon in acpid alsasound cronie cupsd dbus elogind xdm fuse haveged hdparm 
 
 #### s6
 
+!!! note "注意"
+
+    译者注：
+
+    Artix 从 2026-05-14 [起转移到了新的 s6 前端](https://artixlinux.org/news.php#New_s6_service_manager)，上述命令仍可以用于启用服务，但并非推荐方式。建议使用以下命令启用服务：
+
+        for daemon in acpid alsasound cronie cupsd dbus elogind xdm fuse haveged hdparm smb sshd syslog-ng; do s6 set enable $daemon; done; s6 set commit && s6 live install
+
 ```
 touch /etc/s6/adminsv/default/contents.d/{acpid,cronie,cupsd,elogind,xdm,fuse,haveged,hdparm,smbd,sshd,syslog-ng}
 s6-db-reload
