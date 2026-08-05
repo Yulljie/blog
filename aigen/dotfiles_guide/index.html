@@ -1,0 +1,2944 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="是 Yulliil 的博客呀">
+      
+      
+      
+        <link rel="canonical" href="https://yulliil.moe/blog/aigen/dotfiles_guide/">
+      
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="已更新内容的 RSS 订阅" href="../../feed_rss_updated.xml">
+      
+      
+      
+        
+        
+        
+          <link rel="icon" href="../../assets/favicon.png">
+        
+      
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.2.0">
+    
+    
+      
+        <title>Yulliil's Artix Linux 桌面配置食用指南 - 游离域/Yulliil Zone</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.d7aee198.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a45159b5.min.css">
+      
+    
+    
+
+    
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="deep-orange" data-mx-topbar="glass">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__toc"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#yulliils-artix-linux" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="游离域/Yulliil Zone" class="md-header__button md-logo" aria-label="游离域/Yulliil Zone" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            游离域/Yulliil Zone
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Yulliil's Artix Linux 桌面配置食用指南
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="grey" data-md-color-accent="deep-orange"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0">
+        <div class="md-search-result md-search-result--pagefind" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  游离域
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../2026/06/06/%E6%80%AA%E4%B8%9C%E8%A5%BF/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  怪东西！
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../links/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  友链
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  关于
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../archive/2026/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  归档
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../category/artix-wiki/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  分类
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="游离域/Yulliil Zone" class="md-nav__button md-logo" aria-label="游离域/Yulliil Zone" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    游离域/Yulliil Zone
+  </label>
+  
+  <ul class="md-nav__list">
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    游离域
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2026/06/06/%E6%80%AA%E4%B8%9C%E8%A5%BF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    怪东西！
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../links/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    友链
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    关于
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    归档
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    归档
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分类
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    分类
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../category/artix-wiki/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Artix Wiki
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../category/linux-%E4%BD%BF%E7%94%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux 使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../category/%E5%AD%A6%E4%B9%A0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../category/%E6%9C%89%E8%B6%A3%E7%9A%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    有趣的
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../category/%E6%B5%8B%E8%AF%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 整体架构概览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 整体架构概览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配色管线流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 依赖清单
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 依赖清单">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        音频栈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        外观依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可选依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 安装与部署
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 安装与部署">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 克隆仓库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dotfiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 部署 Dotfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-gtk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 安装 GTK 主题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 初始化配色缓存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-gtk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 应用 GTK 主题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-wallpapersh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. wallpaper.sh 壁纸与配色引擎
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. wallpaper.sh 壁纸与配色引擎">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 基本用法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 深色 / 浅色模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-matugen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 matugen 配色引擎
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 模板变量体系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-dotfiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 与 dotfiles 的集成
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-gtk-materia-dark-trans-compact-wal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. GTK 主题：Materia-dark-trans-compact-wal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. GTK 主题：Materia-dark-trans-compact-wal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 主题特性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 配色变量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-backdrop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Backdrop 状态（失焦窗口响应）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-gtk-inspector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 GTK Inspector 调试方法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-swayfx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. SwayFX 窗口管理器配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. SwayFX 窗口管理器配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 基本设定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-swayfx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 SwayFX 视觉效果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 自启动服务
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 窗口规则（部分）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-alacritty-foot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 终端：Alacritty（默认）&amp; foot（备用）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 终端：Alacritty（默认）&amp; foot（备用）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-alacritty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Alacritty 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-foot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 foot 配置（备用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-waybar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Waybar 状态栏
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Waybar 状态栏">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 配置路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 模块布局
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 样式特性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-rofi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Rofi 应用启动器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Rofi 应用启动器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 启动方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 动态主题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 静态回退
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-dunst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Dunst 通知守护进程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Dunst 通知守护进程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 基本配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 动态配色
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 电池监控与自动刷新率切换
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. 电池监控与自动刷新率切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-batterymonitorc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 BatteryMonitorC
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-mpd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. MPD 音乐子系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. MPD 音乐子系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 其他组件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. 其他组件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-wobwayland-overlay-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 WOB（Wayland Overlay Bar）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-evernight-gif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 Evernight 桌面 GIF 特效
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-fish-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 Fish Shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. 快捷键速查表
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="14. 快捷键速查表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        窗口管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wasd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        焦点与移动（WASD）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作区
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        媒体与亮度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        截图
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置编辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. 已弃用组件说明
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15. 已弃用组件说明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wofi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wofi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swaylock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        swaylock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#foot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        foot（作为默认终端）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyprland" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyprland 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. 常见问题 / 需要手动修改的地方
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="16. 常见问题 / 需要手动修改的地方">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.1 视频壁纸显示器名称
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#162-colors-sway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.2 colors-sway 中的硬编码壁纸路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#163" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.3 电池监控的硬件路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.4 刷新率切换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#165-tmp-gtk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.5 /tmp 下的 GTK 配色文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#166-dunst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.6 dunst 配色不自动更新
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              
+              
+              <article class="md-content__inner md-typeset" data-pagefind-body>
+                
+                  
+
+<h1 id="yulliils-artix-linux">Yulliil's Artix Linux 桌面配置食用指南<a class="headerlink" href="#yulliils-artix-linux" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>系统环境：</strong> Artix Linux (s6 init) + SwayFX (Wayland)</p>
+<p><strong>仓库地址：</strong>
+- Dotfiles：<a href="https://codeberg.org/Yulliil/My_Artix_Configuration">Yulliil/My_Artix_Configuration</a>
+- 壁纸脚本：<a href="https://codeberg.org/Yulliil/wallpaper.sh">Yulliil/wallpaper.sh</a>
+- GTK 主题：<a href="https://codeberg.org/Yulliil/Materia-dark-trans-compact-wal">Yulliil/Materia-dark-trans-compact-wal</a></p>
+</blockquote>
+<hr />
+<h2 id="_1">目录<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-整体架构概览">整体架构概览</a></li>
+<li><a href="#2-依赖清单">依赖清单</a></li>
+<li><a href="#3-安装与部署">安装与部署</a></li>
+<li><a href="#4-wallpapersh-壁纸与配色引擎">wallpaper.sh 壁纸与配色引擎</a></li>
+<li><a href="#5-gtk-主题materia-dark-trans-compact-wal">GTK 主题：Materia-dark-trans-compact-wal</a></li>
+<li><a href="#6-swayfx-窗口管理器配置">SwayFX 窗口管理器配置</a></li>
+<li><a href="#7-终端alacritty默认--foot备用">终端：Alacritty（默认）&amp; foot（备用）</a></li>
+<li><a href="#8-waybar-状态栏">Waybar 状态栏</a></li>
+<li><a href="#9-rofi-应用启动器">Rofi 应用启动器</a></li>
+<li><a href="#10-dunst-通知守护进程">Dunst 通知守护进程</a></li>
+<li><a href="#11-电池监控与自动刷新率切换">电池监控与自动刷新率切换</a></li>
+<li><a href="#12-mpd-音乐子系统">MPD 音乐子系统</a></li>
+<li><a href="#13-其他组件">其他组件</a></li>
+<li><a href="#14-快捷键速查表">快捷键速查表</a></li>
+<li><a href="#15-已弃用组件说明">已弃用组件说明</a></li>
+<li><a href="#16-常见问题--需要手动修改的地方">常见问题 / 需要手动修改的地方</a></li>
+</ol>
+<hr />
+<h2 id="1">1. 整体架构概览<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>整套配置的核心思路是 <strong>壁纸驱动的全局动态配色</strong>——换一张壁纸，从窗口管理器边框、GTK 应用背景、终端配色、启动器主题到通知弹窗，全部自动跟着壁纸色调变化。</p>
+<h3 id="_2">配色管线流程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>wallpaper.sh &lt;壁纸图片/视频/目录&gt;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ├─ 1. 检测后端 (Wayland / X11)
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ├─ 2. 清理旧壁纸进程 (swaybg / mpvpaper)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    ├─ 3. 视频？→ ffmpeg 提取缩略帧
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ├─ 4. matugen 从图片提取 Material Design 3 配色
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    │       ├─ 生成 colors-sway          → ~/.cache/wallpaper.sh.d/
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    │       ├─ 生成 colors-alacritty.toml → ~/.cache/wallpaper.sh.d/
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │       ├─ 生成 colors-foot.ini      → ~/.cache/wallpaper.sh.d/
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │       ├─ 生成 rofi_config.rasi     → ~/.cache/wallpaper.sh.d/
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │       └─ 生成 GTK CSS 变量文件      → /tmp/Materia-dark-trans-compact-wal-color.css
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    │
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    ├─ 5. matugen post_hook 触发
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │       ├─ pkill -USR1 foot   (foot 终端热重载配色)
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │       └─ swaymsg reload     (SwayFX 重载，读取新的 colors-sway)
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    │
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    ├─ 6. 设置壁纸 (swaybg / mpvpaper)
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    ├─ 7. gsettings 设置深浅色模式 + 图标主题
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    └─ 8. wallpaper-reload.sh
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>            └─ 重启 waybar（加载新配色的 CSS）
+</span></code></pre></div>
+<p><strong>关键设计决策：</strong>
+- 使用 <strong>matugen</strong>（非 pywal）作为配色引擎，基于 Material Design 3 色彩科学提取壁纸配色
+- 配色文件统一缓存在 <code>~/.cache/wallpaper.sh.d/</code>，GTK 色值文件放 <code>/tmp/</code>
+- 各应用通过 <code>@import</code> / <code>import</code> / <code>include</code> 机制引用缓存中的配色文件，实现运行时动态换色
+- 支持深色模式（默认）和浅色模式（<code>-l</code> 参数）</p>
+<hr />
+<h2 id="2">2. 依赖清单<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">核心依赖<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>用途</th>
+<th>安装</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SwayFX</strong></td>
+<td>窗口管理器（Sway 的 fork，支持模糊/动画）</td>
+<td><code>swayfx</code></td>
+</tr>
+<tr>
+<td><strong>matugen</strong></td>
+<td>从壁纸提取 Material Design 3 配色</td>
+<td>AUR: <code>matugen-bin</code></td>
+</tr>
+<tr>
+<td><strong>swaybg</strong></td>
+<td>静态壁纸</td>
+<td><code>swaybg</code></td>
+</tr>
+<tr>
+<td><strong>mpvpaper</strong></td>
+<td>视频壁纸</td>
+<td><code>mpvpaper</code></td>
+</tr>
+<tr>
+<td><strong>ffmpeg</strong></td>
+<td>视频缩略帧提取</td>
+<td><code>ffmpeg</code></td>
+</tr>
+<tr>
+<td><strong>waybar</strong></td>
+<td>状态栏</td>
+<td><code>waybar</code></td>
+</tr>
+<tr>
+<td><strong>alacritty</strong></td>
+<td>默认终端</td>
+<td><code>alacritty</code></td>
+</tr>
+<tr>
+<td><strong>fish</strong></td>
+<td>Shell</td>
+<td><code>fish</code></td>
+</tr>
+<tr>
+<td><strong>rofi</strong></td>
+<td>应用启动器（Wayland 版用 <code>rofi-wayland</code>）</td>
+<td><code>rofi-wayland</code></td>
+</tr>
+<tr>
+<td><strong>dunst</strong></td>
+<td>通知守护进程</td>
+<td><code>dunst</code></td>
+</tr>
+<tr>
+<td><strong>grim</strong></td>
+<td>截图</td>
+<td><code>grim</code></td>
+</tr>
+<tr>
+<td><strong>slurp</strong></td>
+<td>区域选择（配合截图）</td>
+<td><code>slurp</code></td>
+</tr>
+<tr>
+<td><strong>jq</strong></td>
+<td>JSON 处理（截图脚本用）</td>
+<td><code>jq</code></td>
+</tr>
+<tr>
+<td><strong>playerctl</strong></td>
+<td>媒体控制</td>
+<td><code>playerctl</code></td>
+</tr>
+<tr>
+<td><strong>brightnessctl</strong></td>
+<td>亮度控制</td>
+<td><code>brightnessctl</code></td>
+</tr>
+<tr>
+<td><strong>wob</strong></td>
+<td>音量/亮度浮层条</td>
+<td><code>wob</code></td>
+</tr>
+<tr>
+<td><strong>fcitx5</strong></td>
+<td>输入法</td>
+<td><code>fcitx5</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">音频栈<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PipeWire</strong></td>
+<td>音频服务</td>
+</tr>
+<tr>
+<td><strong>pipewire-pulse</strong></td>
+<td>PulseAudio 兼容层</td>
+</tr>
+<tr>
+<td><strong>WirePlumber</strong></td>
+<td>会话管理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">外观依赖<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Materia-dark-trans-compact-wal</strong></td>
+<td>GTK 主题（本仓库）</td>
+</tr>
+<tr>
+<td><strong>Colloid-Pink-Dark / Colloid-Pink</strong></td>
+<td>图标主题（深/浅色各一套）</td>
+</tr>
+<tr>
+<td><strong>lingmo-dark</strong></td>
+<td>鼠标光标主题</td>
+</tr>
+<tr>
+<td><strong>Source Code Pro</strong></td>
+<td>终端/编辑器字体</td>
+</tr>
+<tr>
+<td><strong>FontAwesome</strong></td>
+<td>Waybar 图标字体</td>
+</tr>
+<tr>
+<td><strong>Noto Sans / Noto Sans CJK SC</strong></td>
+<td>UI 字体</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_6">可选依赖<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>foot</strong></td>
+<td>备用终端（支持 SIGUSR1 热重载配色）</td>
+</tr>
+<tr>
+<td><strong>pcmanfm</strong></td>
+<td>文件管理器</td>
+</tr>
+<tr>
+<td><strong>pavucontrol</strong></td>
+<td>音量控制面板</td>
+</tr>
+<tr>
+<td><strong>nwg-displays</strong></td>
+<td>显示器配置工具</td>
+</tr>
+<tr>
+<td><strong>swayimg</strong></td>
+<td>图片查看（evernight GIF 特效用）</td>
+</tr>
+<tr>
+<td><strong>mpd + mpd-mpris</strong></td>
+<td>音乐播放</td>
+</tr>
+<tr>
+<td><strong>thefuck</strong></td>
+<td>终端命令纠错</td>
+</tr>
+<tr>
+<td><strong>fastfetch</strong></td>
+<td>系统信息展示</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3">3. 安装与部署<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 克隆仓库<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 1. Dotfiles</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://codeberg.org/Yulliil/My_Artix_Configuration.git
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># 2. 壁纸脚本（克隆到你喜欢的位置，脚本会自动检测自身路径）</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://codeberg.org/Yulliil/wallpaper.sh.git<span class="w"> </span>~/Projects/wallpaper
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># 3. GTK 主题</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>git<span class="w"> </span>clone<span class="w"> </span>https://codeberg.org/Yulliil/Materia-dark-trans-compact-wal.git
+</span></code></pre></div>
+<h3 id="32-dotfiles">3.2 部署 Dotfiles<a class="headerlink" href="#32-dotfiles" title="Permanent link">&para;</a></h3>
+<p>将 <code>My_Artix_Configuration</code> 中的各目录复制到 <code>~/.config/</code>：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>My_Artix_Configuration
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 核心配置</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>cp<span class="w"> </span>-r<span class="w"> </span>sway/<span class="w"> </span>~/.config/sway/
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>cp<span class="w"> </span>-r<span class="w"> </span>alacritty/<span class="w"> </span>~/.config/alacritty/
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>cp<span class="w"> </span>-r<span class="w"> </span>waybar/<span class="w"> </span>~/.config/waybar/<span class="w">           </span><span class="c1"># 备用的 Hyprland/独立 waybar 配置</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>cp<span class="w"> </span>-r<span class="w"> </span>dunst/<span class="w"> </span>~/.config/dunst/
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>cp<span class="w"> </span>-r<span class="w"> </span>rofi/<span class="w"> </span>~/.config/rofi/<span class="w">               </span><span class="c1"># 静态回退 rofi 配置</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>cp<span class="w"> </span>-r<span class="w"> </span>fish/<span class="w"> </span>~/.config/fish/
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>cp<span class="w"> </span>-r<span class="w"> </span>wob/<span class="w"> </span>~/.config/wob/
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># 可选</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>cp<span class="w"> </span>-r<span class="w"> </span>foot/<span class="w"> </span>~/.config/foot/<span class="w">               </span><span class="c1"># 备用终端</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>cp<span class="w"> </span>-r<span class="w"> </span>aria2/<span class="w"> </span>~/.config/aria2/<span class="w">             </span><span class="c1"># 下载管理器</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>cp<span class="w"> </span>-r<span class="w"> </span>swayimg/<span class="w"> </span>~/.config/swayimg/<span class="w">         </span><span class="c1"># GIF 特效</span>
+</span></code></pre></div>
+<h3 id="33-gtk">3.3 安装 GTK 主题<a class="headerlink" href="#33-gtk" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>Materia-dark-trans-compact-wal
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># 复制主题文件夹到系统主题目录（需要 root 权限）</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>sudo<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>Materia-dark-trans-compact-wal/<span class="w"> </span>/usr/share/themes/
+</span></code></pre></div>
+<blockquote>
+<p><strong>注意：</strong> 主题放在 <code>/usr/share/themes/</code> 下，修改 CSS 需要 <code>sudo</code>。如果你想无 root 编辑，可以放到 <code>~/.local/share/themes/</code> 下，但需要确认你的 GTK 设置能从该路径加载主题。</p>
+</blockquote>
+<h3 id="34">3.4 初始化配色缓存<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<p>首次使用前，需要运行一次 wallpaper.sh 来生成配色文件：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 创建缓存目录</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.cache/wallpaper.sh.d
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 运行壁纸脚本（会自动生成所有配色文件）</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>~/Projects/wallpaper/wallpaper.sh<span class="w"> </span>~/Pictures/你的壁纸.png
+</span></code></pre></div>
+<h3 id="35-gtk">3.5 应用 GTK 主题<a class="headerlink" href="#35-gtk" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 通过 gsettings 设置 GTK 主题</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>gsettings<span class="w"> </span><span class="nb">set</span><span class="w"> </span>org.gnome.desktop.interface<span class="w"> </span>gtk-theme<span class="w"> </span><span class="s2">&quot;Materia-dark-trans-compact-wal&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 或者使用 nwg-look 等图形工具来选择主题</span>
+</span></code></pre></div>
+<hr />
+<h2 id="4-wallpapersh">4. wallpaper.sh 壁纸与配色引擎<a class="headerlink" href="#4-wallpapersh" title="Permanent link">&para;</a></h2>
+<p><strong>仓库：</strong> <a href="https://codeberg.org/Yulliil/wallpaper.sh">Yulliil/wallpaper.sh</a></p>
+<h3 id="41">4.1 基本用法<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 设置单张图片壁纸（深色模式，默认）</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>wallpaper.sh<span class="w"> </span>~/Pictures/wallpaper.png
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 从目录随机选择壁纸</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>wallpaper.sh<span class="w"> </span>~/Pictures/wallpapers/
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># 浅色模式</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>wallpaper.sh<span class="w"> </span>-l<span class="w"> </span>~/Pictures/wallpaper.png
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># 视频壁纸</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>wallpaper.sh<span class="w"> </span>~/Videos/loop.mp4
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># 帮助</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>wallpaper.sh<span class="w"> </span>-h
+</span></code></pre></div>
+<p><strong>支持的格式：</strong> <code>png</code>、<code>jpg</code>、<code>jpeg</code>、<code>mp4</code>、<code>mkv</code></p>
+<h3 id="42">4.2 深色 / 浅色模式<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>背景透明度</th>
+<th>图标主题</th>
+<th>GTK 配色方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认（深色）</td>
+<td>0.7</td>
+<td>Colloid-Pink-Dark</td>
+<td><code>prefer-dark</code></td>
+</tr>
+<tr>
+<td><code>-l</code>（浅色）</td>
+<td>0.5</td>
+<td>Colloid-Pink</td>
+<td><code>prefer-light</code></td>
+</tr>
+</tbody>
+</table>
+<p>切换模式时，wallpaper.sh 会自动通过 <code>gsettings</code> 更新系统级的 <code>color-scheme</code> 和 <code>icon-theme</code>。</p>
+<h3 id="43-matugen">4.3 matugen 配色引擎<a class="headerlink" href="#43-matugen" title="Permanent link">&para;</a></h3>
+<p>wallpaper.sh 使用 <a href="https://github.com/InioX/matugen">matugen</a> 替代了之前的 pywal。matugen 基于 Material Design 3 的色彩算法从壁纸中提取配色方案。</p>
+<p><strong>matugen.toml 模板配置：</strong></p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[templates.foot]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">input_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;templates/colors-foot.ini&#39;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">output_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;~/.cache/wallpaper.sh.d/colors-foot.ini&#39;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">post_hook</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pkill -USR1 foot&#39;</span><span class="w">         </span><span class="c1"># foot 终端热重载</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">[templates.alacritty]</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">input_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;templates/colors-alacritty.toml&#39;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">output_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;~/.cache/wallpaper.sh.d/colors-alacritty.toml&#39;</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">[templates.gtk]</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">input_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;templates/Materia-dark-trans-compact-wal-color.css&#39;</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">output_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;/tmp/Materia-dark-trans-compact-wal-color.css&#39;</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="k">[templates.sway]</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="n">input_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;templates/colors-sway&#39;</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">output_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;~/.cache/wallpaper.sh.d/colors-sway&#39;</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="n">post_hook</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;swaymsg reload&quot;</span><span class="w">            </span><span class="c1"># SwayFX 重载配置</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="k">[templates.rofi]</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="n">input_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;templates/rofi_config.rasi&#39;</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="n">output_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;~/.cache/wallpaper.sh.d/rofi_config.rasi&#39;</span>
+</span></code></pre></div>
+<p><strong>生成的配色文件与消费者对应关系：</strong></p>
+<table>
+<thead>
+<tr>
+<th>生成文件</th>
+<th>路径</th>
+<th>消费者</th>
+<th>重载方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>colors-sway</code></td>
+<td><code>~/.cache/wallpaper.sh.d/</code></td>
+<td>SwayFX (窗口边框颜色)</td>
+<td><code>swaymsg reload</code> (post_hook)</td>
+</tr>
+<tr>
+<td><code>colors-alacritty.toml</code></td>
+<td><code>~/.cache/wallpaper.sh.d/</code></td>
+<td>Alacritty 终端</td>
+<td><code>live_config_reload = true</code></td>
+</tr>
+<tr>
+<td><code>colors-foot.ini</code></td>
+<td><code>~/.cache/wallpaper.sh.d/</code></td>
+<td>foot 终端</td>
+<td><code>pkill -USR1 foot</code> (post_hook)</td>
+</tr>
+<tr>
+<td><code>rofi_config.rasi</code></td>
+<td><code>~/.cache/wallpaper.sh.d/</code></td>
+<td>Rofi 启动器</td>
+<td>下次启动时生效</td>
+</tr>
+<tr>
+<td><code>Materia-...-color.css</code></td>
+<td><code>/tmp/</code></td>
+<td>GTK 主题</td>
+<td>GTK 应用窗口重绘时生效</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44">4.4 模板变量体系<a class="headerlink" href="#44" title="Permanent link">&para;</a></h3>
+<p>matugen 模板使用两套变量命名空间：</p>
+<p><strong>Material Design 3 语义色：</strong>
+- <code>{{colors.primary.default.hex}}</code> — 主色调
+- <code>{{colors.surface_container.default.rgba}}</code> — 容器表面色（带 alpha，用于透明背景）
+- <code>{{colors.tertiary.default.hex}}</code> — 第三色调
+- <code>{{colors.on_surface.default.hex}}</code> — 表面上的文字色
+- 等等……</p>
+<p><strong>Base16 调色板：</strong>
+- <code>{{base16.base00.default.hex}}</code> 到 <code>{{base16.base0f.default.hex}}</code> — 16 色调色板</p>
+<h3 id="45-dotfiles">4.5 与 dotfiles 的集成<a class="headerlink" href="#45-dotfiles" title="Permanent link">&para;</a></h3>
+<p>dotfiles 中的 Sway 主配置文件通过以下机制与 wallpaper.sh 联动：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># sway/config 中：</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># 1. 引入 wallpaper.sh 生成的 SwayFX 配色</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>include<span class="w"> </span>~/.cache/wallpaper.sh.d/colors-sway
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># 2. 窗口边框颜色使用生成的变量</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>client.focused<span class="w">          </span><span class="nv">$primary_color</span><span class="w"> </span><span class="nv">$background</span><span class="w"> </span><span class="nv">$foreground</span><span class="w"> </span><span class="nv">$primary_color</span><span class="w"> </span><span class="nv">$primary_color</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>client.unfocused<span class="w">        </span><span class="nv">$background</span><span class="w"> </span><span class="nv">$background</span><span class="w"> </span><span class="nv">$foreground</span><span class="w"> </span><span class="nv">$background</span><span class="w"> </span><span class="nv">$background</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># ...</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># 3. 启动时运行 wallpaper.sh</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="nb">exec</span><span class="w"> </span>~/Projects/wallpaper/wallpaper.sh<span class="w"> </span>~/Pictures/wallpaper/cycle/
+</span></code></pre></div>
+<hr />
+<h2 id="5-gtk-materia-dark-trans-compact-wal">5. GTK 主题：Materia-dark-trans-compact-wal<a class="headerlink" href="#5-gtk-materia-dark-trans-compact-wal" title="Permanent link">&para;</a></h2>
+<p><strong>仓库：</strong> <a href="https://codeberg.org/Yulliil/Materia-dark-trans-compact-wal">Yulliil/Materia-dark-trans-compact-wal</a></p>
+<h3 id="51">5.1 主题特性<a class="headerlink" href="#51" title="Permanent link">&para;</a></h3>
+<p>这是一个基于 <a href="https://github.com/nana-4/materia-theme">Materia</a> (Materia-dark-compact 变体) 深度定制的 GTK 主题，主要特性：</p>
+<ul>
+<li><strong>半透明背景</strong>：窗口背景使用 RGBA 颜色，壁纸可透过窗口显示（"trans" 的含义）</li>
+<li><strong>紧凑布局</strong>：按钮 24px、输入框 32px、标题栏 40px（"compact" 的含义）</li>
+<li><strong>动态配色</strong>：通过 <code>@import</code> 引用 wallpaper.sh 生成的 CSS 变量文件，配色跟随壁纸变化（"wal" 的含义）</li>
+<li><strong>Backdrop 状态响应</strong>：失焦窗口背景自动变暗，带 0.25s 过渡动画</li>
+<li><strong>Material Design 动效</strong>：点击涟漪、阴影层级、标准贝塞尔曲线</li>
+</ul>
+<h3 id="52">5.2 配色变量<a class="headerlink" href="#52" title="Permanent link">&para;</a></h3>
+<p>主题 CSS 通过 <code>@import url("/tmp/Materia-dark-trans-compact-wal-color.css")</code> 引入以下变量：</p>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c">/* 背景色 */</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">background</span><span class="w"> </span><span class="o">&lt;</span><span class="nt">surface_container</span><span class="w"> </span><span class="nt">RGBA</span><span class="o">&gt;</span><span class="p">;</span><span class="w">   </span><span class="c">/* 带 alpha 透明 */</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">background_no_alpha</span><span class="w"> </span><span class="o">&lt;</span><span class="nt">surface_container</span><span class="w"> </span><span class="nt">RGB</span><span class="o">&gt;</span><span class="p">;</span><span class="w">  </span><span class="c">/* 不带 alpha */</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c">/* Base16 调色板 */</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">color0</span><span class="w">  </span><span class="nt">到</span><span class="w">  </span><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">color15</span><span class="p">;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c">/* Material Design 语义色 */</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">primary</span><span class="w"> </span><span class="o">...</span><span class="p">;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">primary_container</span><span class="w"> </span><span class="o">...</span><span class="p">;</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">tertiary</span><span class="w"> </span><span class="o">...</span><span class="p">;</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">tertiary_container</span><span class="w"> </span><span class="o">...</span><span class="p">;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">@</span><span class="k">define-color</span><span class="w"> </span><span class="nt">surface</span><span class="w"> </span><span class="o">...</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>GTK 3.0 vs GTK 4.0 的差异：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>GTK 3.0</th>
+<th>GTK 4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>动态变量使用</td>
+<td>丰富（@color7, @primary, @background 等）</td>
+<td>有限（仅 @color4）</td>
+</tr>
+<tr>
+<td>Backdrop 响应</td>
+<td>完整实现，背景动态变化</td>
+<td>无 <code>.background:backdrop</code> 规则</td>
+</tr>
+<tr>
+<td>其他颜色</td>
+<td>大量使用动态变量</td>
+<td>多数为硬编码值</td>
+</tr>
+</tbody>
+</table>
+<p>因此，<strong>GTK 3.0 应用</strong>（如 Thunar、pcmanfm）的动态配色效果远好于 GTK 4.0 应用。</p>
+<h3 id="53-backdrop">5.3 Backdrop 状态（失焦窗口响应）<a class="headerlink" href="#53-backdrop" title="Permanent link">&para;</a></h3>
+<p>这是最新加入的特性。当窗口失去焦点时：</p>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">.</span><span class="nc">background</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="o">@</span><span class="k">background</span><span class="p">;</span><span class="w">             </span><span class="c">/* 正常状态：matugen 生成的 RGBA 背景 */</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="o">@</span><span class="n">color7</span><span class="p">;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="k">background-color</span><span class="w"> </span><span class="mf">0.25</span><span class="kt">s</span><span class="p">;</span><span class="w">        </span><span class="c">/* 0.25 秒过渡动画 */</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">}</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">.</span><span class="nc">background</span><span class="p">:</span><span class="nd">backdrop</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="nf">alpha</span><span class="p">(</span><span class="err">@</span><span class="n">background_no_alpha</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">);</span><span class="w">  </span><span class="c">/* 失焦：80% 不透明度 */</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>效果：</strong>
+- 焦点窗口：半透明背景（透明度由 matugen 的 <code>--opacity</code> 控制，默认 0.7）
+- 失焦窗口：背景变为 80% 不透明度，视觉上变暗
+- 切换时有 0.25 秒的平滑过渡
+- 文字颜色始终不变，保持可读性</p>
+<blockquote>
+<p><strong>注意：</strong> 这不是 bug，而是 feature。如果你在使用中看到后面的窗口比当前窗口暗，那就是 backdrop 状态在正常工作。</p>
+</blockquote>
+<h3 id="54-gtk-inspector">5.4 GTK Inspector 调试方法<a class="headerlink" href="#54-gtk-inspector" title="Permanent link">&para;</a></h3>
+<p>修改主题时使用 GTK Inspector：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 启动应用并打开 Inspector</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nv">GTK_THEME</span><span class="o">=</span>Materia-dark-trans-compact-wal<span class="w"> </span><span class="nv">GTK_DEBUG</span><span class="o">=</span>interactive<span class="w"> </span>&lt;应用名&gt;
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># 推荐组合：Inspector + 重绘区域高亮</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nv">GTK_THEME</span><span class="o">=</span>Materia-dark-trans-compact-wal<span class="w"> </span><span class="nv">GTK_DEBUG</span><span class="o">=</span>interactive:updates<span class="w"> </span>&lt;应用名&gt;
+</span></code></pre></div>
+<p>在 Inspector 左上角点击「选择元素」按钮 → 在应用窗口点击目标 widget → 切到 CSS Nodes 选项卡查看该元素的 CSS node 路径和当前匹配的规则 → 编辑 <code>gtk.css</code> → 重启应用查看效果。</p>
+<hr />
+<h2 id="6-swayfx">6. SwayFX 窗口管理器配置<a class="headerlink" href="#6-swayfx" title="Permanent link">&para;</a></h2>
+<h3 id="61">6.1 基本设定<a class="headerlink" href="#61" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mod 键</td>
+<td><code>Super</code>（Mod4）</td>
+</tr>
+<tr>
+<td>方向键映射</td>
+<td><strong>WASD</strong>（非 HJKL）</td>
+</tr>
+<tr>
+<td>默认终端</td>
+<td><code>alacritty -e fish</code></td>
+</tr>
+<tr>
+<td>文件管理器</td>
+<td><code>pcmanfm</code></td>
+</tr>
+<tr>
+<td>启动器</td>
+<td><code>rofi</code>（使用 wallpaper.sh 生成的动态主题）</td>
+</tr>
+<tr>
+<td>Xwayland</td>
+<td>启用</td>
+</tr>
+<tr>
+<td>窗口边框</td>
+<td>1px pixel（无标题栏）</td>
+</tr>
+<tr>
+<td>间距</td>
+<td>内间距 5px，顶部 0</td>
+</tr>
+<tr>
+<td>光标主题</td>
+<td><code>lingmo-dark</code>，大小 20</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-swayfx">6.2 SwayFX 视觉效果<a class="headerlink" href="#62-swayfx" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>blur: 3 passes, radius 10
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├─ noise: 0.05
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├─ brightness: 1
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>├─ contrast: 1.2
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>├─ saturation: 1.1
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>└─ xray: 启用
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>动画时长: 250ms
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>圆角: 0（无圆角）
+</span></code></pre></div>
+<p><strong>图层效果（layer_effects）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>图层</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>waybar</td>
+<td><code>blur_ignore_transparent</code>（透明区域不模糊）</td>
+</tr>
+<tr>
+<td>wob</td>
+<td><code>blur</code></td>
+</tr>
+<tr>
+<td>notifications</td>
+<td><code>blur</code> + <code>blur_ignore_transparent</code></td>
+</tr>
+<tr>
+<td>rofi</td>
+<td><code>blur</code> + <code>xray</code> + <code>shadows</code></td>
+</tr>
+<tr>
+<td>gtk-layer-shell</td>
+<td><code>blur</code> + <code>blur_ignore_transparent</code></td>
+</tr>
+<tr>
+<td>fcitx5</td>
+<td><code>blur</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="63">6.3 自启动服务<a class="headerlink" href="#63" title="Permanent link">&para;</a></h3>
+<p>Sway 配置中 <code>exec</code> 启动的后台服务：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>dbus-update-activation-environment    (D-Bus 环境变量)
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>pipewire → pipewire-pulse → wireplumber  (音频栈)
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>fcitx5                                  (输入法)
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>dunst                                   (通知)
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>wob (通过 FIFO ~/.config/wob/wobpipe)   (音量/亮度浮层)
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>BatteryMonitorC                         (电池监控 + 自动刷新率)
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>mate-polkit                             (权限提升代理)
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>gnome-keyring-daemon                    (密钥管理)
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>wallpaper.sh ~/Pictures/wallpaper/cycle/ (壁纸 + 配色初始化)
+</span></code></pre></div>
+<h3 id="64">6.4 窗口规则（部分）<a class="headerlink" href="#64" title="Permanent link">&para;</a></h3>
+<p>SwayFX 配置中定义了大量 per-app 窗口规则：</p>
+<table>
+<thead>
+<tr>
+<th>应用</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pavucontrol</td>
+<td>浮动，固定 663×405</td>
+</tr>
+<tr>
+<td>Thunar 对话框</td>
+<td>浮动（重命名/进度/替换）</td>
+</tr>
+<tr>
+<td>QQ 各子窗口</td>
+<td>浮动（图片查看器/文件管理/设置等）</td>
+</tr>
+<tr>
+<td>galculator</td>
+<td>浮动</td>
+</tr>
+<tr>
+<td><code>.exe</code> 应用</td>
+<td>浮动（Wine/Proton 程序）</td>
+</tr>
+<tr>
+<td>游戏/启动器</td>
+<td>关闭模糊（性能优化）</td>
+</tr>
+<tr>
+<td>PPet3, bongo-cat</td>
+<td>固定尺寸、粘滞、关闭模糊（桌面宠物）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-alacritty-foot">7. 终端：Alacritty（默认）&amp; foot（备用）<a class="headerlink" href="#7-alacritty-foot" title="Permanent link">&para;</a></h2>
+<h3 id="71-alacritty">7.1 Alacritty 配置<a class="headerlink" href="#71-alacritty" title="Permanent link">&para;</a></h3>
+<p><strong>配置文件：</strong> <code>~/.config/alacritty/alacritty.toml</code></p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">[general]</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">import</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;~/.cache/wallpaper.sh.d/colors-alacritty.toml&quot;</span><span class="p">]</span><span class="w">  </span><span class="c1"># 动态配色</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">live_config_reload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c1"># 配色文件变化时自动重载</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">[font]</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;SourceCodePro&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;LightIt&quot;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">bold</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;SourceCodePro&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;BoldIt&quot;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="k">[scrolling]</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">multiplier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+</span></code></pre></div>
+<p><strong>配色重载机制：</strong> Alacritty 内建 <code>live_config_reload</code>，当 <code>~/.cache/wallpaper.sh.d/colors-alacritty.toml</code> 被 matugen 重写时，终端配色自动更新，无需重启。</p>
+<h3 id="72-foot">7.2 foot 配置（备用）<a class="headerlink" href="#72-foot" title="Permanent link">&para;</a></h3>
+<p><strong>配置文件：</strong> <code>~/.config/foot/foot.ini</code></p>
+<ul>
+<li>Shell：fish</li>
+<li>字体：Source Code Pro 12，Noto Sans CJK SC 回退</li>
+<li>初始窗口：900×600</li>
+<li>配色：从 <code>~/.cache/wallpaper.sh.d/colors-foot.ini</code> 导入</li>
+<li>快捷键：<code>Ctrl+P/N</code> 半页滚动，<code>Ctrl+Shift+O</code> 打开 URL</li>
+</ul>
+<p><strong>配色重载机制：</strong> matugen 的 post_hook 发送 <code>SIGUSR1</code> 信号，foot 收到后立即热重载配色，无需重启终端。</p>
+<hr />
+<h2 id="8-waybar">8. Waybar 状态栏<a class="headerlink" href="#8-waybar" title="Permanent link">&para;</a></h2>
+<h3 id="81">8.1 配置路径<a class="headerlink" href="#81" title="Permanent link">&para;</a></h3>
+<p>SwayFX 专用的 Waybar 配置不在标准的 <code>~/.config/waybar/</code> 下，而是放在：</p>
+<ul>
+<li>配置：<code>~/.config/sway/waybar_config.jsonc</code></li>
+<li>样式：<code>~/.config/sway/waybar_style.css</code></li>
+</ul>
+<p>启动命令：
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>waybar<span class="w"> </span>-c<span class="w"> </span>~/.config/sway/waybar_config.jsonc<span class="w"> </span>-s<span class="w"> </span>~/.config/sway/waybar_style.css<span class="w"> </span>-l<span class="w"> </span>off
+</span></code></pre></div></p>
+<h3 id="82">8.2 模块布局<a class="headerlink" href="#82" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>┌─────────────────────────────────────────────────────────────────────┐
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>│ [工作区] [模式] [暂存区] [窗口标题]     音量|网络|CPU|内存|温度|电源|亮度|电池|时钟|托盘 │
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>└─────────────────────────────────────────────────────────────────────┘
+</span></code></pre></div>
+<ul>
+<li>高度 25px，<code>reload_style_on_change</code> 启用</li>
+<li>模块间使用 <code>|</code> 分隔符</li>
+<li>时钟：<code>%H:%M</code>，点击切换为 <code>%Y-%m-%d</code></li>
+<li>音量点击打开 <code>pavucontrol</code>（自动应用 GTK 主题）</li>
+</ul>
+<h3 id="83">8.3 样式特性<a class="headerlink" href="#83" title="Permanent link">&para;</a></h3>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">@</span><span class="k">import</span><span class="w"> </span><span class="nt">url</span><span class="o">(</span><span class="s2">&quot;/tmp/Materia-dark-trans-compact-wal-color.css&quot;</span><span class="o">)</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li>字体：FontAwesome + Noto Sans，16px</li>
+<li>左右模块容器：pill 形状（border-radius 20px），matugen 背景色</li>
+<li>工作区：透明背景 + 微弱的 <code>@color4</code> 底色，焦点工作区使用 <code>@primary</code> 色 20% 透明度</li>
+<li>所有模块背景透明（颜色由 pill 容器提供）</li>
+<li>电池 critical 状态：红色闪烁动画</li>
+</ul>
+<hr />
+<h2 id="9-rofi">9. Rofi 应用启动器<a class="headerlink" href="#9-rofi" title="Permanent link">&para;</a></h2>
+<h3 id="91">9.1 启动方式<a class="headerlink" href="#91" title="Permanent link">&para;</a></h3>
+<p>Sway 配置中的启动命令：
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>rofi<span class="w"> </span>-show<span class="w"> </span>drun<span class="w"> </span>-theme<span class="w"> </span>~/.cache/wallpaper.sh.d/rofi_config.rasi
+</span></code></pre></div>
+快捷键：<code>Super+R</code></p>
+<h3 id="92">9.2 动态主题<a class="headerlink" href="#92" title="Permanent link">&para;</a></h3>
+<p>Rofi 主题由 wallpaper.sh 通过 matugen 自动生成到 <code>~/.cache/wallpaper.sh.d/rofi_config.rasi</code>。</p>
+<ul>
+<li>窗口背景：壁纸色带 alpha 透明</li>
+<li>文字颜色：base16 base07</li>
+<li>选中项：<code>@primary</code> 色 + 30% 透明度（<code>{{colors.primary.default.hex}}30</code>）</li>
+<li>字体：Source Code Pro 12</li>
+<li>12 行列表 + 滚动条 + 2em 图标</li>
+</ul>
+<h3 id="93">9.3 静态回退<a class="headerlink" href="#93" title="Permanent link">&para;</a></h3>
+<p>如果动态主题文件不存在（比如首次使用前），<code>~/.config/rofi/config.rasi</code> 提供一个静态的深色透明主题作为回退。</p>
+<hr />
+<h2 id="10-dunst">10. Dunst 通知守护进程<a class="headerlink" href="#10-dunst" title="Permanent link">&para;</a></h2>
+<h3 id="101">10.1 基本配置<a class="headerlink" href="#101" title="Permanent link">&para;</a></h3>
+<p><strong>配置文件：</strong> <code>~/.config/dunst/dunstrc</code></p>
+<ul>
+<li>宽度：0-400px，高度 0-100px</li>
+<li>位置：右上角，偏移 10,10</li>
+<li>透明度：80%</li>
+<li>边框：1px</li>
+<li>字体：NotoSans 8</li>
+<li>图标主题：Colloid-Pink-Dark</li>
+<li>间距：10px</li>
+</ul>
+<h3 id="102">10.2 动态配色<a class="headerlink" href="#102" title="Permanent link">&para;</a></h3>
+<p><code>~/.config/dunst/dunstrc.d/00-look.conf</code> 存放 matugen 生成的配色覆盖。</p>
+<blockquote>
+<p><strong>注意：</strong> 当前 <code>wallpaper-reload.sh</code> 中 dunst 的重启已被注释掉。dunst 的配色更新需要手动重启 dunst，或者取消 <code>wallpaper-reload.sh</code> 中相关行的注释。</p>
+</blockquote>
+<hr />
+<h2 id="11">11. 电池监控与自动刷新率切换<a class="headerlink" href="#11" title="Permanent link">&para;</a></h2>
+<h3 id="111-batterymonitorc">11.1 BatteryMonitorC<a class="headerlink" href="#111-batterymonitorc" title="Permanent link">&para;</a></h3>
+<p>一个用 C 编写的轻量级守护进程，在 SwayFX 启动时自动运行。</p>
+<p><strong>功能：</strong>
+- 每秒轮询 <code>/sys/class/power_supply/BAT0/</code> 和 <code>/sys/class/power_supply/ADP1/online</code>
+- <strong>插入 AC 电源</strong> → 自动切换到 144Hz 刷新率 + 发送通知
+- <strong>拔出 AC 电源</strong> → 自动切换到 60Hz 刷新率 + 发送通知
+- <strong>电量低于 20%</strong> → 发送 critical 通知（去重，恢复后重置）</p>
+<p><strong>源码位置：</strong> <code>~/.config/sway/scripts/BattertyMonitor/main.c</code></p>
+<blockquote>
+<p>如果你对预编译二进制不放心，可以自行编译：
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>~/.config/sway/scripts/BattertyMonitor/
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>gcc<span class="w"> </span>main.c<span class="w"> </span>-o<span class="w"> </span>BatteryMonitorC
+</span></code></pre></div></p>
+</blockquote>
+<hr />
+<h2 id="12-mpd">12. MPD 音乐子系统<a class="headerlink" href="#12-mpd" title="Permanent link">&para;</a></h2>
+<h3 id="121">12.1 架构<a class="headerlink" href="#121" title="Permanent link">&para;</a></h3>
+<p>位于 <code>~/.config/sway/scripts/music/</code> 的独立音乐播放子系统：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>music-init.sh
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>  ├─ 生成 MPD 临时配置（随机端口）
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>  ├─ 启动 MPD 实例
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>  ├─ 启动 mpd-mpris（MPRIS 协议桥接）
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>  └─ 构建全曲目播放列表
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>music-waybar.sh
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>  ├─ 生成底部 Waybar 配置
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>  └─ 启动带音乐控件的 Waybar（上一首/暂停/下一首/当前曲目）
+</span></code></pre></div>
+<h3 id="122">12.2 使用<a class="headerlink" href="#122" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># 初始化并启动 MPD</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>~/.config/sway/scripts/music/music-init.sh
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># 启动音乐控制条（底部 Waybar）</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>~/.config/sway/scripts/music/music-waybar.sh
+</span></code></pre></div>
+<hr />
+<h2 id="13">13. 其他组件<a class="headerlink" href="#13" title="Permanent link">&para;</a></h2>
+<h3 id="131-wobwayland-overlay-bar">13.1 WOB（Wayland Overlay Bar）<a class="headerlink" href="#131-wobwayland-overlay-bar" title="Permanent link">&para;</a></h3>
+<p><strong>配置：</strong> <code>~/.config/wob/wob.ini</code></p>
+<ul>
+<li>宽度 384px，高度 5px</li>
+<li>顶部居中</li>
+<li>半透明深色背景，白色进度条，红色溢出</li>
+</ul>
+<p>通过 FIFO 管道 <code>~/.config/wob/wobpipe</code> 接收数值输入（音量/亮度快捷键写入）。</p>
+<h3 id="132-evernight-gif">13.2 Evernight 桌面 GIF 特效<a class="headerlink" href="#132-evernight-gif" title="Permanent link">&para;</a></h3>
+<p>从 <code>~/Pictures/Evernight_Shake/</code> 随机选取一个 GIF，通过 swayimg 以透明浮层形式显示在桌面上。</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>~/.config/sway/scripts/evernight.sh
+</span></code></pre></div>
+<h3 id="133-fish-shell">13.3 Fish Shell<a class="headerlink" href="#133-fish-shell" title="Permanent link">&para;</a></h3>
+<ul>
+<li>启动时运行 <code>fastfetch</code></li>
+<li>集成 <code>thefuck</code> 命令纠错</li>
+<li>自定义提示符：<code>user@host PWD [status] &gt;</code></li>
+<li><code>Ctrl+Backspace</code> 删除前一个词</li>
+</ul>
+<hr />
+<h2 id="14">14. 快捷键速查表<a class="headerlink" href="#14" title="Permanent link">&para;</a></h2>
+<h3 id="_7">窗口管理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Super+Return</code></td>
+<td>打开 Alacritty 终端</td>
+</tr>
+<tr>
+<td><code>Super+Shift+Return</code></td>
+<td>打开浮动终端</td>
+</tr>
+<tr>
+<td><code>Super+E</code></td>
+<td>打开文件管理器（pcmanfm）</td>
+</tr>
+<tr>
+<td><code>Super+R</code></td>
+<td>Rofi 应用启动器</td>
+</tr>
+<tr>
+<td><code>Super+Q</code></td>
+<td>关闭当前窗口</td>
+</tr>
+<tr>
+<td><code>Super+F</code></td>
+<td>全屏切换</td>
+</tr>
+<tr>
+<td><code>Super+Space</code></td>
+<td>浮动/平铺切换</td>
+</tr>
+<tr>
+<td><code>Super+L</code></td>
+<td>锁屏</td>
+</tr>
+<tr>
+<td><code>Super+M</code></td>
+<td>退出 SwayFX（需确认）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="wasd">焦点与移动（WASD）<a class="headerlink" href="#wasd" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Super+W/A/S/D</code></td>
+<td>切换焦点（上/左/下/右）</td>
+</tr>
+<tr>
+<td><code>Super+Shift+W/A/S/D</code></td>
+<td>移动窗口</td>
+</tr>
+<tr>
+<td><code>Super+Z</code> → <code>W/A/S/D</code></td>
+<td>进入 resize 模式后调整大小</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">工作区<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Super+1~0</code></td>
+<td>切换到工作区 1-10</td>
+</tr>
+<tr>
+<td><code>Super+Shift+1~0</code></td>
+<td>将窗口移到工作区 1-10</td>
+</tr>
+<tr>
+<td><code>Super+Shift+/</code></td>
+<td>移到暂存区</td>
+</tr>
+<tr>
+<td><code>Super+/</code></td>
+<td>显示暂存区</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_9">媒体与亮度<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XF86AudioPlay/Prev/Next</code></td>
+<td>playerctl 控制</td>
+</tr>
+<tr>
+<td><code>XF86AudioRaiseVolume/Lower/Mute</code></td>
+<td>wpctl + wob 反馈</td>
+</tr>
+<tr>
+<td><code>XF86MonBrightnessUp/Down</code></td>
+<td>brightnessctl + wob 反馈</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_10">截图<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Super+P</code></td>
+<td>全屏截图</td>
+</tr>
+<tr>
+<td><code>Super+Shift+P</code></td>
+<td>活动窗口截图</td>
+</tr>
+<tr>
+<td><code>Super+Ctrl+P</code></td>
+<td>区域截图</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">配置编辑<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Super+B</code></td>
+<td>隐藏/显示 Waybar</td>
+</tr>
+<tr>
+<td><code>Super+Shift+B</code></td>
+<td>重载 Waybar</td>
+</tr>
+<tr>
+<td><code>Super+I</code></td>
+<td>编辑 Sway 主配置</td>
+</tr>
+<tr>
+<td><code>Super+Shift+I</code></td>
+<td>编辑 SwayFX 配置</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="15">15. 已弃用组件说明<a class="headerlink" href="#15" title="Permanent link">&para;</a></h2>
+<p>以下组件的配置文件仍保留在仓库中，但<strong>已弃用，不再使用</strong>：</p>
+<h3 id="wofi">wofi<a class="headerlink" href="#wofi" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>状态：</strong> 已弃用</li>
+<li><strong>文件：</strong> <code>wofi/config</code>、<code>wofi/style.css</code></li>
+<li><strong>替代：</strong> Rofi（<code>rofi-wayland</code>）</li>
+<li><strong>说明：</strong> wofi 的配置和 Catppuccin Macchiato 主题仍在仓库中但不再维护。启动器已统一使用 Rofi + wallpaper.sh 动态配色。</li>
+</ul>
+<h3 id="swaylock">swaylock<a class="headerlink" href="#swaylock" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>状态：</strong> 已弃用</li>
+<li><strong>文件：</strong> <code>sway/swaylock</code></li>
+<li><strong>说明：</strong> swaylock 配置仍在仓库中但不再作为默认锁屏方案维护。配置指向固定壁纸 <code>StelleResized.png</code>，不与动态壁纸联动。</li>
+</ul>
+<h3 id="foot">foot（作为默认终端）<a class="headerlink" href="#foot" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>状态：</strong> 降级为备用终端</li>
+<li><strong>文件：</strong> <code>foot/foot.ini</code></li>
+<li><strong>替代：</strong> Alacritty</li>
+<li><strong>说明：</strong> foot 的配置仍然完整可用，matugen 仍然会为 foot 生成配色文件并通过 <code>SIGUSR1</code> 热重载。如果你更喜欢 foot，只需修改 Sway 配置中的 <code>$term</code> 变量。</li>
+</ul>
+<h3 id="hyprland">Hyprland 配置<a class="headerlink" href="#hyprland" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>状态：</strong> 不再维护</li>
+<li><strong>文件：</strong> <code>hypr/hypr.conf</code></li>
+<li><strong>说明：</strong> 旧格式的 Hyprland 配置，使用 dmenu 和 kitty，不与当前配色系统联动。</li>
+</ul>
+<hr />
+<h2 id="16">16. 常见问题 / 需要手动修改的地方<a class="headerlink" href="#16" title="Permanent link">&para;</a></h2>
+<h3 id="161">16.1 视频壁纸显示器名称<a class="headerlink" href="#161" title="Permanent link">&para;</a></h3>
+<p>wallpaper.sh 中 <code>mpvpaper</code> 的输出显示器硬编码为 <code>eDP-1</code>（笔记本内置屏幕）。如果你使用外接显示器，需要修改：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># wallpaper.sh 中找到这行</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>mpvpaper<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;--loop&#39;</span><span class="w"> </span>eDP-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$wallpaper</span><span class="s2">&quot;</span><span class="w"> </span>-f
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># 改为你的显示器名称，例如</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>mpvpaper<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;--loop&#39;</span><span class="w"> </span>HDMI-A-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$wallpaper</span><span class="s2">&quot;</span><span class="w"> </span>-f
+</span></code></pre></div>
+<p>查看显示器名称：<code>swaymsg -t get_outputs | jq '.[].name'</code></p>
+<h3 id="162-colors-sway">16.2 colors-sway 中的硬编码壁纸路径<a class="headerlink" href="#162-colors-sway" title="Permanent link">&para;</a></h3>
+<p><code>wallpaper.sh/templates/colors-sway</code> 模板中有一行硬编码的壁纸路径：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>set $wallpaper /home/Yulliil/Pictures/wallpaper/cycle/1203650158_p0_resized.png
+</span></code></pre></div>
+<p>这是作者的个人路径，不会动态更新为你当前使用的壁纸。如果你的 Sway 配置依赖 <code>$wallpaper</code> 变量来设置壁纸背景，需要修改这行为你自己的路径，或者将其改为动态生成（目前壁纸设置是由 wallpaper.sh 直接调用 swaybg 完成的，不依赖这个变量）。</p>
+<h3 id="163">16.3 电池监控的硬件路径<a class="headerlink" href="#163" title="Permanent link">&para;</a></h3>
+<p>BatteryMonitorC 读取的硬件路径：
+- 电池：<code>/sys/class/power_supply/BAT0/</code>
+- AC 适配器：<code>/sys/class/power_supply/ADP1/</code></p>
+<p>不同硬件上这些路径可能不同（如 <code>BAT1</code>、<code>AC0</code>）。请检查 <code>ls /sys/class/power_supply/</code> 并修改源码后重新编译。</p>
+<h3 id="164">16.4 刷新率切换<a class="headerlink" href="#164" title="Permanent link">&para;</a></h3>
+<p>BatteryMonitorC 默认在 AC 电源插入时切换到 144Hz，拔出时切换到 60Hz。如果你的屏幕不支持 144Hz，需要修改源码中的刷新率值。</p>
+<h3 id="165-tmp-gtk">16.5 /tmp 下的 GTK 配色文件<a class="headerlink" href="#165-tmp-gtk" title="Permanent link">&para;</a></h3>
+<p>GTK 配色文件生成到 <code>/tmp/</code>，该目录在重启后会被清空。因此每次开机后 wallpaper.sh 需要运行一次来重新生成配色文件。在 Sway 配置中已通过 <code>exec wallpaper.sh</code> 处理了这个问题。</p>
+<h3 id="166-dunst">16.6 dunst 配色不自动更新<a class="headerlink" href="#166-dunst" title="Permanent link">&para;</a></h3>
+<p>当前 <code>wallpaper-reload.sh</code> 中 dunst 的重启代码被注释掉了。如果你想让 dunst 配色跟随壁纸变化，取消注释以下行：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># wallpaper-reload.sh 中取消注释：</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>pkill<span class="w"> </span>dunst
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>cp<span class="w"> </span>~/.cache/wal/00-look.conf<span class="w"> </span>~/.config/dunst/dunstrc.d/00-look.conf
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>dunst<span class="w"> </span><span class="p">&amp;</span>
+</span></code></pre></div>
+<blockquote>
+<p><strong>注意：</strong> dunst 的模板（<code>templates/00-look.conf</code>）仍使用旧版 pywal 语法（<code>{background}</code>、<code>{color7}</code>），尚未迁移到 matugen 语法。如需启用 dunst 动态配色，需要将模板改为 matugen 的 <code>{{...}}</code> 语法并在 <code>matugen.toml</code> 中注册。</p>
+</blockquote>
+<hr />
+<p><em>最后更新：2026-08-05</em>
+<em>基于 dotfiles commit 26+、wallpaper.sh commit 11、GTK 主题 commit 9</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+          <div class="md-top" data-md-component="top" hidden>
+  <div class="md-top__center">
+    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+      <span>回到页面顶部</span>
+    </button>
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-panel-left" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+      </label>
+    
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-panel-right" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/></svg>
+      </label>
+    
+  </div>
+</div>
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <!-- Copyright and theme information -->
+<div class="md-copyright">
+  
+  <div>
+	  <a href="https://icp.gov.moe/?keyword=20261451" target="_blank">萌ICP备20261451号</a>
+  </div>
+  
+    Made with
+    <a
+      href="https://jaywhj.github.io/mkdocs-materialx/"
+      target="_blank" rel="noopener"
+    >
+      MaterialX
+    </a> ❤️
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+          
+          
+        
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "code": null, "features": ["search.suggest", "search.highlight", "navigation.tabs", "navigation.top", "navigation.indexes", "navigation.footer"], "search": {"options": {"baseUrl": "../..", "bundleUrl": "../../search/", "highlight": true, "searchOptions": {}}, "provider": "pagefind"}, "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "code.collapse": "\u6536\u8d77", "code.download": "\u4e0b\u8f7d", "code.expand": "\u5c55\u5f00\u5269\u4f59 # \u884c", "code.select": "\u5207\u6362\u884c\u9009\u62e9", "search.offline": "\u79bb\u7ebf\u641c\u7d22\u8bf7\u5207\u6362\u5230 Lunr", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.44453a05.min.js"></script>
+      
+    
+  </body>
+</html>
