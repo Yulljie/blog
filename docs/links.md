@@ -103,6 +103,16 @@ comments: true
         </div>
 </div>
 
+<div class="card">
+        <img class="ava" src="https://q1.qlogo.cn/g?b=qq&nk=2040244628&s=640" />
+        <div class="card-header">
+            <div>
+                <a href="https://kmt.lol" target="_blank">Echoes678's blog</a>
+            </div>
+            <div class="info">记录生活与技术</div>
+        </div>
+</div>
+
 </div>
 </div>
 </div>
