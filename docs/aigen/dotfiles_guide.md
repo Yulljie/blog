@@ -9,27 +9,6 @@
 
 ---
 
-## 目录
-
-1. [整体架构概览](#1-整体架构概览)
-2. [依赖清单](#2-依赖清单)
-3. [安装与部署](#3-安装与部署)
-4. [wallpaper.sh 壁纸与配色引擎](#4-wallpapersh-壁纸与配色引擎)
-5. [GTK 主题：Materia-dark-trans-compact-wal](#5-gtk-主题materia-dark-trans-compact-wal)
-6. [SwayFX 窗口管理器配置](#6-swayfx-窗口管理器配置)
-7. [终端：Alacritty（默认）& foot（备用）](#7-终端alacritty默认--foot备用)
-8. [Waybar 状态栏](#8-waybar-状态栏)
-9. [Rofi 应用启动器](#9-rofi-应用启动器)
-10. [Dunst 通知守护进程](#10-dunst-通知守护进程)
-11. [电池监控与自动刷新率切换](#11-电池监控与自动刷新率切换)
-12. [MPD 音乐子系统](#12-mpd-音乐子系统)
-13. [其他组件](#13-其他组件)
-14. [快捷键速查表](#14-快捷键速查表)
-15. [已弃用组件说明](#15-已弃用组件说明)
-16. [常见问题 / 需要手动修改的地方](#16-常见问题--需要手动修改的地方)
-
----
-
 ## 1. 整体架构概览
 
 整套配置的核心思路是 **壁纸驱动的全局动态配色**——换一张壁纸，从窗口管理器边框、GTK 应用背景、终端配色、启动器主题到通知弹窗，全部自动跟着壁纸色调变化。
@@ -43,25 +22,23 @@ wallpaper.sh <壁纸图片/视频/目录>
     ├─ 2. 清理旧壁纸进程 (swaybg / mpvpaper)
     ├─ 3. 视频？→ ffmpeg 提取缩略帧
     ├─ 4. matugen 从图片提取 Material Design 3 配色
-    │       ├─ 生成 colors-sway          → ~/.cache/wallpaper.sh.d/
-    │       ├─ 生成 colors-alacritty.toml → ~/.cache/wallpaper.sh.d/
-    │       ├─ 生成 colors-foot.ini      → ~/.cache/wallpaper.sh.d/
-    │       ├─ 生成 rofi_config.rasi     → ~/.cache/wallpaper.sh.d/
-    │       └─ 生成 GTK CSS 变量文件      → /tmp/Materia-dark-trans-compact-wal-color.css
+    │       ├─ 生成 colors-sway              → ~/.cache/wallpaper.sh.d/
+    │       ├─ 生成 colors-alacritty.toml     → ~/.cache/wallpaper.sh.d/
+    │       ├─ 生成 colors-foot.ini           → ~/.cache/wallpaper.sh.d/
+    │       ├─ 生成 rofi-colors.rasinc        → ~/.cache/wallpaper.sh.d/
+    │       ├─ 生成 00-look.conf              → ~/.config/dunst/dunstrc.d/
+    │       └─ 生成 GTK CSS 变量文件           → /tmp/Materia-dark-trans-compact-wal-color.css
     │
-    ├─ 5. matugen post_hook 触发
-    │       ├─ pkill -USR1 foot   (foot 终端热重载配色)
-    │       └─ swaymsg reload     (SwayFX 重载，读取新的 colors-sway)
-    │
-    ├─ 6. 设置壁纸 (swaybg / mpvpaper)
-    ├─ 7. gsettings 设置深浅色模式 + 图标主题
-    └─ 8. wallpaper-reload.sh
-            └─ 重启 waybar（加载新配色的 CSS）
+    ├─ 5. 设置壁纸 (swaybg / mpvpaper)
+    ├─ 6. gsettings 设置深浅色模式 + 图标主题
+    └─ 7. wallpaper-reload.sh
+            ├─ 重启 waybar（加载新配色的 CSS）
+            └─ 重启 dunst（加载新配色的配置片段）
 ```
 
 **关键设计决策：**
-- 使用 **matugen**（非 pywal）作为配色引擎，基于 Material Design 3 色彩科学提取壁纸配色
-- 配色文件统一缓存在 `~/.cache/wallpaper.sh.d/`，GTK 色值文件放 `/tmp/`
+- 使用 **matugen** 作为配色引擎，基于 Material Design 3 色彩科学提取壁纸配色
+- 配色文件统一缓存在 `~/.cache/wallpaper.sh.d/`，GTK 色值文件放 `/tmp/`，dunst 配色直接输出到 `~/.config/dunst/dunstrc.d/`
 - 各应用通过 `@import` / `import` / `include` 机制引用缓存中的配色文件，实现运行时动态换色
 - 支持深色模式（默认）和浅色模式（`-l` 参数）
 
@@ -114,7 +91,7 @@ wallpaper.sh <壁纸图片/视频/目录>
 
 | 组件 | 用途 |
 |------|------|
-| **foot** | 备用终端（支持 SIGUSR1 热重载配色） |
+| **foot** | 备用终端 |
 | **pcmanfm** | 文件管理器 |
 | **pavucontrol** | 音量控制面板 |
 | **nwg-displays** | 显示器配置工具 |
@@ -152,7 +129,7 @@ cp -r sway/ ~/.config/sway/
 cp -r alacritty/ ~/.config/alacritty/
 cp -r waybar/ ~/.config/waybar/           # 备用的 Hyprland/独立 waybar 配置
 cp -r dunst/ ~/.config/dunst/
-cp -r rofi/ ~/.config/rofi/               # 静态回退 rofi 配置
+cp -r rofi/ ~/.config/rofi/
 cp -r fish/ ~/.config/fish/
 cp -r wob/ ~/.config/wob/
 
@@ -223,16 +200,16 @@ wallpaper.sh -h
 
 ### 4.2 深色 / 浅色模式
 
-| 参数 | 背景透明度 | 图标主题 | GTK 配色方案 |
-|------|-----------|---------|-------------|
-| 默认（深色） | 0.7 | Colloid-Pink-Dark | `prefer-dark` |
-| `-l`（浅色） | 0.5 | Colloid-Pink | `prefer-light` |
+| 参数 | 背景透明度 | Backdrop 透明度 | 图标主题 | GTK 配色方案 |
+|------|-----------|----------------|---------|-------------|
+| 默认（深色） | 0.7 | 0.8 | Colloid-Pink-Dark | `prefer-dark` |
+| `-l`（浅色） | 0.5 | 0.6 | Colloid-Pink | `prefer-light` |
 
 切换模式时，wallpaper.sh 会自动通过 `gsettings` 更新系统级的 `color-scheme` 和 `icon-theme`。
 
 ### 4.3 matugen 配色引擎
 
-wallpaper.sh 使用 [matugen](https://github.com/InioX/matugen) 替代了之前的 pywal。matugen 基于 Material Design 3 的色彩算法从壁纸中提取配色方案。
+wallpaper.sh 使用 [matugen](https://github.com/InioX/matugen) 作为配色引擎。matugen 基于 Material Design 3 的色彩算法从壁纸中提取配色方案。
 
 **matugen.toml 模板配置：**
 
@@ -240,7 +217,6 @@ wallpaper.sh 使用 [matugen](https://github.com/InioX/matugen) 替代了之前�
 [templates.foot]
 input_path = 'templates/colors-foot.ini'
 output_path = '~/.cache/wallpaper.sh.d/colors-foot.ini'
-post_hook = 'pkill -USR1 foot'         # foot 终端热重载
 
 [templates.alacritty]
 input_path = 'templates/colors-alacritty.toml'
@@ -253,21 +229,25 @@ output_path = '/tmp/Materia-dark-trans-compact-wal-color.css'
 [templates.sway]
 input_path = 'templates/colors-sway'
 output_path = '~/.cache/wallpaper.sh.d/colors-sway'
-post_hook = "swaymsg reload"            # SwayFX 重载配置
 
 [templates.rofi]
-input_path = 'templates/rofi_config.rasi'
-output_path = '~/.cache/wallpaper.sh.d/rofi_config.rasi'
+input_path = 'templates/rofi-colors.rasinc'
+output_path = '~/.cache/wallpaper.sh.d/rofi-colors.rasinc'
+
+[templates.dunst]
+input_path = 'templates/00-look.conf'
+output_path = '~/.config/dunst/dunstrc.d/00-look.conf'
 ```
 
 **生成的配色文件与消费者对应关系：**
 
 | 生成文件 | 路径 | 消费者 | 重载方式 |
 |---------|------|--------|---------|
-| `colors-sway` | `~/.cache/wallpaper.sh.d/` | SwayFX (窗口边框颜色) | `swaymsg reload` (post_hook) |
-| `colors-alacritty.toml` | `~/.cache/wallpaper.sh.d/` | Alacritty 终端 | `live_config_reload = true` |
-| `colors-foot.ini` | `~/.cache/wallpaper.sh.d/` | foot 终端 | `pkill -USR1 foot` (post_hook) |
-| `rofi_config.rasi` | `~/.cache/wallpaper.sh.d/` | Rofi 启动器 | 下次启动时生效 |
+| `colors-sway` | `~/.cache/wallpaper.sh.d/` | SwayFX (窗口边框颜色) | `swaymsg reload` |
+| `colors-alacritty.toml` | `~/.cache/wallpaper.sh.d/` | Alacritty 终端 | `live_config_reload = true`（自动监控文件变化） |
+| `colors-foot.ini` | `~/.cache/wallpaper.sh.d/` | foot 终端 | 需重启 foot（见 §7.2 说明） |
+| `rofi-colors.rasinc` | `~/.cache/wallpaper.sh.d/` | Rofi 启动器 | 下次启动时生效 |
+| `00-look.conf` | `~/.config/dunst/dunstrc.d/` | Dunst 通知 | `wallpaper-reload.sh` 重启 dunst |
 | `Materia-...-color.css` | `/tmp/` | GTK 主题 | GTK 应用窗口重绘时生效 |
 
 ### 4.4 模板变量体系
@@ -277,12 +257,24 @@ matugen 模板使用两套变量命名空间：
 **Material Design 3 语义色：**
 - `{{colors.primary.default.hex}}` — 主色调
 - `{{colors.surface_container.default.rgba}}` — 容器表面色（带 alpha，用于透明背景）
+- `{{colors.background.default.hex_alpha}}` — 背景色（带 alpha）
 - `{{colors.tertiary.default.hex}}` — 第三色调
 - `{{colors.on_surface.default.hex}}` — 表面上的文字色
 - 等等……
 
 **Base16 调色板：**
 - `{{base16.base00.default.hex}}` 到 `{{base16.base0f.default.hex}}` — 16 色调色板
+- `{{base16.base00.default.alpha}}` — 当前模式的透明度值（由 `--opacity` 参数决定）
+
+**模板内运算：**
+
+GTK 模板中使用了 matugen 的嵌套模板语法实现透明度计算：
+
+```css
+@define-color background_backdrop alpha(@background_no_alpha, {{ {{ base16.base00.default.alpha }} + 0.1 }});
+```
+
+这确保 backdrop（失焦）状态的透明度始终比正常状态高 0.1（深色模式 0.7→0.8，浅色模式 0.5→0.6）。
 
 ### 4.5 与 dotfiles 的集成
 
@@ -294,9 +286,8 @@ dotfiles 中的 Sway 主配置文件通过以下机制与 wallpaper.sh 联动：
 include ~/.cache/wallpaper.sh.d/colors-sway
 
 # 2. 窗口边框颜色使用生成的变量
-client.focused          $primary_color $background $foreground $primary_color $primary_color
-client.unfocused        $background $background $foreground $background $background
-# ...
+client.focused   $foreground $foreground $foreground $primary_color
+client.unfocused  $background $background $background
 
 # 3. 启动时运行 wallpaper.sh
 exec ~/Projects/wallpaper/wallpaper.sh ~/Pictures/wallpaper/cycle/
@@ -318,14 +309,39 @@ exec ~/Projects/wallpaper/wallpaper.sh ~/Pictures/wallpaper/cycle/
 - **Backdrop 状态响应**：失焦窗口背景自动变暗，带 0.25s 过渡动画
 - **Material Design 动效**：点击涟漪、阴影层级、标准贝塞尔曲线
 
-### 5.2 配色变量
+### 5.2 配色加载顺序与 Fallback
 
-主题 CSS 通过 `@import url("/tmp/Materia-dark-trans-compact-wal-color.css")` 引入以下变量：
+主题 CSS 的配色加载采用两层 `@import`：
+
+```css
+@import url("colors-fallback.css");                          /* 1. 静态兜底色 */
+@import url("/tmp/Materia-dark-trans-compact-wal-color.css"); /* 2. matugen 动态色（覆盖兜底） */
+```
+
+**加载逻辑：**
+1. 首先加载 `colors-fallback.css`，提供一套完整的静态深色配色方案（基于默认深灰色调）
+2. 然后加载 `/tmp/` 下 matugen 生成的动态配色文件，覆盖兜底色值
+3. 如果 `/tmp/` 下的文件不存在（如刚开机尚未运行 wallpaper.sh），主题仍然可以正常工作——使用兜底配色
+
+**Fallback 配色方案：**
+
+```css
+@define-color background alpha(#121212, 0.7);
+@define-color background_backdrop alpha(#121212, 0.8);
+@define-color primary #8ab4f8;
+@define-color primary_container #799eda;
+/* ... base16 color0 ~ color15 */
+```
+
+### 5.3 动态配色变量
+
+matugen 生成的 `/tmp/Materia-dark-trans-compact-wal-color.css` 提供以下变量：
 
 ```css
 /* 背景色 */
-@define-color background <surface_container RGBA>;   /* 带 alpha 透明 */
-@define-color background_no_alpha <surface_container RGB>;  /* 不带 alpha */
+@define-color background <surface_container RGBA>;            /* 带 alpha 透明 */
+@define-color background_no_alpha <surface_container RGB>;    /* 不带 alpha */
+@define-color background_backdrop alpha(@background_no_alpha, <alpha+0.1>);
 
 /* Base16 调色板 */
 @define-color color0  到  @define-color color15;
@@ -348,9 +364,9 @@ exec ~/Projects/wallpaper/wallpaper.sh ~/Pictures/wallpaper/cycle/
 
 因此，**GTK 3.0 应用**（如 Thunar、pcmanfm）的动态配色效果远好于 GTK 4.0 应用。
 
-### 5.3 Backdrop 状态（失焦窗口响应）
+### 5.4 Backdrop 状态（失焦窗口响应）
 
-这是最新加入的特性。当窗口失去焦点时：
+当窗口失去焦点时：
 
 ```css
 .background {
@@ -360,19 +376,34 @@ exec ~/Projects/wallpaper/wallpaper.sh ~/Pictures/wallpaper/cycle/
 }
 
 .background:backdrop {
-  background-color: alpha(@background_no_alpha, 0.8);  /* 失焦：80% 不透明度 */
+  background-color: @background_backdrop;    /* 失焦：正常透明度 + 0.1 */
 }
 ```
 
 **效果：**
-- 焦点窗口：半透明背景（透明度由 matugen 的 `--opacity` 控制，默认 0.7）
-- 失焦窗口：背景变为 80% 不透明度，视觉上变暗
+- 焦点窗口：半透明背景（透明度由 matugen 的 `--opacity` 控制）
+- 失焦窗口：透明度增加 0.1（深色 0.7→0.8，浅色 0.5→0.6），视觉上变暗/不透明
 - 切换时有 0.25 秒的平滑过渡
 - 文字颜色始终不变，保持可读性
+- Backdrop 透明度不再是固定的 0.8，而是**跟随当前模式自动计算**
 
 > **注意：** 这不是 bug，而是 feature。如果你在使用中看到后面的窗口比当前窗口暗，那就是 backdrop 状态在正常工作。
 
-### 5.4 GTK Inspector 调试方法
+### 5.5 应用适配
+
+主题对以下应用提供了专门的 CSS 适配：
+
+**Chromium / Chrome：**
+- 使用 `@background_no_alpha` 作为基础背景（Chromium 不支持透明背景）
+- 输入框：`alpha(@color7, 0.08)` 半透明背景 + `alpha(@color7, 0.26)` 边框
+- 按钮：`@primary_container` 背景色
+
+**Firefox：**
+- `#MozillaGtkWidget` 文字区域使用 `@background_no_alpha` 背景
+- 选中文字背景使用纯色
+- 输入框和按钮使用动态变量
+
+### 5.6 GTK Inspector 调试方法
 
 修改主题时使用 GTK Inspector：
 
@@ -398,7 +429,7 @@ GTK_THEME=Materia-dark-trans-compact-wal GTK_DEBUG=interactive:updates <应用�
 | 方向键映射 | **WASD**（非 HJKL） |
 | 默认终端 | `alacritty -e fish` |
 | 文件管理器 | `pcmanfm` |
-| 启动器 | `rofi`（使用 wallpaper.sh 生成的动态主题） |
+| 启动器 | `rofi -show drun` |
 | Xwayland | 启用 |
 | 窗口边框 | 1px pixel（无标题栏） |
 | 间距 | 内间距 5px，顶部 0 |
@@ -440,7 +471,7 @@ fcitx5                                  (输入法)
 dunst                                   (通知)
 wob (通过 FIFO ~/.config/wob/wobpipe)   (音量/亮度浮层)
 BatteryMonitorC                         (电池监控 + 自动刷新率)
-mate-polkit                             (权限提升代理)
+polkit-gnome                            (权限提升代理)
 gnome-keyring-daemon                    (密钥管理)
 wallpaper.sh ~/Pictures/wallpaper/cycle/ (壁纸 + 配色初始化)
 ```
@@ -480,7 +511,7 @@ bold   = { family = "SourceCodePro", style = "BoldIt" }
 multiplier = 3
 ```
 
-**配色重载机制：** Alacritty 内建 `live_config_reload`，当 `~/.cache/wallpaper.sh.d/colors-alacritty.toml` 被 matugen 重写时，终端配色自动更新，无需重启。
+**配色重载机制：** Alacritty 内建 `live_config_reload`，当 `~/.cache/wallpaper.sh.d/colors-alacritty.toml` 被 matugen 重写时，终端配色**即时自动更新**，无需重启。这是整条管线中重载最平滑的环节。
 
 ### 7.2 foot 配置（备用）
 
@@ -489,10 +520,13 @@ multiplier = 3
 - Shell：fish
 - 字体：Source Code Pro 12，Noto Sans CJK SC 回退
 - 初始窗口：900×600
-- 配色：从 `~/.cache/wallpaper.sh.d/colors-foot.ini` 导入
+- 配色：通过 `include=~/.cache/wallpaper.sh.d/colors-foot.ini` 导入，写入 `[colors-dark]` 区段
+- 初始配色主题：`initial-color-theme=dark`
 - 快捷键：`Ctrl+P/N` 半页滚动，`Ctrl+Shift+O` 打开 URL
 
-**配色重载机制：** matugen 的 post_hook 发送 `SIGUSR1` 信号，foot 收到后立即热重载配色，无需重启终端。
+**配色重载说明：**
+
+foot 的 `SIGUSR1` / `SIGUSR2` 信号并**不是**通用的配色热重载——根据 `man foot`，`SIGUSR1` 切换到 `[colors-dark]` 主题，`SIGUSR2` 切换到 `[colors-light]` 主题。当 matugen 更新了 `colors-foot.ini` 文件后，foot 需要**重启才能读取新的配色**。由于 foot 已降为备用终端，且 Alacritty 的文件监控机制可以无缝热重载，这个限制在日常使用中不构成问题。
 
 ---
 
@@ -543,23 +577,53 @@ waybar -c ~/.config/sway/waybar_config.jsonc -s ~/.config/sway/waybar_style.css 
 
 Sway 配置中的启动命令：
 ```bash
-rofi -show drun -theme ~/.cache/wallpaper.sh.d/rofi_config.rasi
+rofi -show drun
 ```
 快捷键：`Super+R`
 
-### 9.2 动态主题
+### 9.2 配色架构
 
-Rofi 主题由 wallpaper.sh 通过 matugen 自动生成到 `~/.cache/wallpaper.sh.d/rofi_config.rasi`。
+Rofi 的配色采用**静态配置 + 动态覆盖**的两层结构：
+
+**`~/.config/rofi/config.rasi`（dotfiles 仓库）：**
+
+```rasi
+* {
+    color-bg: #121212b3;      /* 静态兜底色 */
+    color-fg: #e5e5e5;
+    selected-bg: #8ab4f830;
+}
+
+?import "~/.cache/wallpaper.sh.d/rofi-colors.rasinc"  /* 动态覆盖 */
+
+/* ... 完整的布局、元素样式定义 ... */
+```
+
+**`~/.cache/wallpaper.sh.d/rofi-colors.rasinc`（matugen 生成）：**
+
+```rasi
+* {
+    color-bg: {{colors.background.default.hex_alpha}};
+    color-fg: {{base16.base07.default.hex}};
+    selected-bg: {{colors.primary.default.hex}}30;
+}
+```
+
+**工作原理：**
+1. `config.rasi` 先定义三个核心色值作为静态兜底（深灰底、浅灰字、蓝色选中）
+2. 通过 `?import` 引入 matugen 生成的 `rofi-colors.rasinc`，覆盖这三个色值
+3. `?import`（注意问号前缀）表示**可选导入**——如果文件不存在不会报错，rofi 使用兜底色值正常工作
+4. matugen 只生成三个色值变量（`color-bg`、`color-fg`、`selected-bg`），布局和样式由 dotfiles 中的静态配置管理
+
+**相比旧方案的改进：** 之前 matugen 生成的是完整的 rofi 配置文件（包含布局），现在拆分为「布局由 dotfiles 管、颜色由 matugen 管」，职责更清晰，修改布局不需要改模板。
+
+### 9.3 样式细节
 
 - 窗口背景：壁纸色带 alpha 透明
 - 文字颜色：base16 base07
-- 选中项：`@primary` 色 + 30% 透明度（`{{colors.primary.default.hex}}30`）
+- 选中项：`@primary` 色 + 30% 透明度
 - 字体：Source Code Pro 12
-- 12 行列表 + 滚动条 + 2em 图标
-
-### 9.3 静态回退
-
-如果动态主题文件不存在（比如首次使用前），`~/.config/rofi/config.rasi` 提供一个静态的深色透明主题作为回退。
+- 12 行列表 + 滚动条（5px 宽）+ 2em 图标
 
 ---
 
@@ -579,9 +643,21 @@ Rofi 主题由 wallpaper.sh 通过 matugen 自动生成到 `~/.cache/wallpaper.s
 
 ### 10.2 动态配色
 
-`~/.config/dunst/dunstrc.d/00-look.conf` 存放 matugen 生成的配色覆盖。
+matugen 直接将配色覆盖文件输出到 `~/.config/dunst/dunstrc.d/00-look.conf`：
 
-> **注意：** 当前 `wallpaper-reload.sh` 中 dunst 的重启已被注释掉。dunst 的配色更新需要手动重启 dunst，或者取消 `wallpaper-reload.sh` 中相关行的注释。
+```ini
+[global]
+background = "{{colors.background.default.hex_alpha}}"
+foreground = "{{base16.base07.default.hex_alpha}}"
+
+[urgency_low]
+frame_color = "{{base16.base00.default.hex_alpha}}"
+
+[urgency_normal]
+frame_color = "{{base16.base03.default.hex_alpha}}"
+```
+
+**重载方式：** `wallpaper-reload.sh` 在换壁纸后自动重启 dunst，使新配色生效。
 
 ---
 
@@ -714,6 +790,7 @@ music-waybar.sh
 | `Super+P` | 全屏截图 |
 | `Super+Shift+P` | 活动窗口截图 |
 | `Super+Ctrl+P` | 区域截图 |
+| `Print` | 全屏截图到剪贴板 |
 
 ### 配置编辑
 
@@ -748,7 +825,7 @@ music-waybar.sh
 - **状态：** 降级为备用终端
 - **文件：** `foot/foot.ini`
 - **替代：** Alacritty
-- **说明：** foot 的配置仍然完整可用，matugen 仍然会为 foot 生成配色文件并通过 `SIGUSR1` 热重载。如果你更喜欢 foot，只需修改 Sway 配置中的 `$term` 变量。
+- **说明：** foot 的配置仍然完整可用，matugen 仍然会为 foot 生成配色文件。如果你更喜欢 foot，只需修改 Sway 配置中的 `$term` 变量。注意 foot 不支持配色文件变化时的自动热重载（需重启终端），而 Alacritty 支持。
 
 ### Hyprland 配置
 
@@ -778,7 +855,7 @@ mpvpaper -o '--loop' HDMI-A-1 "$wallpaper" -f
 `wallpaper.sh/templates/colors-sway` 模板中有一行硬编码的壁纸路径：
 
 ```
-set $wallpaper /home/Yulliil/Pictures/wallpaper/cycle/1203650158_p0_resized.png
+set $wallpaper /home/Yulliil/Pictures/wallpaper/cycle/120365058_p0_resized.png
 ```
 
 这是作者的个人路径，不会动态更新为你当前使用的壁纸。如果你的 Sway 配置依赖 `$wallpaper` 变量来设置壁纸背景，需要修改这行为你自己的路径，或者将其改为动态生成（目前壁纸设置是由 wallpaper.sh 直接调用 swaybg 完成的，不依赖这个变量）。
@@ -797,22 +874,9 @@ BatteryMonitorC 默认在 AC 电源插入时切换到 144Hz，拔出时切换到
 
 ### 16.5 /tmp 下的 GTK 配色文件
 
-GTK 配色文件生成到 `/tmp/`，该目录在重启后会被清空。因此每次开机后 wallpaper.sh 需要运行一次来重新生成配色文件。在 Sway 配置中已通过 `exec wallpaper.sh` 处理了这个问题。
-
-### 16.6 dunst 配色不自动更新
-
-当前 `wallpaper-reload.sh` 中 dunst 的重启代码被注释掉了。如果你想让 dunst 配色跟随壁纸变化，取消注释以下行：
-
-```bash
-# wallpaper-reload.sh 中取消注释：
-pkill dunst
-cp ~/.cache/wal/00-look.conf ~/.config/dunst/dunstrc.d/00-look.conf
-dunst &
-```
-
-> **注意：** dunst 的模板（`templates/00-look.conf`）仍使用旧版 pywal 语法（`{background}`、`{color7}`），尚未迁移到 matugen 语法。如需启用 dunst 动态配色，需要将模板改为 matugen 的 `{{...}}` 语法并在 `matugen.toml` 中注册。
+GTK 配色文件生成到 `/tmp/`，该目录在重启后会被清空。因此每次开机后 wallpaper.sh 需要运行一次来重新生成配色文件。在 Sway 配置中已通过 `exec wallpaper.sh` 处理了这个问题。即使 `/tmp/` 下的文件不存在，GTK 主题也能正常工作——会使用 `colors-fallback.css` 提供的静态兜底配色。
 
 ---
 
-*最后更新：2026-08-05*
-*基于 dotfiles commit 26+、wallpaper.sh commit 11、GTK 主题 commit 9*
+*最后更新：2026-08-16*
+*基于 dotfiles commit 27、wallpaper.sh commit 15、GTK 主题 commit 21*
