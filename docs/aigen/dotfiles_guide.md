@@ -11,7 +11,7 @@
 
 ## 1. 整体架构概览
 
-整套配置的核心思路是 **壁纸驱动的全局动态配色**——换一张壁纸，从窗口管理器边框、GTK 应用背景、终端配色、启动器主题到通知弹窗，全部自动跟着壁纸色调变化。
+整套配置的核心思路是 **壁纸驱动的全局动态配色**——换一张壁纸，从窗口管理器边框、GTK 应用背景、终端配色、启动器主题、图片查看器到通知弹窗，全部自动跟着壁纸色调变化。
 
 ### 配色管线流程
 
@@ -19,27 +19,31 @@
 wallpaper.sh <壁纸图片/视频/目录>
     │
     ├─ 1. 检测后端 (Wayland / X11)
-    ├─ 2. 清理旧壁纸进程 (swaybg / mpvpaper)
-    ├─ 3. 视频？→ ffmpeg 提取缩略帧
-    ├─ 4. matugen 从图片提取 Material Design 3 配色
+    ├─ 2. 切换 GTK 主题到 alt（全透明过渡主题）
+    ├─ 3. 清理旧壁纸进程 (swaybg / mpvpaper)
+    ├─ 4. 视频？→ ffmpeg 提取缩略帧
+    ├─ 5. matugen 从图片提取 Material Design 3 配色
     │       ├─ 生成 colors-sway              → ~/.cache/wallpaper.sh.d/
     │       ├─ 生成 colors-alacritty.toml     → ~/.cache/wallpaper.sh.d/
     │       ├─ 生成 colors-foot.ini           → ~/.cache/wallpaper.sh.d/
     │       ├─ 生成 rofi-colors.rasinc        → ~/.cache/wallpaper.sh.d/
+    │       ├─ 生成 swayimg-colors.lua        → ~/.cache/wallpaper.sh.d/
     │       ├─ 生成 00-look.conf              → ~/.config/dunst/dunstrc.d/
     │       └─ 生成 GTK CSS 变量文件           → /tmp/Materia-dark-trans-compact-wal-color.css
     │
-    ├─ 5. 设置壁纸 (swaybg / mpvpaper)
-    ├─ 6. gsettings 设置深浅色模式 + 图标主题
-    └─ 7. wallpaper-reload.sh
-            ├─ 重启 waybar（加载新配色的 CSS）
+    ├─ 6. 设置壁纸 (swaybg / mpvpaper)
+    ├─ 7. gsettings 设置深浅色模式 + 图标主题
+    ├─ 8. gsettings 切换 GTK 主题回主主题（触发 GTK 应用重载新配色）
+    └─ 9. wallpaper-reload.sh
             └─ 重启 dunst（加载新配色的配置片段）
 ```
 
 **关键设计决策：**
 - 使用 **matugen** 作为配色引擎，基于 Material Design 3 色彩科学提取壁纸配色
 - 配色文件统一缓存在 `~/.cache/wallpaper.sh.d/`，GTK 色值文件放 `/tmp/`，dunst 配色直接输出到 `~/.config/dunst/dunstrc.d/`
-- 各应用通过 `@import` / `import` / `include` 机制引用缓存中的配色文件，实现运行时动态换色
+- 各应用通过 `@import` / `import` / `include` / `dofile` 机制引用缓存中的配色文件，实现运行时动态换色
+- **GTK 配色热重载**通过「alt 主题切换」实现：换壁纸时先切到全透明的 alt 主题，matugen 写入新配色后再切回主主题，GTK 应用因主题变更自动重载 CSS
+- Waybar 通过 `reload_style_on_change` 自动监控 CSS 文件变更并重载，不再由脚本重启
 - 支持深色模式（默认）和浅色模式（`-l` 参数）
 
 ---
@@ -60,12 +64,12 @@ wallpaper.sh <壁纸图片/视频/目录>
 | **fish** | Shell | `fish` |
 | **rofi** | 应用启动器（Wayland 版用 `rofi-wayland`） | `rofi-wayland` |
 | **dunst** | 通知守护进程 | `dunst` |
+| **swayimg** | 图片查看器 + 图库（Lua 脚本配置，支持动态配色） | `swayimg` |
 | **grim** | 截图 | `grim` |
 | **slurp** | 区域选择（配合截图） | `slurp` |
 | **jq** | JSON 处理（截图脚本用） | `jq` |
 | **playerctl** | 媒体控制 | `playerctl` |
 | **brightnessctl** | 亮度控制 | `brightnessctl` |
-| **wob** | 音量/亮度浮层条 | `wob` |
 | **fcitx5** | 输入法 | `fcitx5` |
 
 ### 音频栈
@@ -80,7 +84,8 @@ wallpaper.sh <壁纸图片/视频/目录>
 
 | 组件 | 用途 |
 |------|------|
-| **Materia-dark-trans-compact-wal** | GTK 主题（本仓库） |
+| **Materia-dark-trans-compact-wal** | GTK3 主题（主主题） |
+| **Materia-dark-trans-compact-wal-alt** | GTK3 主题（全透明过渡主题，用于换壁纸时的配色热重载） |
 | **Colloid-Pink-Dark / Colloid-Pink** | 图标主题（深/浅色各一套） |
 | **lingmo-dark** | 鼠标光标主题 |
 | **Source Code Pro** | 终端/编辑器字体 |
@@ -95,9 +100,7 @@ wallpaper.sh <壁纸图片/视频/目录>
 | **pcmanfm** | 文件管理器 |
 | **pavucontrol** | 音量控制面板 |
 | **nwg-displays** | 显示器配置工具 |
-| **swayimg** | 图片查看（evernight GIF 特效用） |
 | **mpd + mpd-mpris** | 音乐播放 |
-| **thefuck** | 终端命令纠错 |
 | **fastfetch** | 系统信息展示 |
 
 ---
@@ -127,16 +130,14 @@ cd My_Artix_Configuration
 # 核心配置
 cp -r sway/ ~/.config/sway/
 cp -r alacritty/ ~/.config/alacritty/
-cp -r waybar/ ~/.config/waybar/           # 备用的 Hyprland/独立 waybar 配置
 cp -r dunst/ ~/.config/dunst/
 cp -r rofi/ ~/.config/rofi/
 cp -r fish/ ~/.config/fish/
-cp -r wob/ ~/.config/wob/
+cp -r swayimg/ ~/.config/swayimg/
 
 # 可选
 cp -r foot/ ~/.config/foot/               # 备用终端
 cp -r aria2/ ~/.config/aria2/             # 下载管理器
-cp -r swayimg/ ~/.config/swayimg/         # GIF 特效
 ```
 
 ### 3.3 安装 GTK 主题
@@ -144,11 +145,12 @@ cp -r swayimg/ ~/.config/swayimg/         # GIF 特效
 ```bash
 cd Materia-dark-trans-compact-wal
 
-# 复制主题文件夹到系统主题目录（需要 root 权限）
+# 复制主主题和 alt 过渡主题到系统主题目录（需要 root 权限）
 sudo cp -r Materia-dark-trans-compact-wal/ /usr/share/themes/
+sudo cp -r Materia-dark-trans-compact-wal-alt/ /usr/share/themes/
 ```
 
-> **注意：** 主题放在 `/usr/share/themes/` 下，修改 CSS 需要 `sudo`。如果你想无 root 编辑，可以放到 `~/.local/share/themes/` 下，但需要确认你的 GTK 设置能从该路径加载主题。
+> **注意：** 主题放在 `/usr/share/themes/` 下，修改 CSS 需要 `sudo`。如果你想无 root 编辑，可以放到 `~/.local/share/themes/` 下，但需要确认你的 GTK 设置能从该路径加载主题。**两个主题都需要安装**——主主题提供实际的配色和样式，alt 主题是全透明的过渡主题，用于换壁纸时触发 GTK 配色热重载。
 
 ### 3.4 初始化配色缓存
 
@@ -207,7 +209,22 @@ wallpaper.sh -h
 
 切换模式时，wallpaper.sh 会自动通过 `gsettings` 更新系统级的 `color-scheme` 和 `icon-theme`。
 
-### 4.3 matugen 配色引擎
+### 4.3 GTK 配色热重载机制
+
+换壁纸时 GTK 应用需要重新读取 `/tmp/` 下的配色文件才能更新颜色。wallpaper.sh 通过**双主题切换**实现这一点：
+
+```
+1. gsettings 切换到 Materia-dark-trans-compact-wal-alt（全透明过渡主题）
+2. matugen 生成新配色 → 写入 /tmp/Materia-dark-trans-compact-wal-color.css
+3. 设置壁纸 + 更新 gsettings (color-scheme, icon-theme)
+4. gsettings 切换回 Materia-dark-trans-compact-wal（主主题）
+```
+
+GTK 检测到主题名称变更，会重新加载 CSS → `@import` 读取已更新的配色文件 → 新配色立即生效。这比重启应用或手动 `swaymsg reload` 更优雅。
+
+**alt 主题**（`Materia-dark-trans-compact-wal-alt`）的所有颜色变量定义为 `transparent`，切换的瞬间窗口会短暂变为全透明（只有文字可见），形成一个视觉上的「淡出→淡入」过渡效果。
+
+### 4.4 matugen 配色引擎
 
 wallpaper.sh 使用 [matugen](https://github.com/InioX/matugen) 作为配色引擎。matugen 基于 Material Design 3 的色彩算法从壁纸中提取配色方案。
 
@@ -237,6 +254,10 @@ output_path = '~/.cache/wallpaper.sh.d/rofi-colors.rasinc'
 [templates.dunst]
 input_path = 'templates/00-look.conf'
 output_path = '~/.config/dunst/dunstrc.d/00-look.conf'
+
+[templates.swayimg]
+input_path = 'templates/swayimg-colors.lua'
+output_path = '~/.cache/wallpaper.sh.d/swayimg-colors.lua'
 ```
 
 **生成的配色文件与消费者对应关系：**
@@ -247,10 +268,11 @@ output_path = '~/.config/dunst/dunstrc.d/00-look.conf'
 | `colors-alacritty.toml` | `~/.cache/wallpaper.sh.d/` | Alacritty 终端 | `live_config_reload = true`（自动监控文件变化） |
 | `colors-foot.ini` | `~/.cache/wallpaper.sh.d/` | foot 终端 | 需重启 foot（见 §7.2 说明） |
 | `rofi-colors.rasinc` | `~/.cache/wallpaper.sh.d/` | Rofi 启动器 | 下次启动时生效 |
+| `swayimg-colors.lua` | `~/.cache/wallpaper.sh.d/` | swayimg 图片查看器 | 下次启动时生效 |
 | `00-look.conf` | `~/.config/dunst/dunstrc.d/` | Dunst 通知 | `wallpaper-reload.sh` 重启 dunst |
-| `Materia-...-color.css` | `/tmp/` | GTK 主题 | GTK 应用窗口重绘时生效 |
+| `Materia-...-color.css` | `/tmp/` | GTK 主题 + Waybar | GTK: alt 主题切换触发重载；Waybar: `reload_style_on_change` |
 
-### 4.4 模板变量体系
+### 4.5 模板变量体系
 
 matugen 模板使用两套变量命名空间：
 
@@ -258,6 +280,7 @@ matugen 模板使用两套变量命名空间：
 - `{{colors.primary.default.hex}}` — 主色调
 - `{{colors.surface_container.default.rgba}}` — 容器表面色（带 alpha，用于透明背景）
 - `{{colors.background.default.hex_alpha}}` — 背景色（带 alpha）
+- `{{colors.background.default.alpha_hex_stripped}}` — 背景色（AARRGGBB 格式去 `#`，用于 swayimg Lua）
 - `{{colors.tertiary.default.hex}}` — 第三色调
 - `{{colors.on_surface.default.hex}}` — 表面上的文字色
 - 等等……
@@ -276,7 +299,7 @@ GTK 模板中使用了 matugen 的嵌套模板语法实现透明度计算：
 
 这确保 backdrop（失焦）状态的透明度始终比正常状态高 0.1（深色模式 0.7→0.8，浅色模式 0.5→0.6）。
 
-### 4.5 与 dotfiles 的集成
+### 4.6 与 dotfiles 的集成
 
 dotfiles 中的 Sway 主配置文件通过以下机制与 wallpaper.sh 联动：
 
@@ -309,9 +332,19 @@ exec ~/Projects/wallpaper/wallpaper.sh ~/Pictures/wallpaper/cycle/
 - **Backdrop 状态响应**：失焦窗口背景自动变暗，带 0.25s 过渡动画
 - **Material Design 动效**：点击涟漪、阴影层级、标准贝塞尔曲线
 
-### 5.2 配色加载顺序与 Fallback
+### 5.2 主题仓库结构
 
-主题 CSS 的配色加载采用两层 `@import`：
+仓库中包含三套主题：
+
+| 主题 | 用途 |
+|------|------|
+| `Materia-dark-trans-compact-wal/gtk-3.0/` | **主主题（GTK3）**——完整的 7300+ 行 CSS，半透明背景、动态配色、所有 widget 适配 |
+| `Materia-dark-trans-compact-wal/gtk-4.0/` | **libadwaita 适配（GTK4）**——57 行 CSS，仅映射 matugen 变量到 libadwaita 色彩变量和窗口圆角 |
+| `Materia-dark-trans-compact-wal-alt/` | **过渡主题**——所有颜色定义为 `transparent`，用于换壁纸时的配色热重载过渡 |
+
+### 5.3 配色加载顺序与 Fallback
+
+**GTK3 主主题**的配色加载采用两层 `@import`：
 
 ```css
 @import url("colors-fallback.css");                          /* 1. 静态兜底色 */
@@ -333,7 +366,27 @@ exec ~/Projects/wallpaper/wallpaper.sh ~/Pictures/wallpaper/cycle/
 /* ... base16 color0 ~ color15 */
 ```
 
-### 5.3 动态配色变量
+**GTK4 / libadwaita 主题**的配色加载方式不同——fallback 色值内联在 CSS 顶部，然后通过 `@import` 覆盖：
+
+```css
+/** Fallback **/
+@define-color background alpha(#121212, 0.7);
+/* ... */
+
+@import url("/tmp/Materia-dark-trans-compact-wal-color.css");
+
+@define-color window_bg_color @background;
+@define-color headerbar_bg_color @background;
+@define-color accent_color @primary;
+/* ... 映射到 libadwaita 变量 ... */
+
+:root {
+    --window-radius: 0px;
+    /* ... */
+}
+```
+
+### 5.4 动态配色变量
 
 matugen 生成的 `/tmp/Materia-dark-trans-compact-wal-color.css` 提供以下变量：
 
@@ -354,17 +407,18 @@ matugen 生成的 `/tmp/Materia-dark-trans-compact-wal-color.css` 提供以下�
 @define-color surface ...;
 ```
 
-**GTK 3.0 vs GTK 4.0 的差异：**
+**GTK 3.0 vs GTK 4.0 / libadwaita 的差异：**
 
-| 特性 | GTK 3.0 | GTK 4.0 |
+| 特性 | GTK 3.0 主主题 | GTK 4.0 / libadwaita |
 |------|---------|---------|
-| 动态变量使用 | 丰富（@color7, @primary, @background 等） | 有限（仅 @color4） |
-| Backdrop 响应 | 完整实现，背景动态变化 | 无 `.background:backdrop` 规则 |
-| 其他颜色 | 大量使用动态变量 | 多数为硬编码值 |
+| CSS 规模 | 7300+ 行完整主题 | 57 行变量映射 |
+| 动态变量使用 | 丰富（@color7, @primary, @background 等） | 仅映射到 libadwaita named colors |
+| Backdrop 响应 | 完整实现，背景动态变化 | 无（libadwaita 自行管理） |
+| Widget 样式 | 完全定制 | 仅配色和窗口圆角，其他由 libadwaita 控制 |
 
-因此，**GTK 3.0 应用**（如 Thunar、pcmanfm）的动态配色效果远好于 GTK 4.0 应用。
+因此，**GTK3 应用**（如 Thunar、pcmanfm）的动态配色效果远好于 libadwaita 应用。
 
-### 5.4 Backdrop 状态（失焦窗口响应）
+### 5.5 Backdrop 状态（失焦窗口响应）
 
 当窗口失去焦点时：
 
@@ -389,7 +443,7 @@ matugen 生成的 `/tmp/Materia-dark-trans-compact-wal-color.css` 提供以下�
 
 > **注意：** 这不是 bug，而是 feature。如果你在使用中看到后面的窗口比当前窗口暗，那就是 backdrop 状态在正常工作。
 
-### 5.5 应用适配
+### 5.6 应用适配
 
 主题对以下应用提供了专门的 CSS 适配：
 
@@ -403,7 +457,7 @@ matugen 生成的 `/tmp/Materia-dark-trans-compact-wal-color.css` 提供以下�
 - 选中文字背景使用纯色
 - 输入框和按钮使用动态变量
 
-### 5.6 GTK Inspector 调试方法
+### 5.7 GTK Inspector 调试方法
 
 修改主题时使用 GTK Inspector：
 
@@ -443,7 +497,7 @@ blur: 3 passes, radius 10
 ├─ brightness: 1
 ├─ contrast: 1.2
 ├─ saturation: 1.1
-└─ xray: 启用
+└─ xray: 关闭（全局禁用）
 
 动画时长: 250ms
 圆角: 0（无圆角）
@@ -454,11 +508,18 @@ blur: 3 passes, radius 10
 | 图层 | 效果 |
 |------|------|
 | waybar | `blur_ignore_transparent`（透明区域不模糊） |
-| wob | `blur` |
-| notifications | `blur` + `blur_ignore_transparent` |
+| notifications | `blur` + `blur_ignore_transparent` + `blur_xray` |
 | rofi | `blur` + `xray` + `shadows` |
 | gtk-layer-shell | `blur` + `blur_ignore_transparent` |
 | fcitx5 | `blur` |
+
+**窗口级效果：**
+
+| 窗口 | 效果 |
+|------|------|
+| swayimg | `blur`（图片查看器启用模糊，配合半透明背景） |
+| firefox | `blur off` + `border none`（性能优化） |
+| 游戏/启动器 | `blur disable`（性能优化） |
 
 ### 6.3 自启动服务
 
@@ -469,11 +530,11 @@ dbus-update-activation-environment    (D-Bus 环境变量)
 pipewire → pipewire-pulse → wireplumber  (音频栈)
 fcitx5                                  (输入法)
 dunst                                   (通知)
-wob (通过 FIFO ~/.config/wob/wobpipe)   (音量/亮度浮层)
 BatteryMonitorC                         (电池监控 + 自动刷新率)
 polkit-gnome                            (权限提升代理)
 gnome-keyring-daemon                    (密钥管理)
 wallpaper.sh ~/Pictures/wallpaper/cycle/ (壁纸 + 配色初始化)
+waybar                                  (状态栏，直接在 sway config 中启动)
 ```
 
 ### 6.4 窗口规则（部分）
@@ -486,9 +547,10 @@ SwayFX 配置中定义了大量 per-app 窗口规则：
 | Thunar 对话框 | 浮动（重命名/进度/替换） |
 | QQ 各子窗口 | 浮动（图片查看器/文件管理/设置等） |
 | galculator | 浮动 |
+| swayimg | 浮动 + 启用模糊 |
 | `.exe` 应用 | 浮动（Wine/Proton 程序） |
 | 游戏/启动器 | 关闭模糊（性能优化） |
-| PPet3, bongo-cat | 固定尺寸、粘滞、关闭模糊（桌面宠物） |
+| firefox | 关闭模糊 + 无边框（性能优化） |
 
 ---
 
@@ -539,10 +601,7 @@ SwayFX 专用的 Waybar 配置不在标准的 `~/.config/waybar/` 下，而是�
 - 配置：`~/.config/sway/waybar_config.jsonc`
 - 样式：`~/.config/sway/waybar_style.css`
 
-启动命令：
-```bash
-waybar -c ~/.config/sway/waybar_config.jsonc -s ~/.config/sway/waybar_style.css -l off
-```
+启动方式：Waybar 直接在 Sway 配置中通过 `exec waybar -c ... -s ...` 启动。
 
 ### 8.2 模块布局
 
@@ -552,7 +611,7 @@ waybar -c ~/.config/sway/waybar_config.jsonc -s ~/.config/sway/waybar_style.css 
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-- 高度 25px，`reload_style_on_change` 启用
+- 高度 25px，`reload_style_on_change` 启用（CSS 文件变化时自动重载样式）
 - 模块间使用 `|` 分隔符
 - 时钟：`%H:%M`，点击切换为 `%Y-%m-%d`
 - 音量点击打开 `pavucontrol`（自动应用 GTK 主题）
@@ -568,6 +627,8 @@ waybar -c ~/.config/sway/waybar_config.jsonc -s ~/.config/sway/waybar_style.css 
 - 工作区：透明背景 + 微弱的 `@color4` 底色，焦点工作区使用 `@primary` 色 20% 透明度
 - 所有模块背景透明（颜色由 pill 容器提供）
 - 电池 critical 状态：红色闪烁动画
+
+**配色重载方式：** Waybar 的 `reload_style_on_change` 功能会自动监控 `waybar_style.css` 的文件变化。由于该 CSS 通过 `@import` 引用 `/tmp/` 下的配色文件，当 matugen 更新配色文件后 Waybar 会自动重载样式，无需脚本重启。
 
 ---
 
@@ -661,9 +722,72 @@ frame_color = "{{base16.base03.default.hex_alpha}}"
 
 ---
 
-## 11. 电池监控与自动刷新率切换
+## 11. swayimg 图片查看器
 
-### 11.1 BatteryMonitorC
+### 11.1 Lua 配置
+
+**配置文件：** `~/.config/swayimg/init.lua`
+
+swayimg 使用 Lua 脚本进行配置。配色架构与 Rofi 类似——静态兜底 + 动态覆盖：
+
+```lua
+-- 静态兜底色
+bg_color = 0xb3121212          -- AARRGGBB 格式，深灰半透明
+fg_color = 0xffe5e5e5          -- 不透明浅灰
+accent_color = 0xff8ab4f8      -- 不透明蓝色
+
+-- 动态覆盖：加载 matugen 生成的配色
+home = os.getenv("HOME") or ""
+palette = home .. "/.cache/wallpaper.sh.d/swayimg-colors.lua"
+existence = io.open(palette, "r")
+if existence then
+    existence:close()
+    dofile(palette)
+end
+
+-- 应用配色
+swayimg.viewer.set_window_background(bg_color)
+swayimg.gallery.window_color = bg_color
+swayimg.gallery.border_color = accent_color
+swayimg.text.color = fg_color
+
+-- 棋盘背景设为全透明（壁纸直接透出）
+swayimg.viewer.set_image_chessboard(20, 0x00000000, 0x00000000)
+```
+
+**matugen 生成的 `swayimg-colors.lua`：**
+
+```lua
+bg_color = 0x{{colors.background.default.alpha_hex_stripped}}
+fg_color = 0xff{{base16.base07.default.hex_stripped}}
+accent_color = 0xff{{colors.primary.default.hex_stripped}}
+```
+
+### 11.2 快捷键
+
+| 键 | 功能 |
+|----|------|
+| `q` | 退出（图库 / 查看器模式通用） |
+| `Return` | 图库 → 查看器 |
+| `Escape` | 查看器 → 图库 |
+
+### 11.3 SwayFX 集成
+
+swayimg 窗口在 SwayFX 配置中设为**浮动 + 启用模糊**，配合半透明背景色实现壁纸透过的亚克力效果。
+
+### 11.4 已知问题：浅色模式背景不透明
+
+swayimg 存在一个 **premultiplied alpha bug**：当背景色的 RGB 分量接近纯白时（如浅色模式下的 `0x80FEF9EB`），窗口背景会显得近乎不透明，失去半透明效果。
+
+**原因：** swayimg 对图片像素正确执行了 premultiplied alpha 转换，但对 `bg_color` 等 UI 颜色没有做 premultiply 就直接写入 Wayland surface buffer。Wayland 合成器将 buffer 数据视为 premultiplied 格式，导致高 RGB 值的浅色「泄漏」为不透明。深色模式下 RGB 值低，泄漏量小，因此表现正常。
+
+**影响范围：** 仅影响浅色模式（`-l`）下的 swayimg 窗口背景。深色模式不受影响。
+
+---
+
+## 12. 电池监控与自动刷新率切换
+
+### 12.1 BatteryMonitorC
 
 一个用 C 编写的轻量级守护进程，在 SwayFX 启动时自动运行。
 
@@ -683,9 +807,9 @@ frame_color = "{{base16.base03.default.hex_alpha}}"
 
 ---
 
-## 12. MPD 音乐子系统
+## 13. MPD 音乐子系统
 
-### 12.1 架构
+### 13.1 架构
 
 位于 `~/.config/sway/scripts/music/` 的独立音乐播放子系统：
 
@@ -701,7 +825,7 @@ music-waybar.sh
   └─ 启动带音乐控件的 Waybar（上一首/暂停/下一首/当前曲目）
 ```
 
-### 12.2 使用
+### 13.2 使用
 
 ```bash
 # 初始化并启动 MPD
@@ -713,36 +837,17 @@ music-waybar.sh
 
 ---
 
-## 13. 其他组件
+## 14. 其他组件
 
-### 13.1 WOB（Wayland Overlay Bar）
-
-**配置：** `~/.config/wob/wob.ini`
-
-- 宽度 384px，高度 5px
-- 顶部居中
-- 半透明深色背景，白色进度条，红色溢出
-
-通过 FIFO 管道 `~/.config/wob/wobpipe` 接收数值输入（音量/亮度快捷键写入）。
-
-### 13.2 Evernight 桌面 GIF 特效
-
-从 `~/Pictures/Evernight_Shake/` 随机选取一个 GIF，通过 swayimg 以透明浮层形式显示在桌面上。
-
-```bash
-~/.config/sway/scripts/evernight.sh
-```
-
-### 13.3 Fish Shell
+### 14.1 Fish Shell
 
 - 启动时运行 `fastfetch`
-- 集成 `thefuck` 命令纠错
-- 自定义提示符：`user@host PWD [status] >`
 - `Ctrl+Backspace` 删除前一个词
+- 集成 micromamba 环境管理
 
 ---
 
-## 14. 快捷键速查表
+## 15. 快捷键速查表
 
 ### 窗口管理
 
@@ -753,7 +858,7 @@ music-waybar.sh
 | `Super+E` | 打开文件管理器（pcmanfm） |
 | `Super+R` | Rofi 应用启动器 |
 | `Super+Q` | 关闭当前窗口 |
-| `Super+F` | 全屏切换 |
+| `Super+F11` | 全屏切换 |
 | `Super+Space` | 浮动/平铺切换 |
 | `Super+L` | 锁屏 |
 | `Super+M` | 退出 SwayFX（需确认） |
@@ -772,6 +877,8 @@ music-waybar.sh
 |--------|------|
 | `Super+1~0` | 切换到工作区 1-10 |
 | `Super+Shift+1~0` | 将窗口移到工作区 1-10 |
+| `Super+Tab` | 下一个工作区 |
+| `Super+Shift+Tab` | 上一个工作区 |
 | `Super+Shift+/` | 移到暂存区 |
 | `Super+/` | 显示暂存区 |
 
@@ -780,8 +887,8 @@ music-waybar.sh
 | 快捷键 | 功能 |
 |--------|------|
 | `XF86AudioPlay/Prev/Next` | playerctl 控制 |
-| `XF86AudioRaiseVolume/Lower/Mute` | wpctl + wob 反馈 |
-| `XF86MonBrightnessUp/Down` | brightnessctl + wob 反馈 |
+| `XF86AudioRaiseVolume/Lower/Mute` | wpctl 控制 |
+| `XF86MonBrightnessUp/Down` | brightnessctl 控制 |
 
 ### 截图
 
@@ -803,16 +910,26 @@ music-waybar.sh
 
 ---
 
-## 15. 已弃用组件说明
+## 16. 已弃用组件说明
 
-以下组件的配置文件仍保留在仓库中，但**已弃用，不再使用**：
+以下组件的配置文件可能仍保留在仓库中，但**已弃用，不再使用**：
+
+### WOB（Wayland Overlay Bar）
+
+- **状态：** 已弃用
+- **说明：** wob 的 `exec` 已在 Sway 配置中注释掉。音量/亮度快捷键中的 `wobpipe` 写入命令仍然残留在配置中，但因为 wob 进程不再启动，这些命令不会有可见效果（wpctl/brightnessctl 本身仍然正常工作）。
+
+### 桌面宠物 & Evernight GIF 特效
+
+- **状态：** 已弃用并删除
+- **说明：** 之前用于在桌面显示 GIF 特效的 `swayimg/evernight` 脚本和桌面宠物（PPet3、bongo-cat）的窗口规则已从仓库中删除。swayimg 现在仅作为通用图片查看器使用。
 
 ### wofi
 
 - **状态：** 已弃用
 - **文件：** `wofi/config`、`wofi/style.css`
 - **替代：** Rofi（`rofi-wayland`）
-- **说明：** wofi 的配置和 Catppuccin Macchiato 主题仍在仓库中但不再维护。启动器已统一使用 Rofi + wallpaper.sh 动态配色。
+- **说明：** wofi 的配置和 Catppuccin Macchiato 主题仍在仓库中但不再维护。
 
 ### swaylock
 
@@ -833,11 +950,16 @@ music-waybar.sh
 - **文件：** `hypr/hypr.conf`
 - **说明：** 旧格式的 Hyprland 配置，使用 dmenu 和 kitty，不与当前配色系统联动。
 
+### thefuck
+
+- **状态：** 已移除
+- **说明：** 终端命令纠错工具 `thefuck` 已从 Fish 配置中移除。
+
 ---
 
-## 16. 常见问题 / 需要手动修改的地方
+## 17. 常见问题 / 需要手动修改的地方
 
-### 16.1 视频壁纸显示器名称
+### 17.1 视频壁纸显示器名称
 
 wallpaper.sh 中 `mpvpaper` 的输出显示器硬编码为 `eDP-1`（笔记本内置屏幕）。如果你使用外接显示器，需要修改：
 
@@ -850,7 +972,7 @@ mpvpaper -o '--loop' HDMI-A-1 "$wallpaper" -f
 
 查看显示器名称：`swaymsg -t get_outputs | jq '.[].name'`
 
-### 16.2 colors-sway 中的硬编码壁纸路径
+### 17.2 colors-sway 中的硬编码壁纸路径
 
 `wallpaper.sh/templates/colors-sway` 模板中有一行硬编码的壁纸路径：
 
@@ -860,7 +982,7 @@ set $wallpaper /home/Yulliil/Pictures/wallpaper/cycle/120365058_p0_resized.png
 
 这是作者的个人路径，不会动态更新为你当前使用的壁纸。如果你的 Sway 配置依赖 `$wallpaper` 变量来设置壁纸背景，需要修改这行为你自己的路径，或者将其改为动态生成（目前壁纸设置是由 wallpaper.sh 直接调用 swaybg 完成的，不依赖这个变量）。
 
-### 16.3 电池监控的硬件路径
+### 17.3 电池监控的硬件路径
 
 BatteryMonitorC 读取的硬件路径：
 - 电池：`/sys/class/power_supply/BAT0/`
@@ -868,15 +990,19 @@ BatteryMonitorC 读取的硬件路径：
 
 不同硬件上这些路径可能不同（如 `BAT1`、`AC0`）。请检查 `ls /sys/class/power_supply/` 并修改源码后重新编译。
 
-### 16.4 刷新率切换
+### 17.4 刷新率切换
 
 BatteryMonitorC 默认在 AC 电源插入时切换到 144Hz，拔出时切换到 60Hz。如果你的屏幕不支持 144Hz，需要修改源码中的刷新率值。
 
-### 16.5 /tmp 下的 GTK 配色文件
+### 17.5 /tmp 下的 GTK 配色文件
 
 GTK 配色文件生成到 `/tmp/`，该目录在重启后会被清空。因此每次开机后 wallpaper.sh 需要运行一次来重新生成配色文件。在 Sway 配置中已通过 `exec wallpaper.sh` 处理了这个问题。即使 `/tmp/` 下的文件不存在，GTK 主题也能正常工作——会使用 `colors-fallback.css` 提供的静态兜底配色。
 
+### 17.6 swayimg 浅色模式背景
+
+由于 swayimg 的 premultiplied alpha bug（见 §11.4），浅色模式下 swayimg 的半透明背景效果不佳。在该 bug 被上游修复之前，浅色模式下 swayimg 窗口背景会显得比预期更不透明。
+
 ---
 
-*最后更新：2026-08-16*
-*基于 dotfiles commit 27、wallpaper.sh commit 15、GTK 主题 commit 21*
+*最后更新：2026-08-17*
+*基于 dotfiles commit 32、wallpaper.sh commit 19、GTK 主题 commit 27*
