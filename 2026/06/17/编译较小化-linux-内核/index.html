@@ -1174,7 +1174,7 @@
 </blockquote>
 <p>这似乎没有必要，我的选项如下：</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">$ </span>zcat<span class="w"> </span>/proc/config.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>LOCALVERSION
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">CONFIG_LOCALVERSION=&quot;&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">CONFIG_LOCALVERSION=""</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CONFIG_LOCALVERSION_AUTO=y</span>
 </span></code></pre></div>
 </div>
@@ -1229,11 +1229,11 @@
 </span></code></pre></div>
 <p>可以看到 <code>initramfs-linux71.img</code> 的体积来到了 155M，这是因为安装的模块文件们包含了大量的调试符号，不需要的话可以去除，能够有效缩减体积：</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp"># </span>解压模块
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="gp"># </span>find<span class="w"> </span>/lib/modules/7.1.0/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.ko.zst&quot;</span><span class="w"> </span>-exec<span class="w"> </span>zstd<span class="w"> </span>-d<span class="w"> </span>--rm<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="gp"># </span>find<span class="w"> </span>/lib/modules/7.1.0/<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.ko.zst"</span><span class="w"> </span>-exec<span class="w"> </span>zstd<span class="w"> </span>-d<span class="w"> </span>--rm<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="gp"># </span>移除调试符号
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="gp"># </span>find<span class="w"> </span>/lib/modules/7.1.0/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.ko&quot;</span><span class="w"> </span>-exec<span class="w"> </span>strip<span class="w"> </span>--strip-debug<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="gp"># </span>find<span class="w"> </span>/lib/modules/7.1.0/<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.ko"</span><span class="w"> </span>-exec<span class="w"> </span>strip<span class="w"> </span>--strip-debug<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="gp"># </span>压回去
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="gp"># </span>find<span class="w"> </span>/lib/modules/7.1.0/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.ko&quot;</span><span class="w"> </span>-exec<span class="w"> </span>zstd<span class="w"> </span>--rm<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="gp"># </span>find<span class="w"> </span>/lib/modules/7.1.0/<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.ko"</span><span class="w"> </span>-exec<span class="w"> </span>zstd<span class="w"> </span>--rm<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
 </span></code></pre></div>
 <p>完成后还需要重新生成 initramfs。实践中模块压缩方式可能与这里有所不同，按需修改第一条和第三条命令。</p>
 </div>

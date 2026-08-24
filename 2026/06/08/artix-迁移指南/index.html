@@ -1363,7 +1363,7 @@
 </span></code></pre></div>
 <h2 id="_3">备份正在运行的服务列表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>保存一份您正在运行的服务列表，之后需要安装对应的服务脚本。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>systemctl list-units --state=running | grep -v systemd | awk &#39;{print $1}&#39; | grep service &gt; daemon.list
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service &gt; daemon.list
 </span></code></pre></div>
 <p>现在您可以开始安装 Artix 组件和各服务脚本了。</p>
 <h2 id="artix_1">下载 Artix 软件包<a class="headerlink" href="#artix_1" title="Permanent link">&para;</a></h2>
@@ -1423,12 +1423,12 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>export LC_ALL=C
 </span></code></pre></div>
 <p>将所有的 Arch 软件包替换为 Artix 的：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>pacman -Sl system | grep installed | cut -d&quot; &quot; -f2 | pacman -S -
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>pacman -Sl world | grep installed | cut -d&quot; &quot; -f2 | pacman -S -
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>pacman -Sl galaxy | grep installed | cut -d&quot; &quot; -f2 | pacman -S -
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>pacman -Sl system | grep installed | cut -d" " -f2 | pacman -S -
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>pacman -Sl world | grep installed | cut -d" " -f2 | pacman -S -
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>pacman -Sl galaxy | grep installed | cut -d" " -f2 | pacman -S -
 </span></code></pre></div>
 <p>如果还启用了 32 位支持：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>pacman -Sl lib32 | grep installed | cut -d&quot; &quot; -f2 | pacman -S -
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>pacman -Sl lib32 | grep installed | cut -d" " -f2 | pacman -S -
 </span></code></pre></div>
 <h2 id="_4">安装服务脚本<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
@@ -1486,7 +1486,7 @@
 <h2 id="_6">配置网络<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>编辑您的网络配置文件 <code>/etc/conf.d/net</code>。这非常重要，尤其是当您在迁移一个远程主机时，很可能就失联了<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>。根据您是否在使用持久化设备命名，您必须将 <code>/etc/init.d/net.lo</code> 符号链接到 <code>net.enp0s3</code> 或 <code>net.eth0</code>。接口名称仅用作示例，请务必确认适用于您的系统。如果不确定（且只有一个以太网接口），您可以使用一个内核命令行（下方提到的 <code>GRUB_CMDLINE_LINUX</code>）来禁用持久化设备命名以使用 <code>net.eth0</code>。OpenRC 有其自己的网络管理器 netifrc，其默认使用 DHCP 获取有线网卡的 IP。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>vi /etc/conf.d/net
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>echo &#39;GRUB_CMDLINE_LINUX=&quot;net.ifnames=0&quot;&#39; &gt;&gt;/etc/default/grub       # disable persistent device naming
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>echo 'GRUB_CMDLINE_LINUX="net.ifnames=0"' &gt;&gt;/etc/default/grub       # disable persistent device naming
 </span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
 </span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>rc-update add net.eth0 boot
 </span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>pacman -S --needed netifrc
