@@ -1165,102 +1165,100 @@
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>USER=&lt;用户名&gt;
 </span></code></pre></div>
 <p>创建一个名为 user-services 的 bundle。</p>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir -p /etc/s6/adminsv/user-services/contents.d
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir -p /etc/s6/adminsv/user-services/contents.d
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>touch /etc/s6/adminsv/user-services/contents.d/local-s6-user
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>touch /etc/s6/adminsv/user-services/contents.d/local-s6-rc-user
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>echo "bundle" &gt; /etc/s6/adminsv/user-services/type
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>````
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>要使 s6-rc 正常运行，需要运行一个 s6-svscan 进程。由于此脚本面向本地用户，请确保脚本中的所有命令都以本地用户身份运行。此外，还需要为 s6-svscan 选择一个扫描目录。该目录必须是本地用户拥有完整读写权限的目录。在本例中，我们使用 `/run/${USER}/service`。上游建议将其设置为 RAM 文件系统（如 tmpfs），这样与 s6-rc 的兼容性最佳。如下：
 </span></code></pre></div>
-mkdir -p /etc/s6/adminsv/local-s6-user/dependencies.d
-touch /etc/s6/adminsv/local-s6-user/dependencies.d/mount-filesystems
-echo "3" &gt; /etc/s6/adminsv/local-s6-user/notification-fd
-echo "longrun" &gt; /etc/s6/adminsv/local-s6-user/type
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>``` title="/etc/s6/adminsv/local-s6-user/run"
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>#!/bin/execlineb -P
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>envfile /etc/s6/config/user-services.conf
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>importas -uD "username" USER USER
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER} }
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER}/service }
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>s6-setuidgid ${USER} exec s6-svscan -d 3 /run/${USER}/service
-</span></code></pre></div></p>
+<p>要使 s6-rc 正常运行，需要运行一个 s6-svscan 进程。由于此脚本面向本地用户，请确保脚本中的所有命令都以本地用户身份运行。此外，还需要为 s6-svscan 选择一个扫描目录。该目录必须是本地用户拥有完整读写权限的目录。在本例中，我们使用 <code>/run/${USER}/service</code>。上游建议将其设置为 RAM 文件系统（如 tmpfs），这样与 s6-rc 的兼容性最佳。如下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>mkdir -p /etc/s6/adminsv/local-s6-user/dependencies.d
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>touch /etc/s6/adminsv/local-s6-user/dependencies.d/mount-filesystems
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>echo "3" &gt; /etc/s6/adminsv/local-s6-user/notification-fd
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>echo "longrun" &gt; /etc/s6/adminsv/local-s6-user/type
+</span></code></pre></div>
+<div class="language-text highlight"><span class="filename">/etc/s6/adminsv/local-s6-user/run</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>#!/bin/execlineb -P
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>envfile /etc/s6/config/user-services.conf
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>importas -uD "username" USER USER
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER} }
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER}/service }
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>s6-setuidgid ${USER} exec s6-svscan -d 3 /run/${USER}/service
+</span></code></pre></div>
 <p>该脚本会自动解析配置文件中的 <code>USER</code> 变量。但是注意您可以在 <code>username</code> 部分设置一个备用用户，以防环境变量文件出错。可以利用这一点添加所需用户。</p>
 <p>接下来是 <code>local-s6-rc-user</code> 的部分。它是一个一次性脚本，在 <code>local-s6-user</code> 启动后运行。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mkdir -p /etc/s6/adminsv/local-s6-rc-user/dependencies.d
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>touch /etc/s6/adminsv/local-s6-rc-user/dependencies.d/mount-filesystems
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>touch /etc/s6/adminsv/local-s6-rc-user/dependencies.d/local-s6-user
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>echo "oneshot" &gt; /etc/s6/adminsv/local-s6-rc-user/type
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>mkdir -p /etc/s6/adminsv/local-s6-rc-user/dependencies.d
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>touch /etc/s6/adminsv/local-s6-rc-user/dependencies.d/mount-filesystems
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>touch /etc/s6/adminsv/local-s6-rc-user/dependencies.d/local-s6-user
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>echo "oneshot" &gt; /etc/s6/adminsv/local-s6-rc-user/type
 </span></code></pre></div>
-<div class="language-text highlight"><span class="filename">/etc/s6/adminsv/local-s6-rc-user/down</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>#!/bin/execlineb -P
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>envfile /etc/s6/config/user-services.conf
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>importas -uD "username" USER USER
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>foreground { s6-setuidgid ${USER} s6-rc -l /run/${USER}/s6-rc -bDa change }
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>foreground { s6-setuidgid ${USER} rm -r /run/${USER}/service }
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>s6-setuidgid ${USER}
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>elglob -0 dirs /run/${USER}/s6-rc*
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>forx -E dir { ${dirs} }
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    rm -r ${dir}
-</span></code></pre></div>
-<div class="language-text highlight"><span class="filename">/etc/s6/adminsv/local-s6-rc-user/up</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>#!/bin/execlineb -P
+<div class="language-text highlight"><span class="filename">/etc/s6/adminsv/local-s6-rc-user/down</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>#!/bin/execlineb -P
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>envfile /etc/s6/config/user-services.conf
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>importas -uD "username" USER USER
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>foreground { s6-setuidgid ${USER}
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>s6-rc-init -c /home/${USER}/.local/share/s6/rc/compiled -l /run/${USER}/s6-rc /run/${USER}/service }
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>foreground { s6-setuidgid ${USER} s6-rc -l /run/${USER}/s6-rc -bDa change }
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>foreground { s6-setuidgid ${USER} rm -r /run/${USER}/service }
 </span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>s6-setuidgid ${USER}
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>exec s6-rc -l /run/${USER}/s6-rc -up change default
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>elglob -0 dirs /run/${USER}/s6-rc*
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>forx -E dir { ${dirs} }
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    rm -r ${dir}
+</span></code></pre></div>
+<div class="language-text highlight"><span class="filename">/etc/s6/adminsv/local-s6-rc-user/up</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>#!/bin/execlineb -P
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>envfile /etc/s6/config/user-services.conf
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>importas -uD "username" USER USER
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>foreground { s6-setuidgid ${USER}
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>s6-rc-init -c /home/${USER}/.local/share/s6/rc/compiled -l /run/${USER}/s6-rc /run/${USER}/service }
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>s6-setuidgid ${USER}
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>exec s6-rc -l /run/${USER}/s6-rc -up change default
 </span></code></pre></div>
 <p>同样如前文注意此处的 <code>username</code>。</p>
 <p>现在可以更新系统数据库了。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>s6-db-reload
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>s6-db-reload
 </span></code></pre></div>
 <p>大功告成。现在本地 s6-rc 数据库 bundle 可以像其他服务一样被启动。</p>
 <p>这种配置的妙处在于用户服务完全受监控，除非您指定其中止，否则其会在设备的整个声明周期内持续运行。如果直接 kill 进程，s6-supervise 会立刻将其重新拉起。您的用户可以像往常一样使用 s6-rc 和 s6 命令。这些脚本相当通用，若想添加更多用户，基本只需要复制粘贴和修改修改几个路径和变量名称，再创建一个 user-services bundle。欲使这些服务在开机时启动，只需将 user-services 添加到系统数据库的 default bundle 即可。</p>
 <h2 id="s6_1">独立 s6 监督进程<a class="headerlink" href="#s6_1" title="Permanent link">&para;</a></h2>
 <p>若用户进程未能被纳入系统监督树，则可以参考本节。否则直接跳过本节。</p>
 <p>给 s6-svscan 指定一个扫描目录使其正常运行。在本例中我们使用位于 <code>tmp</code> 的目录，其是 RAM 文件系统且便于任意用户写入。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>mkdir /tmp/${USER}
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>mkdir /tmp/${USER}/service
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>s6-svscan /tmp/${USER}/service
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>mkdir /tmp/${USER}
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mkdir /tmp/${USER}/service
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>s6-svscan /tmp/${USER}/service
 </span></code></pre></div>
 <p>这里特意将 s6-svscan 留在前台运行。在另一个终端内运行 s6-rc：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>s6-rc-init -c /home/${USER}/.local/share/s6/rc/compiled -l /tmp/${USER}/s6-rc /tmp/${USER}/service
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>s6-rc -l /tmp/${USER}/s6-rc -up change default
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>s6-rc-init -c /home/${USER}/.local/share/s6/rc/compiled -l /tmp/${USER}/s6-rc /tmp/${USER}/service
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>s6-rc -l /tmp/${USER}/s6-rc -up change default
 </span></code></pre></div>
 <p>如此，只要 s6-svscan 在运行，你就有一个完整本地的 s6-rc 实例可用。</p>
 <h2 id="s6_2">本地 s6 用户服务的使用<a class="headerlink" href="#s6_2" title="Permanent link">&para;</a></h2>
 <p>和正常的 s6-rc 命令一样。不同之处在于需要使用 <code>-l</code> 参数来指定正确的数据库。以 udiskie 为例，这样启动：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>s6-rc -l /tmp/${USER}/s6-rc -u change udiskie
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>s6-rc -l /tmp/${USER}/s6-rc -u change udiskie
 </span></code></pre></div>
 <p>使用这条命令关闭用户默认 bundle：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>s6-rc -l /tmp/${USER}/s6-rc -d change default
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>s6-rc -l /tmp/${USER}/s6-rc -d change default
 </span></code></pre></div>
 <p>注意这些命令不需要 root 权限。</p>
 <h2 id="_3">传递环境变量<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>如果从根监督树运行用户服务，您可能会发现这些服务缺少环境变量。因为 s6/s6-rc 被设计为运行在一个清洁、可复现的环境中，并且其作为 PID1 确实没有任何环境变量。而一些用户服务需要某些环境变量才能正常运行。不过这些变量可以轻松从 s6-svscan 继承。以下是一些简化操作的技巧。</p>
 <p>回看前文提到的 <code>/etc/s6/config/user-services.conf</code> 文件，给它添加更多变量：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a># environment variables for the local s6-rc database
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>DISPLAY=:0
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>UID=1000
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>USER=username
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a># environment variables for the local s6-rc database
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>DISPLAY=:0
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>UID=1000
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>USER=username
 </span></code></pre></div>
 <p>按需修改。若脚本使用 execline（推荐），则只允许使用键值对。更多更复杂的变量定义可以保存到实际的 run 脚本中。</p>
 <p>编辑 <code>/etc/s6/adminsv/local-s6-user/run</code> 文件：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>#!/bin/execlineb -P
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>envfile /etc/s6/config/user-services.conf
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>importas -i UID UID
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>importas -i USER USER
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>export HOME /home/${USER}
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>export XDG_RUNTIME_DIR /run/user/${UID}
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER} }
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER}/service }
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>s6-setuidgid ${USER} exec s6-svscan -d 3 /run/${USER}/service
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>#!/bin/execlineb -P
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>envfile /etc/s6/config/user-services.conf
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>importas -i UID UID
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>importas -i USER USER
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>export HOME /home/${USER}
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>export XDG_RUNTIME_DIR /run/user/${UID}
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER} }
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>foreground { install -d -o ${USER} -g ${USER} /run/${USER}/service }
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>s6-setuidgid ${USER} exec s6-svscan -d 3 /run/${USER}/service
 </span></code></pre></div>
 <p>现在，<code>HOME</code>、<code>UID</code>、<code>USER</code> 和 <code>XDG_RUNTIME_DIR</code> 变量可供所有用户服务使用，都从 s6-svscan 继承这些变量。若要在脚本中使用，只需一行 <code>importas</code> 命令。例如：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>#!/bin/execlineb -P
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>importas -i USER USER
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>exec xrdb /home/${USER}/.Xresources
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>#!/bin/execlineb -P
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>importas -i USER USER
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>exec xrdb /home/${USER}/.Xresources
 </span></code></pre></div>
 <div class="footnote">
 <hr />
