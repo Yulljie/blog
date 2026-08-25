@@ -166,7 +166,7 @@ mkdir -p /etc/s6/adminsv/user-services/contents.d
 touch /etc/s6/adminsv/user-services/contents.d/local-s6-user
 touch /etc/s6/adminsv/user-services/contents.d/local-s6-rc-user
 echo "bundle" > /etc/s6/adminsv/user-services/type
-````
+```
 
 要使 s6-rc 正常运行，需要运行一个 s6-svscan 进程。由于此脚本面向本地用户，请确保脚本中的所有命令都以本地用户身份运行。此外，还需要为 s6-svscan 选择一个扫描目录。该目录必须是本地用户拥有完整读写权限的目录。在本例中，我们使用 `/run/${USER}/service`。上游建议将其设置为 RAM 文件系统（如 tmpfs），这样与 s6-rc 的兼容性最佳。如下：
 
