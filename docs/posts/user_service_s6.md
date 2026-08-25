@@ -1,6 +1,7 @@
 ---
 date:
   created: 2026-08-24
+  updated: 2026-08-26
 draft: false
 pin: false
 # readtime: 2
