@@ -1,7 +1,7 @@
 ---
 date:
   created: 2026-08-24
-draft: true
+draft: false
 pin: false
 # readtime: 2
 tags:
@@ -145,9 +145,163 @@ echo "    Remove any old unwanted/unneeded database directories in ${RCPATH}."
 
 以本地用户运行该脚本即可自动更新数据库。
 
+[^2]: Artix 从 2026-05-14 起[转移到了新的 s6 前端](https://artixlinux.org/news.php#New_s6_service_manager)，`s6-db-reload` 已被弃用，因此你现在只能参考下文。
+
 ## （可选）完整 s6 监督
 
-若 s6/s6-rc 被用作初始化系统，那么用户服务可以被纳入系统全局监督树。这可以确保用户服务*完全*被 s6 监督。
+若 s6/s6-rc 被用作初始化系统，那么用户服务可以被纳入系统全局监督树，确保用户服务*完全*被 s6 监督。
 
+本节所述命令需要 root 权限。首先创建一个配置文件以便于使用。
 
-[^2]: Artix 从 2026-05-14 起[转移到了新的 s6 前端](https://artixlinux.org/news.php#New_s6_service_manager)，`s6-db-reload` 已被弃用，因此你现在只能参考下文。
+``` title="/etc/s6/config/user-services.conf"
+# username for the user-services bundle
+USER=<用户名>
+```
+
+创建一个名为 user-services 的 bundle。
+
+```
+mkdir -p /etc/s6/adminsv/user-services/contents.d
+touch /etc/s6/adminsv/user-services/contents.d/local-s6-user
+touch /etc/s6/adminsv/user-services/contents.d/local-s6-rc-user
+echo "bundle" > /etc/s6/adminsv/user-services/type
+````
+
+要使 s6-rc 正常运行，需要运行一个 s6-svscan 进程。由于此脚本面向本地用户，请确保脚本中的所有命令都以本地用户身份运行。此外，还需要为 s6-svscan 选择一个扫描目录。该目录必须是本地用户拥有完整读写权限的目录。在本例中，我们使用 `/run/${USER}/service`。上游建议将其设置为 RAM 文件系统（如 tmpfs），这样与 s6-rc 的兼容性最佳。如下：
+
+```
+mkdir -p /etc/s6/adminsv/local-s6-user/dependencies.d
+touch /etc/s6/adminsv/local-s6-user/dependencies.d/mount-filesystems
+echo "3" > /etc/s6/adminsv/local-s6-user/notification-fd
+echo "longrun" > /etc/s6/adminsv/local-s6-user/type
+```
+
+``` title="/etc/s6/adminsv/local-s6-user/run"
+#!/bin/execlineb -P
+envfile /etc/s6/config/user-services.conf
+importas -uD "username" USER USER
+foreground { install -d -o ${USER} -g ${USER} /run/${USER} }
+foreground { install -d -o ${USER} -g ${USER} /run/${USER}/service }
+s6-setuidgid ${USER} exec s6-svscan -d 3 /run/${USER}/service
+```
+
+该脚本会自动解析配置文件中的 `USER` 变量。但是注意您可以在 `username` 部分设置一个备用用户，以防环境变量文件出错。可以利用这一点添加所需用户。
+
+接下来是 `local-s6-rc-user` 的部分。它是一个一次性脚本，在 `local-s6-user` 启动后运行。
+
+```
+mkdir -p /etc/s6/adminsv/local-s6-rc-user/dependencies.d
+touch /etc/s6/adminsv/local-s6-rc-user/dependencies.d/mount-filesystems
+touch /etc/s6/adminsv/local-s6-rc-user/dependencies.d/local-s6-user
+echo "oneshot" > /etc/s6/adminsv/local-s6-rc-user/type
+```
+
+``` title="/etc/s6/adminsv/local-s6-rc-user/down"
+#!/bin/execlineb -P
+envfile /etc/s6/config/user-services.conf
+importas -uD "username" USER USER
+foreground { s6-setuidgid ${USER} s6-rc -l /run/${USER}/s6-rc -bDa change }
+foreground { s6-setuidgid ${USER} rm -r /run/${USER}/service }
+s6-setuidgid ${USER}
+elglob -0 dirs /run/${USER}/s6-rc*
+forx -E dir { ${dirs} }
+	rm -r ${dir}
+```
+
+``` title="/etc/s6/adminsv/local-s6-rc-user/up"
+#!/bin/execlineb -P
+envfile /etc/s6/config/user-services.conf
+importas -uD "username" USER USER
+foreground { s6-setuidgid ${USER}
+s6-rc-init -c /home/${USER}/.local/share/s6/rc/compiled -l /run/${USER}/s6-rc /run/${USER}/service }
+s6-setuidgid ${USER}
+exec s6-rc -l /run/${USER}/s6-rc -up change default
+```
+
+同样如前文注意此处的 `username`。
+
+现在可以更新系统数据库了。
+
+```
+s6-db-reload
+```
+
+大功告成。现在本地 s6-rc 数据库 bundle 可以像其他服务一样被启动。
+
+这种配置的妙处在于用户服务完全受监控，除非您指定其中止，否则其会在设备的整个声明周期内持续运行。如果直接 kill 进程，s6-supervise 会立刻将其重新拉起。您的用户可以像往常一样使用 s6-rc 和 s6 命令。这些脚本相当通用，若想添加更多用户，基本只需要复制粘贴和修改修改几个路径和变量名称，再创建一个 user-services bundle。欲使这些服务在开机时启动，只需将 user-services 添加到系统数据库的 default bundle 即可。
+
+## 独立 s6 监督进程
+
+若用户进程未能被纳入系统监督树，则可以参考本节。否则直接跳过本节。
+
+给 s6-svscan 指定一个扫描目录使其正常运行。在本例中我们使用位于 `tmp` 的目录，其是 RAM 文件系统且便于任意用户写入。
+
+```
+mkdir /tmp/${USER}
+mkdir /tmp/${USER}/service
+s6-svscan /tmp/${USER}/service
+```
+
+这里特意将 s6-svscan 留在前台运行。在另一个终端内运行 s6-rc：
+
+```
+s6-rc-init -c /home/${USER}/.local/share/s6/rc/compiled -l /tmp/${USER}/s6-rc /tmp/${USER}/service
+s6-rc -l /tmp/${USER}/s6-rc -up change default
+```
+
+如此，只要 s6-svscan 在运行，你就有一个完整本地的 s6-rc 实例可用。
+
+## 本地 s6 用户服务的使用
+
+和正常的 s6-rc 命令一样。不同之处在于需要使用 `-l` 参数来指定正确的数据库。以 udiskie 为例，这样启动：
+
+```
+s6-rc -l /tmp/${USER}/s6-rc -u change udiskie
+```
+
+使用这条命令关闭用户默认 bundle：
+
+```
+s6-rc -l /tmp/${USER}/s6-rc -d change default
+```
+
+注意这些命令不需要 root 权限。
+
+## 传递环境变量
+
+如果从根监督树运行用户服务，您可能会发现这些服务缺少环境变量。因为 s6/s6-rc 被设计为运行在一个清洁、可复现的环境中，并且其作为 PID1 确实没有任何环境变量。而一些用户服务需要某些环境变量才能正常运行。不过这些变量可以轻松从 s6-svscan 继承。以下是一些简化操作的技巧。
+
+回看前文提到的 `/etc/s6/config/user-services.conf` 文件，给它添加更多变量：
+
+```
+# environment variables for the local s6-rc database
+DISPLAY=:0
+UID=1000
+USER=username
+```
+
+按需修改。若脚本使用 execline（推荐），则只允许使用键值对。更多更复杂的变量定义可以保存到实际的 run 脚本中。
+
+编辑 `/etc/s6/adminsv/local-s6-user/run` 文件：
+
+```
+#!/bin/execlineb -P
+envfile /etc/s6/config/user-services.conf
+importas -i UID UID
+importas -i USER USER
+export HOME /home/${USER}
+export XDG_RUNTIME_DIR /run/user/${UID}
+
+foreground { install -d -o ${USER} -g ${USER} /run/${USER} }
+foreground { install -d -o ${USER} -g ${USER} /run/${USER}/service }
+s6-setuidgid ${USER} exec s6-svscan -d 3 /run/${USER}/service
+```
+
+现在，`HOME`、`UID`、`USER` 和 `XDG_RUNTIME_DIR` 变量可供所有用户服务使用，都从 s6-svscan 继承这些变量。若要在脚本中使用，只需一行 `importas` 命令。例如：
+
+```
+#!/bin/execlineb -P
+importas -i USER USER
+exec xrdb /home/${USER}/.Xresources
+```
+
